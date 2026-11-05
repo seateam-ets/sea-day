@@ -20,16 +20,23 @@ export const TOUR_QUESTIONS = [
 
 export const AGENDA = [
   { id: "tour", icon: "◎", title: "Tour de table", who: "Mh" },
-  { id: "demain", icon: "↗", title: "SEA d'hier vs SEA de demain", who: "Quentin · Mh" },
+  { id: "demain", icon: "↗", title: "Métier de demain + upsell", who: "Quentin · Mh" },
   { id: "pause1", icon: "❚❚", title: "Pause", who: "" },
-  { id: "jeux", icon: "?", title: "Jeux SEA : Question pour un Champion", who: "Mh" },
-  { id: "process", icon: "⌘", title: "Redessiner notre process SEA", who: "Quentin" },
+  { id: "jeux", icon: "?", title: "Petits jeux SEA", who: "Mh" },
+  { id: "process", icon: "⌘", title: "Process SEA & outils", who: "Quentin" },
   { id: "conclusion", icon: "✓", title: "Conclusion du matin", who: "Quentin · Mh" },
   { id: "diner", icon: "🍽", title: "Dîner", who: "" },
-  { id: "cruz", icon: "⚡", title: "SEA Cruz : Google Ads via MCP", who: "Quentin" },
-  { id: "news", icon: "★", title: "ChatGPT Ads + nouveautés", who: "Mh" },
-  { id: "offre", icon: "◈", title: "Atelier : produit à vendre & upsell", who: "Quentin · Mh" },
+  { id: "cruz", icon: "⚡", title: "SEA Cruz, hub & produit à vendre", who: "Quentin" },
+  { id: "news", icon: "★", title: "Nouveautés", who: "Mh" },
   { id: "fin", icon: "◆", title: "Clôture", who: "" },
+];
+
+// ── Le Hub : faire évoluer, prioriser ce qu'on utilise vraiment ─
+export const HUB_COLS = [
+  { id: "garder", t: "On l'utilise vraiment", s: "À garder et à mettre en avant", c: "teal" },
+  { id: "evoluer", t: "À faire évoluer", s: "Utile, mais à améliorer en priorité", c: "violet" },
+  { id: "nouveau", t: "Il nous manque", s: "Ce qu'on aimerait y trouver", c: "orange" },
+  { id: "retirer", t: "On ne s'en sert pas", s: "À simplifier ou retirer", c: "muted" },
 ];
 
 // ── Pourquoi on est là ───────────────────────────────────────
@@ -74,6 +81,18 @@ export const CETRONIC_DONE = [
   { t: "Tests de campagnes et de stratégies", s: "types de campagnes, enchères, angles" },
   { t: "Autres canaux : Meta", s: "habituellement une prestation distincte" },
   { t: "Tracking et qualité de la donnée", s: "optimisation continue" },
+];
+
+// Arguments repris de la réponse de Quentin à Cetronic
+export const METIER_AUJOURDHUI = [
+  { t: "Plus qu'un gestionnaire de campagnes", s: "Une réflexion globale sur la stratégie d'acquisition et les leviers à activer pour améliorer les résultats." },
+  { t: "Un forfait qui couvre large", s: "Les heures de gestion sont lissées sur un spectre d'intervention plus large, au lieu de facturer chaque action ou développement à part." },
+  { t: "Du concret, pas que des réglages", s: "Visuels, landing page, tests de campagnes, nouveaux canaux (Meta), tracking et qualité des données." },
+  { t: "L'IA, on l'utilise aussi", s: "Claude et ChatGPT accélèrent l'exécution. On les intègre déjà dans notre façon de travailler." },
+  { t: "Notre valeur : l'expertise", s: "Connaissance du métier, recul sur les recommandations, bons choix stratégiques, des années d'expérience." },
+  { t: "Une formule claire", s: "Garder l'approche globale (les 5 h se justifient, et on revoit le budget de diffusion) ou réduire les frais en recentrant le périmètre." },
+  { t: "Rendre le travail visible", s: "Des échanges réguliers en plus du reporting : résultats, optimisations faites, prochaines actions, stratégie remise en perspective." },
+  { t: "Se remettre en question", s: "Tout évolue très vite : revoir régulièrement nos méthodes pour continuer à apporter une vraie valeur ajoutée." },
 ];
 
 export const CETRONIC_LESSONS = [
@@ -175,13 +194,15 @@ export const NOTES = {
   tour: "Mh anime. Chacun répond depuis son téléphone (QR / lien /repondre) ou on remplit en direct.",
   cetronic_mail: "Lire les extraits. Demander à l'équipe : qu'auriez-vous répondu ?",
   cetronic_done: "Tout ce qu'on a fait… sans que le client le voie.",
+  metier_ajd: "Les arguments de ma réponse à Cetronic : ce qu'on doit tous savoir expliquer à un client.",
   metier: "Le gestionnaire de campagne devient chef d'orchestre de la croissance.",
   upsell: "Mh : transformer les besoins détectés en missions vendues.",
   process: "Quentin : on passe chaque question, on tranche, on note la décision à l'écran.",
   conclusion: "Résumer les décisions et la direction. Chaque personne note un engagement.",
   cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
-  news: "Mh : ChatGPT Ads (état des lieux, limites rencontrées) + nouveautés.",
+  news: "Mh : les nouveautés qui changent nos comptes.",
   purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
+  hub: "Chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien. On vote (+) pour prioriser les évolutions.",
   offre: "Atelier : chacun vote (+), on ajoute des idées, on retient le top 3 avec un porteur et un prochain pas.",
   quiz: "Question pour un Champion. Espace = révéler, → suivante, 1-8 = point à l'équipe, C = classement.",
 };

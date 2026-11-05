@@ -241,13 +241,51 @@ const conclusion = {
   },
 };
 
+// ── Le Hub : prioriser ───────────────────────────────────────
+const hub = {
+  id: "hub", agenda: "cruz", kind: "interactive",
+  render: () => `
+    <div class="offre hubw">
+      <header class="row-head">
+        <div><div class="kicker" ${a(0)}>Le Hub · Quentin</div>
+        <h2 ${a(1)}>Faire évoluer le Hub : on priorise ce qu'on utilise vraiment</h2></div>
+      </header>
+      <div class="tracks four">${C.HUB_COLS.map((c, i) => `
+        <section class="track ${c.c}" ${a(2 + i)}>
+          <div class="track-h"><b>${esc(c.t)}</b><small>${esc(c.s)}</small></div>
+          <div class="ideas" data-col="${c.id}"></div>
+          <form class="idea-add" data-add="${c.id}"><input placeholder="+ Ajouter…" maxlength="80"></form>
+        </section>`).join("")}</div>
+    </div>`,
+  mount(root) {
+    let last = "";
+    const items = () => Object.entries(store.prefix("hub:")).filter(([k]) => !k.endsWith(":v")).map(([k, v]) => ({ id: k.slice(4), ...v, votes: store.get(`${k}:v`, 0) }));
+    const draw = () => {
+      const all = items(); const sig = JSON.stringify(all); if (sig === last) return; last = sig;
+      for (const c of C.HUB_COLS) {
+        root.querySelector(`[data-col="${c.id}"]`).innerHTML = all.filter((x) => x.col === c.id).sort((x, y) => y.votes - x.votes).map((x) => `
+          <article class="idea ${x.votes > 0 ? "hot" : ""}"><div><b>${esc(x.t)}</b></div>
+          <div class="vote"><button data-v="${x.id}" data-d="1">+</button><span>${x.votes}</span><button data-v="${x.id}" data-d="-1">−</button></div></article>`).join("")
+          || `<p class="muted empty-col">Rien pour l'instant</p>`;
+      }
+      root.querySelectorAll("[data-v]").forEach((b) => b.onclick = () => { const k = `hub:${b.dataset.v}:v`; store.set({ [k]: Math.max(0, store.get(k, 0) + +b.dataset.d) }); });
+    };
+    root.querySelectorAll("[data-add]").forEach((f) => f.onsubmit = (ev) => {
+      ev.preventDefault(); const inp = f.querySelector("input"); const t = inp.value.trim(); if (!t) return;
+      store.set({ [`hub:h${Date.now().toString(36)}`]: { col: f.dataset.add, t } }); inp.value = "";
+    });
+    return store.subscribe(draw);
+  },
+};
+export const hubItems = () => Object.entries(store.prefix("hub:")).filter(([k]) => !k.endsWith(":v")).map(([k, v]) => ({ ...v, votes: store.get(`${k}:v`, 0) })).sort((x, y) => y.votes - x.votes);
+
 // ── Atelier offre : produit / upsell / fédérer ───────────────
 const offre = {
-  id: "offre", agenda: "offre", kind: "interactive",
+  id: "offre", agenda: "cruz", kind: "interactive",
   render: () => `
     <div class="offre">
       <header class="row-head">
-        <div><div class="kicker" ${a(0)}>Atelier · Quentin · Mh</div>
+        <div><div class="kicker" ${a(0)}>Produit à vendre & upsell · Quentin · Mh</div>
         <h2 ${a(1)}>Qu'est-ce qu'on vend demain ?</h2></div>
         <div class="offre-top" ${a(2)} data-top></div>
       </header>
@@ -428,6 +466,12 @@ export function exportReport() {
   for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
   md += `\n## Engagements\n\n`;
   for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`eng:${p.id}`) || "—"}\n`;
+  md += `\n## Le Hub\n\n`;
+  for (const c of C.HUB_COLS) {
+    md += `### ${c.t}\n\n`;
+    for (const x of hubItems().filter((x) => x.col === c.id)) md += `- ${x.t} (${x.votes} vote${x.votes > 1 ? "s" : ""})\n`;
+    md += `\n`;
+  }
   md += `\n## Produit à vendre, upsell, fédérer nos clients\n\n`;
   for (const tr of C.OFFER_TRACKS) {
     md += `### ${tr.t}\n\n`;
@@ -476,7 +520,7 @@ export const SLIDES = [
   section("s-tour", "tour", "01", "Tour de table", "Animé par Mh", "Métier, ressources, outils, frustrations… et ce qui va bien."),
   tour,
 
-  section("s-demain", "demain", "02", "SEA d'hier<br>vs SEA de demain", "Quentin · Mh", "Un vrai mail client pour commencer."),
+  section("s-demain", "demain", "02", "Le métier<br>de demain", "Quentin · Mh", "Le cas Cetronic : justifier notre métier aujourd'hui."),
   { id: "cetronic_mail", agenda: "demain", kind: "content",
     render: () => `
       <div class="mail">
@@ -494,6 +538,14 @@ export const SLIDES = [
           <div class="price" ${a(3)}><b>535 €</b><span>= 5 h de gestion mensuelle</span></div>
         </div>
         <ul class="checks">${C.CETRONIC_DONE.map((d, i) => `<li ${a(2 + i)}><i>✓</i><div><b>${esc(d.t)}</b><small>${esc(d.s)}</small></div></li>`).join("")}</ul>
+      </div>` },
+  { id: "metier_ajd", agenda: "demain", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Justifier notre métier aujourd'hui · Quentin</div>
+        <h2 ${a(1)}>Ce qu'on répond quand un client dit « l'IA peut le faire »</h2>
+        <div class="grid4 compact">${C.METIER_AUJOURDHUI.map((m, i) => `<article class="tile" ${a(2 + i)}><span class="tile-n">0${i + 1}</span><b>${esc(m.t)}</b><p>${esc(m.s)}</p></article>`).join("")}</div>
+        <blockquote class="quote" ${a(11)}>« L'IA fait évoluer notre métier, mais elle ne remplace pas la réflexion et l'accompagnement. »</blockquote>
       </div>` },
   { id: "cetronic_lessons", agenda: "demain", kind: "content",
     render: () => `
@@ -534,10 +586,10 @@ export const SLIDES = [
 
   pause("pause1", "pause1", "Pause", "On souffle", 15),
 
-  section("s-jeux", "jeux", "03", "Question pour<br>un Champion SEA", "Jeux SEA · animé par Mh", "Formez les équipes."),
+  section("s-jeux", "jeux", "03", "Question pour<br>un Champion SEA", "Petits jeux SEA · animé par Mh", "Formez les équipes."),
   quiz,
 
-  section("s-process", "process", "04", "Redessiner<br>notre process SEA", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
+  section("s-process", "process", "04", "Process SEA<br>& outils", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
   { id: "process_flow", agenda: "process", kind: "content",
     render: () => `
       <div>
@@ -554,7 +606,7 @@ export const SLIDES = [
 
   pause("diner", "diner", "Bon appétit", "Dîner à l'extérieur", 0),
 
-  section("s-cruz", "cruz", "05", "SEA Cruz", "Quentin", "Piloter Google Ads avec Claude, via le MCP et l'API."),
+  section("s-cruz", "cruz", "05", "SEA Cruz, hub<br>& produit à vendre", "Quentin", "Piloter Google Ads avec Claude via le MCP, puis ce qu'on vend en plus."),
   { id: "cruz", agenda: "cruz", kind: "content",
     render: () => `
       <div>
@@ -567,22 +619,10 @@ export const SLIDES = [
         </div>
       </div>` },
 
-  section("s-news", "news", "06", "ChatGPT Ads<br>+ nouveautés", "Mh"),
-  { id: "chatgpt_ads", agenda: "news", kind: "content",
-    render: () => `
-      <div class="two">
-        <div>
-          <div class="kicker" ${a(0)}>ChatGPT Ads</div>
-          <h2 ${a(1)}>Où on en est</h2>
-          <p class="lead" ${a(2)}>Premières démarches lancées pour Cetronic, difficultés côté plateforme. Le canal a encore des limites face aux régies classiques.</p>
-        </div>
-        <ul class="checks">
-          <li ${a(3)}><i>?</i><div><b>Accès & ouverture du compte</b><small>À compléter par Mh</small></div></li>
-          <li ${a(4)}><i>?</i><div><b>Formats et ciblage disponibles</b><small>À compléter par Mh</small></div></li>
-          <li ${a(5)}><i>?</i><div><b>Mesure et tracking</b><small>À compléter par Mh</small></div></li>
-          <li ${a(6)}><i>?</i><div><b>Pour quels clients, quand ?</b><small>Notre position commune</small></div></li>
-        </ul>
-      </div>` },
+  hub,
+  offre,
+
+  section("s-news", "news", "06", "Nouveautés", "Mh", "Ce qui a changé cette année sur Google, Meta et Microsoft."),
   { id: "news", agenda: "news", kind: "content",
     render: () => `
       <div>
@@ -599,9 +639,6 @@ export const SLIDES = [
           ].map(([t, h, p], i) => `<article class="tile" ${a(2 + i)}>${tag(t)}<b>${esc(h)}</b><p>${esc(p)}</p></article>`).join("")}
         </div>
       </div>` },
-
-  section("s-offre", "offre", "07", "Produit à vendre<br>& upsell", "Atelier · Quentin · Mh", "Ce qu'on vend demain, et comment on fédère nos clients actifs."),
-  offre,
 
   pause("pause2", "fin", "Pause", "Avant le mot de la fin", 10),
   fin,
