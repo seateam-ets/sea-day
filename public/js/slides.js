@@ -66,7 +66,7 @@ const tour = {
       <header class="row-head">
         <div><div class="kicker" ${a(0)}>Tour de table · Mh</div>
         <h2 ${a(1)} data-q-title></h2></div>
-        <div class="qr" ${a(2)}><span>Répondez sur<br><b>${location.host}/repondre</b></span></div>
+        <div class="qr" ${a(2)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><span>Scannez ou allez sur<br><b>${C.ACCESS.url}</b><em>Code : <code>${C.ACCESS.code}</code></em></span></div>
       </header>
       <nav class="qtabs" ${a(2)}>${C.TOUR_QUESTIONS.map((q, i) => `<button data-q="${q.id}">${i + 1}. ${esc(q.short)}</button>`).join("")}</nav>
       <div class="people">${C.PEOPLE.map((p, i) => `
@@ -529,7 +529,7 @@ export const SLIDES = [
         <h1 class="giga" ${a(1)}><span>SEA</span><span class="outline">DAY</span></h1>
         <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
         <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
-        <div class="hero-foot" ${a(4)}>On s'installe, on commence dans un instant</div>
+        <div class="join" ${a(4)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><div><span class="kicker">Rejoindre le SEA Day</span><b>${C.ACCESS.url}</b><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
       </div>` },
   { id: "purpose", agenda: null, kind: "content",
     render: () => `

@@ -321,3 +321,16 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .src { display: block; margin-top: 14px; font-size: 15px; }
 .stat.edit { border-color: var(--violet); background: rgba(91, 44, 232, .18); }
 .stat.edit input { width: 100%; background: transparent; border: 0; border-bottom: 2px dashed var(--lilac); font-family: var(--display); font-size: 72px; line-height: 1; color: var(--lilac); font-weight: 700; outline: none; padding: 0; }
+
+/* ── QR + code d'accès ────────────────────────────── */
+.qr { display: flex; gap: 18px; align-items: center; white-space: normal; }
+.qr img { width: 130px; height: 130px; border-radius: 12px; background: #fff; padding: 6px; flex: none; }
+.qr span { font-size: 19px; line-height: 1.4; }
+.qr b { font-size: 22px; }
+.qr em, .join em { display: block; font-style: normal; margin-top: 8px; color: var(--cream); }
+.qr code, .join code { font-family: var(--display); font-weight: 700; color: var(--lilac); background: rgba(91, 44, 232, .25); padding: 2px 10px; border-radius: 8px; letter-spacing: .04em; }
+.join { position: absolute; right: 130px; bottom: 110px; display: flex; gap: 26px; align-items: center; padding: 22px 28px 22px 22px; border-radius: 26px; background: rgba(21, 21, 29, .75); border: 1px solid var(--line); backdrop-filter: blur(12px); }
+.join img { width: 190px; height: 190px; border-radius: 16px; background: #fff; padding: 8px; }
+.join .kicker { display: block; margin-bottom: 8px; font-size: 18px; }
+.join b { display: block; font-size: 30px; }
+.join em { font-size: 26px; }

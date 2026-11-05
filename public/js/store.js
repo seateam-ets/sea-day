@@ -94,6 +94,12 @@ export const store = {
 
 // Écran de mot de passe commun
 export async function gate() {
+  // QR code : l'URL contient #k=<code>, on se connecte directement puis on nettoie l'adresse
+  const m = location.hash.match(/k=([^&]+)/);
+  if (m) {
+    history.replaceState(null, "", location.pathname + location.search);
+    if (await checkPassword(decodeURIComponent(m[1]))) return;
+  }
   if (getPassword() && (await checkPassword(getPassword()))) return;
   return new Promise((resolve) => {
     const el = document.createElement("div");
