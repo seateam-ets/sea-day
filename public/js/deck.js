@@ -22,8 +22,9 @@ function show(i) {
   const slide = SLIDES[i];
   cleanup?.(); cleanup = null;
   // une seule slide sortante à la fois : on supprime tout ce qui traîne
-  stage.querySelectorAll(".slide.out-left, .slide.out-right").forEach((s) => s.remove());
-  const old = stage.querySelector(".slide");
+  const all = [...stage.querySelectorAll(".slide")];
+  const old = all.pop(); // la slide affichée devient la sortante
+  all.forEach((s) => s.remove()); // tout le reste disparaît immédiatement
   if (old) { old.classList.remove("in"); old.classList.add(dir > 0 ? "out-left" : "out-right"); setTimeout(() => old.remove(), 500); }
   const el = document.createElement("section");
   el.className = `slide kind-${slide.kind}`;
