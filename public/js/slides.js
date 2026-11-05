@@ -463,7 +463,6 @@ export const SLIDES = [
 
   section("s-jeux", "jeux", "03", "Question pour<br>un Champion SEA", "Jeux SEA · animé par Mh", "Formez les équipes."),
   quiz,
-  jeux, // bonus : petits jeux (Qui suis-je ?, mot interdit…) si on a le temps
 
   section("s-process", "process", "04", "Redessiner<br>notre process SEA", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
   { id: "process_flow", agenda: "process", kind: "content",
