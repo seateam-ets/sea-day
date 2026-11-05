@@ -363,3 +363,64 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .slide.in [data-a].join { transform: translateY(-50%); }
 .join img { width: 300px; height: 300px; }
 .join b { font-size: 26px; }
+
+/* ── Process : du bordel à l'ordre ───────────────── */
+.slide[data-id^="process_"] { justify-content: flex-start; padding-top: 100px; }
+.pchaos, .pflow, .pcoince { position: relative; height: 100%; }
+.flow .step { transition: transform 1.1s var(--ease), box-shadow .4s, border-color .4s, background .4s; will-change: transform; }
+/* 1. le bordel : cartes en vrac qui flottent */
+.flow.chaos { margin-top: 90px; }
+.flow.chaos .step { transform: translate(var(--tx), var(--ty)) rotate(var(--r)); animation: float 4s ease-in-out infinite alternate; animation-delay: calc(var(--d) * -.7s); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+.flow.chaos .step::after { display: none; }
+@keyframes float { from { transform: translate(var(--tx), var(--ty)) rotate(var(--r)); } to { transform: translate(calc(var(--tx) + 18px), calc(var(--ty) - 14px)) rotate(calc(var(--r) + 4deg)); } }
+.slide:not(.in) .flow.chaos .step { opacity: 0; }
+.flow.chaos .step { opacity: 1; transition: opacity .6s calc(var(--d) * 80ms); }
+.mess { position: absolute; inset: 0; pointer-events: none; }
+.sticky { position: absolute; left: 0; top: 0; padding: 12px 18px; border-radius: 6px; background: #fff3a8; color: #2b2410; font-weight: 800; font-size: 22px; box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(.4); opacity: 0; transition: transform .7s var(--ease), opacity .5s; transition-delay: calc(600ms + var(--d) * 120ms); }
+.slide.in .mess .sticky { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(1); opacity: .92; }
+.sticky:nth-child(3n) { background: #ffc9de; } .sticky:nth-child(3n+1) { background: #c7f0ff; }
+.chaos-tools { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); justify-content: center; }
+.chaos-tools .tool { transform: translate(var(--x), var(--y)) rotate(var(--r)); animation: float2 3s ease-in-out infinite alternate; animation-delay: calc(var(--d) * -.5s); }
+@keyframes float2 { to { transform: translate(calc(var(--x) * .9), calc(var(--y) + 20px)) rotate(calc(var(--r) * -1)); } }
+/* 2. on remet de l'ordre : part du vrac, se range */
+.flow.ordering .step { transform: translate(var(--tx), var(--ty)) rotate(var(--r)); }
+.flow.ordering .step::after { opacity: 0; transition: opacity .4s 1.6s; }
+.flow.ordering.ordered .step { transform: none; transition-delay: calc(var(--d) * 110ms); }
+.flow.ordering.ordered .step::after { opacity: 1; }
+.flow.ordering.ordered .step:first-child { box-shadow: 0 0 0 2px var(--violet), 0 20px 60px rgba(91,44,232,.4); }
+.pflow .flow { margin: 30px 0 10px; }
+/* 3. où ça coince */
+.qline { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; }
+.qline h2 { font-size: 50px; margin: 0; }
+.qline h2:nth-child(2) { color: var(--lilac); }
+.flow.votes .step { cursor: pointer; --h: 0; background: color-mix(in srgb, var(--orange) calc(var(--h) * 38%), rgba(255,255,255,.04)); }
+.flow.votes .step.hot { border-color: color-mix(in srgb, var(--orange) calc(30% + var(--h) * 70%), transparent); box-shadow: 0 0 calc(var(--h) * 50px) rgba(245,158,11,.5); }
+.flow.votes .step:hover { transform: translateY(-6px); }
+.flow.votes .step:active { transform: scale(.97); }
+.heat { position: absolute; top: 14px; right: 12px; font-style: normal; font-weight: 800; font-size: 20px; }
+.hint-line { margin: 14px 0 18px; font-size: 20px; }
+.coince-wall input { width: 100%; background: rgba(9,10,19,.7); border: 1px dashed var(--line); border-radius: 14px; padding: 14px 18px; font-size: 22px; outline: none; }
+.coince-wall input:focus { border-color: var(--orange); border-style: solid; }
+.notes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; max-height: 250px; overflow: auto; padding: 6px; }
+.notes .sticky { position: relative; transform: rotate(var(--r)); opacity: 1; font-size: 20px; padding-right: 34px; transition: none; }
+.notes .sticky button { position: absolute; top: 4px; right: 6px; border: 0; background: none; font-size: 20px; color: inherit; opacity: .5; }
+@media (prefers-reduced-motion: reduce) { .flow.chaos .step, .chaos-tools .tool { animation: none; } }
+
+/* ── Une slide par question à trancher ───────────── */
+.slide[data-id^="dec_"] { justify-content: flex-start; padding-top: 100px; }
+.dec-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.dec-top .kicker { margin: 0; }
+.dots { display: flex; gap: 10px; }
+.dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); transition: .3s; }
+.dots i.done { background: var(--ok); border-color: var(--ok); }
+.dots i.cur { border-color: var(--lilac); transform: scale(1.35); }
+.dec1 h2 { font-size: 72px; margin-bottom: 26px; }
+.dec1 .hint { font-size: 28px; max-width: 1600px; }
+.dec-fields { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 10px; }
+.dec-fields label { display: flex; flex-direction: column; gap: 12px; }
+.dec-fields .kicker { margin: 0; }
+.dec-fields textarea, .dec-fields input { background: rgba(9,10,19,.7); border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px; font-size: 30px; outline: none; }
+.dec-fields textarea { min-height: 260px; resize: none; }
+.dec-fields textarea:focus, .dec-fields input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(91,44,232,.3); }
+.saved { font-size: 18px; min-height: 24px; }

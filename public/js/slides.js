@@ -163,48 +163,134 @@ export function gameAction(act) {
   if (act === "start") store.set({ "game:end": Date.now() + game.time * 1000 });
 }
 
-// ── Décisions process ────────────────────────────────────────
-const decisions = {
-  id: "decisions", agenda: "process", kind: "interactive",
+// ── Process : du bordel à l'ordre ────────────────────────────
+// positions « en vrac » déterministes : la slide 1 et le départ de la slide 2 sont identiques
+const rnd = (seed) => { let t = seed + 0x6d2b79f5; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+const SLOTS = [6, 2, 8, 0, 4, 7, 1, 5, 3];
+const chaosOf = (i, n = 9) => {
+  const colW = 1660 / n, baseX = i * colW;
+  const x = SLOTS[i] * colW + (rnd(i * 3 + 1) - .5) * 90;
+  const y = (i % 2 ? 170 : -150) + (rnd(i * 3 + 2) - .5) * 160;
+  return { tx: x - baseX, ty: y, r: -24 + rnd(i * 3 + 3) * 48 };
+};
+const flowHtml = (cls = "") => `<div class="flow ${cls}">${C.PROCESS_STEPS.map((s, i) => {
+  const c = chaosOf(i);
+  return `<div class="step" style="--tx:${c.tx}px;--ty:${c.ty}px;--r:${c.r}deg;--d:${i}"><span class="st-n">${i + 1}</span><b>${esc(s.t)}</b><small>${esc(s.s)}</small><i class="heat" data-heat="${i}"></i></div>`;
+}).join("")}</div>`;
+const TOOLS = ["Claude", "Claude Code", "ChatGPT", "GitHub", "Replit"];
+
+const processChaos = {
+  id: "process_chaos", agenda: "process", kind: "content",
   render: () => `
-    <div class="decisions">
-      <div class="dec-list" ${a(0)}>
-        <div class="kicker">Questions à trancher</div>
-        ${C.DECISIONS.map((d, i) => `<button data-d="${d.id}"><span class="tag">${esc(d.theme)}</span>${esc(d.q)}<i data-ok></i></button>`).join("")}
-      </div>
-      <div class="dec-focus" ${a(1)}>
-        <div class="kicker" data-theme></div>
-        <h2 data-q></h2>
-        <p class="hint" data-hint></p>
-        <label class="kicker">Décision</label>
-        <textarea data-val placeholder="On note la décision ici…"></textarea>
-        <label class="kicker">Responsable</label>
-        <input data-owner placeholder="Qui ?">
+    <div class="pchaos">
+      <div class="kicker" ${a(0)}>Le parcours d'une campagne · aujourd'hui</div>
+      <h2 ${a(1)}>Chacun fait à sa façon.</h2>
+      ${flowHtml("chaos")}
+      <div class="mess">${C.PROCESS_MESS.map((m, i) => `<span class="sticky" style="--x:${60 + (i % 4) * 400 + rnd(i * 7 + 11) * 180}px;--y:${200 + Math.floor(i / 4) * 230 + rnd(i * 7 + 12) * 90}px;--r:${-14 + rnd(i * 7 + 13) * 28}deg;--d:${i}">${esc(m)}</span>`).join("")}</div>
+      <div class="tools chaos-tools">${TOOLS.map((t, i) => `<span class="tool" style="--x:${rnd(i * 5 + 40) * 900 - 450}px;--y:${rnd(i * 5 + 41) * 160 - 80}px;--r:${-20 + rnd(i * 5 + 42) * 40}deg;--d:${i}">${t}</span>`).join("")}</div>
+    </div>`,
+};
+
+const processFlow = {
+  id: "process_flow", agenda: "process", kind: "content",
+  render: () => `
+    <div class="pflow">
+      <div class="kicker" ${a(0)}>Le parcours d'une campagne · demain</div>
+      <h2 ${a(1)}>De la signature au point client</h2>
+      ${flowHtml("ordering")}
+      <div class="tools" ${a(14)}>
+        ${TOOLS.map((t) => `<span class="tool">${t}</span>`).join("")}
+        <span class="muted">Objectif : <b class="accent">une seule façon de faire</b>, chaque outil à sa place.</span>
       </div>
     </div>`,
   mount(root) {
-    const ta = root.querySelector("[data-val]");
-    const ow = root.querySelector("[data-owner]");
-    const cur = () => store.get("dec:cur", C.DECISIONS[0].id);
-    const draw = () => {
-      const d = C.DECISIONS.find((x) => x.id === cur());
-      root.querySelectorAll("[data-d]").forEach((b) => {
-        b.classList.toggle("on", b.dataset.d === d.id);
-        b.classList.toggle("done", !!store.get(`dec:${b.dataset.d}`));
-      });
-      root.querySelector("[data-theme]").textContent = d.theme;
-      root.querySelector("[data-q]").textContent = d.q;
-      root.querySelector("[data-hint]").textContent = d.hint;
-      if (document.activeElement !== ta) ta.value = store.get(`dec:${d.id}`, "");
-      if (document.activeElement !== ow) ow.value = store.get(`dec:${d.id}:owner`, "");
+    // part de la position « en vrac », puis se range carte par carte
+    const flow = root.querySelector(".flow");
+    const t = setTimeout(() => flow.classList.add("ordered"), 450);
+    return () => clearTimeout(t);
+  },
+};
+
+const processCoince = {
+  id: "process_coince", agenda: "process", kind: "interactive",
+  render: () => `
+    <div class="pcoince">
+      <div class="kicker" ${a(0)}>Se remettre en question</div>
+      <div class="qline" ${a(1)}>${C.PROCESS_QUESTIONS.map((q) => `<h2>${esc(q)}</h2>`).join("")}</div>
+      ${flowHtml("static votes")}
+      <p class="muted hint-line" ${a(3)}>Touchez une étape pour dire « ça coince ici » (+1). Clic droit pour retirer.</p>
+      <div class="coince-wall" ${a(4)}>
+        <form data-add-coince><input maxlength="90" placeholder="Ce qui coince / ce qu'on peut améliorer… (Entrée)"></form>
+        <div class="notes" data-notes></div>
+      </div>
+    </div>`,
+  mount(root) {
+    const steps = [...root.querySelectorAll(".step")];
+    steps.forEach((el, i) => {
+      el.onclick = () => store.set({ [`heat:${i}`]: store.get(`heat:${i}`, 0) + 1 });
+      el.oncontextmenu = (e) => { e.preventDefault(); store.set({ [`heat:${i}`]: Math.max(0, store.get(`heat:${i}`, 0) - 1) || null }); };
+    });
+    root.querySelector("[data-add-coince]").onsubmit = (ev) => {
+      ev.preventDefault(); const inp = ev.target.querySelector("input"); const t = inp.value.trim(); if (!t) return;
+      store.set({ [`coince:${Date.now().toString(36)}`]: t }); inp.value = "";
     };
-    root.querySelectorAll("[data-d]").forEach((b) => b.onclick = () => store.set({ "dec:cur": b.dataset.d }));
-    let tmo;
-    const save = () => { clearTimeout(tmo); tmo = setTimeout(() => store.set({ [`dec:${cur()}`]: ta.value.trim() || null, [`dec:${cur()}:owner`]: ow.value.trim() || null }), 400); };
-    ta.oninput = save; ow.oninput = save;
+    let last = "";
+    const draw = () => {
+      const heat = steps.map((_, i) => store.get(`heat:${i}`, 0));
+      const notes = Object.entries(store.prefix("coince:")).sort();
+      const sig = JSON.stringify([heat, notes]); if (sig === last) return; last = sig;
+      const max = Math.max(1, ...heat);
+      steps.forEach((el, i) => {
+        el.style.setProperty("--h", heat[i] / max);
+        el.classList.toggle("hot", heat[i] > 0);
+        el.querySelector(".heat").textContent = heat[i] ? `🔥 ${heat[i]}` : "";
+      });
+      root.querySelector("[data-notes]").innerHTML = notes.map(([k, v], i) => `<span class="sticky in" style="--r:${-4 + rnd(i + 99) * 8}deg">${esc(v)}<button data-del="${k}" aria-label="Supprimer">×</button></span>`).join("");
+      root.querySelectorAll("[data-del]").forEach((b) => b.onclick = () => store.set({ [b.dataset.del]: null }));
+    };
     return store.subscribe(draw);
   },
 };
+
+// ── Décisions process : une slide par question ───────────────
+const decisionSlide = (d, n) => ({
+  id: `dec_${d.id}`, agenda: "process", kind: "interactive",
+  render: () => `
+    <div class="dec1">
+      <div class="dec-top" ${a(0)}>
+        <span class="kicker">Question à trancher ${n + 1}/${C.DECISIONS.length} · ${esc(d.theme)}</span>
+        <span class="dots">${C.DECISIONS.map((x, k) => `<i data-dot="${x.id}" class="${k === n ? "cur" : ""}"></i>`).join("")}</span>
+      </div>
+      <h2 ${a(1)}>${esc(d.q)}</h2>
+      <p class="hint" ${a(2)}>${esc(d.hint)}</p>
+      <div class="dec-fields" ${a(3)}>
+        <label><span class="kicker">Décision</span><textarea data-val placeholder="On note la décision ici…"></textarea></label>
+        <label><span class="kicker">Responsable</span><input data-owner placeholder="Qui ?"><small class="muted saved" data-saved></small></label>
+      </div>
+    </div>`,
+  mount(root) {
+    const ta = root.querySelector("[data-val]"), ow = root.querySelector("[data-owner]"), sv = root.querySelector("[data-saved]");
+    let tmo = null;
+    const flush = () => {
+      clearTimeout(tmo); tmo = null;
+      const v = ta.value.trim(), o = ow.value.trim();
+      if (v !== store.get(`dec:${d.id}`, "") || o !== store.get(`dec:${d.id}:owner`, "")) {
+        store.set({ [`dec:${d.id}`]: v || null, [`dec:${d.id}:owner`]: o || null });
+        sv.textContent = "Enregistré ✓";
+      }
+    };
+    const save = () => { sv.textContent = "…"; clearTimeout(tmo); tmo = setTimeout(flush, 300); };
+    ta.oninput = save; ow.oninput = save; ta.onblur = flush; ow.onblur = flush;
+    const draw = () => {
+      if (document.activeElement !== ta && !tmo) ta.value = store.get(`dec:${d.id}`, "");
+      if (document.activeElement !== ow && !tmo) ow.value = store.get(`dec:${d.id}:owner`, "");
+      root.querySelectorAll("[data-dot]").forEach((el) => el.classList.toggle("done", !!(store.get(`dec:${el.dataset.dot}`) || store.get(`dec:${el.dataset.dot}:owner`))));
+    };
+    const un = store.subscribe(draw);
+    return () => { flush(); un(); }; // rien ne se perd si on change de slide en tapant
+  },
+});
+const decisionSlides = C.DECISIONS.map(decisionSlide);
 
 // ── Conclusion ───────────────────────────────────────────────
 const conclusion = {
@@ -228,10 +314,10 @@ const conclusion = {
     const draw = () => {
       if (document.activeElement !== dir) dir.value = store.get("concl:dir", "");
       root.querySelectorAll("[data-eng]").forEach((i) => { if (document.activeElement !== i) i.value = store.get(`eng:${i.dataset.eng}`, ""); });
-      const items = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`));
+      const items = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`) || store.get(`dec:${d.id}:owner`));
       root.querySelector("[data-recap]").innerHTML = items.length
-        ? items.map((d) => `<li><span class="tag">${esc(d.theme)}</span> ${esc(store.get(`dec:${d.id}`))}${store.get(`dec:${d.id}:owner`) ? ` <em>→ ${esc(store.get(`dec:${d.id}:owner`))}</em>` : ""}</li>`).join("")
-        : `<li class="muted">Les décisions de la slide précédente s'affichent ici.</li>`;
+        ? items.map((d) => `<li><span class="tag">${esc(d.theme)}</span> ${esc(store.get(`dec:${d.id}`) || d.q)}${store.get(`dec:${d.id}:owner`) ? ` <em>→ ${esc(store.get(`dec:${d.id}:owner`))}</em>` : ""}</li>`).join("")
+        : `<li class="muted">Les décisions des questions à trancher s'affichent ici.</li>`;
     };
     let tmo;
     const deb = (obj) => { clearTimeout(tmo); tmo = setTimeout(() => store.set(obj), 400); };
@@ -515,7 +601,7 @@ const fin = {
   mount(root) {
     const draw = () => {
       root.querySelector("[data-dir]").textContent = store.get("concl:dir", "");
-      root.querySelector("[data-nd]").textContent = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`)).length;
+      root.querySelector("[data-nd]").textContent = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`) || store.get(`dec:${d.id}:owner`)).length;
       root.querySelector("[data-ne]").textContent = C.PEOPLE.filter((p) => store.get(`eng:${p.id}`)).length;
       const T = teams(); const best = [...T].sort((x, y) => y.score - x.score)[0];
       root.querySelector("[data-champ]").textContent = best && best.score ? best.name : "—";
@@ -533,6 +619,9 @@ export function exportReport() {
     md += `\n### ${q.text}\n\n`;
     for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`tour:${p.id}:${q.id}`) || "—"}\n`;
   }
+  md += `\n## Où ça coince dans le process\n\n`;
+  C.PROCESS_STEPS.forEach((st, i) => { const h = store.get(`heat:${i}`, 0); if (h) md += `- ${st.t} : ${h} vote${h > 1 ? "s" : ""}\n`; });
+  for (const [, v] of Object.entries(store.prefix("coince:"))) md += `- « ${v} »\n`;
   md += `\n## Décisions process\n\n`;
   for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
   md += `\n## Engagements\n\n`;
@@ -662,18 +751,10 @@ export const SLIDES = [
   quiz,
 
   section("s-process", "process", "04", "Process SEA<br>& outils", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
-  { id: "process_flow", agenda: "process", kind: "content",
-    render: () => `
-      <div>
-        <div class="kicker" ${a(0)}>Le parcours d'une campagne</div>
-        <h2 ${a(1)}>De la signature au point client</h2>
-        <div class="flow">${C.PROCESS_STEPS.map((s, i) => `<div class="step" ${a(2 + i)}><span class="st-n">${i + 1}</span><b>${esc(s.t)}</b><small>${esc(s.s)}</small></div>`).join("")}</div>
-        <div class="tools" ${a(12)}>
-          ${["Claude", "Claude Code", "ChatGPT", "GitHub", "Replit"].map((t) => `<span class="tool">${t}</span>`).join("")}
-          <span class="muted">Aujourd'hui : chacun fait à sa façon. Objectif : <b class="accent">une seule façon de faire</b>.</span>
-        </div>
-      </div>` },
-  decisions,
+  processChaos,
+  processFlow,
+  processCoince,
+  ...decisionSlides,
   conclusion,
 
   pause("diner", "diner", "Bon appétit", "Dîner à l'extérieur", 0),
@@ -717,4 +798,4 @@ export const SLIDES = [
   fin,
 ];
 
-SLIDES.forEach((s) => { s.notes = C.NOTES[s.id] || ""; });
+SLIDES.forEach((s) => { s.notes = C.NOTES[s.id] || (s.id.startsWith("dec_") ? C.NOTES.process : ""); });

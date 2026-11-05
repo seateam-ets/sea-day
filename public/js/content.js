@@ -165,6 +165,14 @@ export const PROCESS_STEPS = [
   { t: "Reporting & point client", s: "Valeur rendue visible" },
 ];
 
+// Ce qui traîne aujourd'hui (affiché en vrac sur la slide « le bordel »)
+export const PROCESS_MESS = [
+  "Capture d'écran GTM", "PowerPoint de reporting", "Replit ou GitHub ?", "Claude ou ChatGPT ?",
+  "Qui valide la LP ?", "Le contrat est payé ?", "Liens annexes ?", "Thèmes de recherche PMax ?",
+  "Qui crée la tâche ?", "Consent Mode V2 ?", "Modifs dans Replit", "Prix sur la LP ?",
+];
+export const PROCESS_QUESTIONS = ["Est-ce qu'on va assez vite ?", "Qu'est-ce qui coince ?", "Que peut-on améliorer ?"];
+
 export const DECISIONS = [
   { id: "outils", theme: "Outils", q: "Claude, Claude Code, ChatGPT, Replit, GitHub : qui sert à quoi ?",
     hint: "Proposition : Claude = rédaction, analyse, annonces · Claude Code = code, repo motion, landing pages · GitHub = source unique · Replit = hébergement seulement (plus de modifs dedans) · ChatGPT = au cas par cas ?" },
@@ -221,6 +229,9 @@ export const NOTES = {
   metier_ajd: "Les arguments de ma réponse à Cetronic : ce qu'on doit tous savoir expliquer à un client.",
   metier: "Le gestionnaire de campagne devient chef d'orchestre de la croissance.",
   upsell: "Mh : transformer les besoins détectés en missions vendues.",
+  process_chaos: "Montrer le bordel : chacun fait à sa façon. Laisser réagir.",
+  process_flow: "Les cartes se remettent en ordre : voilà le parcours qu'on veut.",
+  process_coince: "Chacun tape sur les étapes où ça coince (+). On note les irritants, puis on passe aux décisions.",
   process: "Quentin : on passe chaque question, on tranche, on note la décision à l'écran.",
   conclusion: "Résumer les décisions et la direction. Chaque personne note un engagement.",
   cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
