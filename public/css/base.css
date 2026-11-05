@@ -1,0 +1,46 @@
+:root {
+  --night: #090a13;
+  --ink: #15151d;
+  --surface: #1b1b26;
+  --line: rgba(255, 255, 255, .09);
+  --violet: #5b2ce8;
+  --violet-d: #4620c6;
+  --lilac: #bdb3ff;
+  --cream: #f9f5ec;
+  --sand: #e6e0d5;
+  --muted: #9e9ca8;
+  --teal: #14b8a6;
+  --orange: #f59e0b;
+  --blue: #3b82f6;
+  --ok: #22c55e;
+  --bad: #ef4444;
+  --display: "Space Grotesk", system-ui, sans-serif;
+  --body: "Manrope", system-ui, sans-serif;
+  --r: 22px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--night); color: var(--cream); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+button { font: inherit; cursor: pointer; color: inherit; }
+input, textarea { font: inherit; color: inherit; }
+.muted { color: var(--muted); }
+.accent { color: var(--lilac); }
+
+/* Gate */
+.gate { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px;
+  background: radial-gradient(1000px 600px at 70% 20%, rgba(91, 44, 232, .35), transparent 60%), var(--night); }
+.gate-box { width: min(380px, 100%); display: grid; gap: 14px; text-align: center; padding: 40px 28px;
+  background: rgba(21, 21, 29, .8); border: 1px solid var(--line); border-radius: var(--r); backdrop-filter: blur(20px); }
+.gate-logo { width: 140px; margin: 0 auto 6px; }
+.gate h1 { font-family: var(--display); font-size: 44px; margin: 0; letter-spacing: -.02em; }
+.gate p { margin: 0 0 8px; color: var(--muted); }
+.gate input { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--night); font-size: 16px; text-align: center; }
+.gate button { padding: 14px; border: 0; border-radius: 14px; background: var(--violet); font-weight: 700; font-size: 16px; }
+.gate button:hover { background: var(--violet-d); }
+.gate-err { color: #fca5a5; }
+
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: .62em;
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: rgba(91, 44, 232, .22); color: var(--lilac); white-space: nowrap; vertical-align: middle; }
+.tag.ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.gate-logo, .hero-logo, .m-logo { filter: brightness(0) invert(1); }

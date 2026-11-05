@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#090a13">
+  <title>Tour de table · SEA Day</title>
+  <link rel="icon" href="/assets/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body>
+  <main class="m">
+    <header class="m-head"><img src="/assets/eteamsys-logo.png" alt="" class="m-logo"><b>Tour de table</b></header>
+    <section class="m-card">
+      <div class="kicker">Qui es-tu ?</div>
+      <div id="who" class="m-grid"></div>
+    </section>
+    <form id="form" hidden></form>
+    <p id="saved" class="muted center"></p>
+  </main>
+  <script type="module">
+    import { store, gate, esc } from "/js/store.js";
+    import { PEOPLE, TOUR_QUESTIONS } from "/js/content.js";
+    await gate(); store.start(3000);
+    const $ = (id) => document.getElementById(id);
+    let me = null; try { me = localStorage.getItem("seaday-me"); } catch {}
+    $("who").innerHTML = PEOPLE.map((p) => `<button data-p="${p.id}">${esc(p.name)}</button>`).join("");
+    $("who").onclick = (e) => { const b = e.target.closest("[data-p]"); if (b) pick(b.dataset.p); };
+    function pick(id) {
+      me = id; try { localStorage.setItem("seaday-me", id); } catch {}
+      $("who").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.p === id));
+      $("form").hidden = false;
+      $("form").innerHTML = TOUR_QUESTIONS.map((q, i) => `
+        <label class="m-card"><span class="kicker">${i + 1}. ${esc(q.short)}</span><span class="q">${esc(q.text)}</span>
+        <textarea data-q="${q.id}" rows="4" placeholder="Ta réponse…">${esc(store.get(`tour:${id}:${q.id}`, ""))}</textarea></label>`).join("");
+      let t;
+      $("form").querySelectorAll("textarea").forEach((ta) => ta.oninput = () => {
+        clearTimeout(t); $("saved").textContent = "…";
+        t = setTimeout(async () => { await store.set({ [`tour:${me}:${ta.dataset.q}`]: ta.value.trim() || null }); $("saved").textContent = "Enregistré ✓"; }, 500);
+      });
+    }
+    // attendre la première synchro avant de pré-remplir
+    setTimeout(() => me && pick(me), 700);
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+body { background: radial-gradient(600px 400px at 80% -10%, rgba(91, 44, 232, .4), transparent 70%), var(--night); min-height: 100%; }
+.m { max-width: 560px; margin: 0 auto; padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); display: grid; gap: 14px; }
+.m-head { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-size: 18px; }
+.m-head #pos { margin-left: auto; font-family: var(--body); font-size: 14px; }
+.m-logo { width: 64px; }
+.m-card { display: grid; gap: 10px; padding: 18px; border-radius: 18px; background: rgba(21, 21, 29, .85); border: 1px solid var(--line); }
+.m-card h1 { font-family: var(--display); font-size: 26px; margin: 0; }
+.m-card p { margin: 0; line-height: 1.45; }
+.m-card summary { font-weight: 700; cursor: pointer; }
+.kicker { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--lilac); }
+.m-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+.m button { padding: 14px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--ink); font-weight: 700; font-size: 15px; }
+.m button.on { background: var(--violet); border-color: var(--violet); }
+.m button.primary { background: var(--violet); border-color: var(--violet); }
+.m button.danger { color: #fca5a5; }
+.m button.wide { width: 100%; }
+.m-nav { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; position: sticky; bottom: 12px; }
+.m-nav button { padding: 20px; font-size: 18px; }
+.m-list { display: grid; gap: 4px; max-height: 50vh; overflow: auto; }
+.m-list button { text-align: left; font-weight: 500; padding: 10px 12px; }
+.m-secret { font-family: var(--display); font-size: 30px; padding: 18px; border-radius: 14px; background: var(--cream); color: var(--night); text-align: center; }
+.m-secret small { display: block; font-family: var(--body); font-size: 15px; color: #b4231f; font-weight: 700; margin-top: 6px; }
+.ok { color: #86efac; }
+.q { font-size: 15px; line-height: 1.4; }
+textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--night); font-size: 16px; resize: vertical; }
+textarea:focus { outline: none; border-color: var(--violet); }
+form { display: grid; gap: 14px; }
+.center { text-align: center; }

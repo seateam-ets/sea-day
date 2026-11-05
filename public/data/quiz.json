@@ -1,0 +1,1381 @@
+[
+ {
+  "n": 1,
+  "theme": "Performance Max",
+  "text": "Combien de vidéos YouTube peut-on désormais importer par annonce dans Performance Max ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "5",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "10",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "15",
+    "correct": true
+   },
+   {
+    "key": "D",
+    "text": "20",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’était l’ancienne limite.",
+   "Proche, mais Google est allé plus loin.",
+   "La nouvelle limite : assez pour couvrir les formats vertical, carré et horizontal.",
+   "Trop : Google s’est arrêté à 15."
+  ],
+  "answer": "C. 15",
+  "clear": "Dans une campagne PMax, on peut maintenant mettre jusqu’à 15 vidéos. Plus on en donne, moins Google fabrique ses propres vidéos.",
+  "source": "Annonce début 2026",
+  "example": "Un magasin de vélos n’a fourni qu’une vidéo de 30 s : Google fabrique le reste à partir de ses images. Avec 15 vidéos (un format vertical de 15 s pour les Shorts, une démo produit, un témoignage client…), c’est lui qui choisit ce qui passe sur YouTube."
+ },
+ {
+  "n": 2,
+  "theme": "Performance Max",
+  "text": "Quel nouvel interrupteur par campagne Google a-t-il ajouté à Performance Max fin octobre 2026 ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Désactiver les vidéos « sourcées »",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Exclure Gmail",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Désactiver l’expansion d’URL finale",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Choisir l’ordre des canaux",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, c’est le nouveau bouton de fin octobre.",
+   "Ce n’est pas la nouveauté de fin octobre.",
+   "Ce réglage existait déjà.",
+   "N’existe pas sous cette forme ; la priorisation des canaux est un autre réglage."
+  ],
+  "answer": "A. Désactiver les vidéos « sourcées »",
+  "clear": "Google ajoute parfois ses propres vidéos aux campagnes PMax. Un nouveau bouton permet de les refuser, campagne par campagne.",
+  "source": "Google Ads, octobre 2026",
+  "example": "Une marque de cosmétiques découvre que des vidéos assemblées par Google à partir de ses visuels tournent sur YouTube avec un rendu hors charte. Un interrupteur suffit pour les couper sur cette campagne."
+ },
+ {
+  "n": 3,
+  "theme": "Performance Max",
+  "text": "Quel rapport Performance Max arrive progressivement au niveau MCC ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Le rapport par canal",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Le rapport des termes de recherche",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Le Quality Score",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Le rapport des enchères",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, il arrive au niveau du compte agence (MCC).",
+   "Utile, mais ce n’est pas la nouveauté MCC.",
+   "Il n’existe pas en PMax.",
+   "Il concerne surtout le Search, pas cette nouveauté."
+  ],
+  "answer": "A. Le rapport par canal",
+  "clear": "Une agence peut voir, pour tous ses clients d’un coup, où part l’argent des PMax : YouTube, Search, Display…",
+  "source": "Google Ads, 2026",
+  "example": "Une agence qui gère 40 comptes voit d’un coup d’œil quelle part du budget PMax part sur YouTube, Display ou Search pour chaque client, sans ouvrir les comptes un par un."
+ },
+ {
+  "n": 4,
+  "theme": "Audiences",
+  "text": "Quel est le nouveau seuil minimum d’utilisateurs actifs pour qu’une audience puisse diffuser sur Search, Display et YouTube ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "1 000",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "500",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "100",
+    "correct": true
+   },
+   {
+    "key": "D",
+    "text": "10",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’était l’ancien minimum sur Search et YouTube.",
+   "Un chiffre qui n’existe pas dans les règles Google.",
+   "Le nouveau minimum, sur Search, Display et YouTube.",
+   "Trop petit : Google protège la vie privée des personnes."
+  ],
+  "answer": "C. 100",
+  "clear": "Une liste d’audience peut maintenant servir dès 100 personnes actives. Avant, il en fallait 1 000, ce qui bloquait les petites listes.",
+  "source": "Google Ads, 2026",
+  "example": "Un fabricant de machines industrielles a une liste de 300 clients. Avant, elle était trop petite pour diffuser (il fallait 1 000 utilisateurs). Aujourd’hui, si au moins 100 utilisateurs actifs sont reconnus, il peut leur montrer une campagne dédiée."
+ },
+ {
+  "n": 5,
+  "theme": "Audiences",
+  "text": "Avec Advantage+ Audience par défaut, comment Meta traite-t-il le ciblage détaillé ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Comme une contrainte stricte",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Comme une suggestion",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Il est supprimé",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Uniquement en remarketing",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’était l’ancien fonctionnement.",
+   "Oui : Meta peut en sortir s’il trouve mieux.",
+   "Non, on peut toujours le renseigner.",
+   "Non, ça vaut pour tous les ciblages."
+  ],
+  "answer": "B. Comme une suggestion",
+  "clear": "Les centres d’intérêt qu’on choisit sont des pistes pour Meta, pas des règles. Seuls le pays et l’âge minimum sont respectés à coup sûr.",
+  "source": "Meta, début 2026",
+  "example": "Vous ciblez « passionnés de golf, 35-60 ans, Belgique ». Meta peut montrer la pub à quelqu’un de 32 ans qui n’a jamais liké de golf mais ressemble à vos acheteurs. Par contre, jamais hors de Belgique."
+ },
+ {
+  "n": 6,
+  "theme": "Mesure",
+  "text": "À partir de quel budget le Conversion Lift de Google devient-il accessible ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "1 000 $",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "5 000 $",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "25 000 $",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "100 000 $",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Trop peu de données pour un test fiable.",
+   "Le nouveau seuil, grâce à une méthode de calcul plus souple.",
+   "Trop élevé : le seuil a justement été abaissé pour les comptes moyens.",
+   "Un très gros budget, qui n’est plus nécessaire."
+  ],
+  "answer": "B. 5 000 $",
+  "clear": "Le Conversion Lift mesure les ventes que la pub crée vraiment. Avant, il fallait un gros budget ; maintenant, 5 000 $ suffisent.",
+  "source": "Google Marketing Live",
+  "example": "Une enseigne de bricolage dépense 6 000 $ sur YouTube. Google compare un groupe qui voit la pub et un groupe qui ne la voit pas : si le premier achète 8 % de plus, ces 8 % sont les ventes vraiment créées par la pub, pas celles qui seraient arrivées de toute façon."
+ },
+ {
+  "n": 7,
+  "theme": "IA & Search",
+  "text": "Comment s’appelle l’agent Gemini qui relie Google Ads, Analytics, Merchant Center et Google Marketing Platform en un seul endroit ?",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [],
+  "answer": "Ask Advisor",
+  "clear": "Ask Advisor est un assistant IA de Google : on lui pose une question en langage courant et il va chercher la réponse dans Google Ads, Analytics et Merchant Center.",
+  "source": "Google Marketing Live, 20 mai 2026",
+  "example": "Au lieu d’ouvrir Google Ads, GA4 et Merchant Center dans trois onglets, on demande : « Pourquoi mes ventes de chaussures de running ont baissé la semaine dernière ? » et Ask Advisor croise les trois sources pour répondre."
+ },
+ {
+  "n": 8,
+  "theme": "IA & Search",
+  "text": "Que deviennent les campagnes DSA (annonces dynamiques du Réseau de Recherche) depuis septembre 2026 ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Supprimées sans remplacement",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Mises à niveau automatiquement vers AI Max",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Fusionnées avec Performance Max",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Réservées au Shopping",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Non, elles n’ont pas disparu : elles ont été transformées.",
+   "Oui, la bascule se fait automatiquement.",
+   "Non, elles restent des campagnes Search.",
+   "Non, le Shopping utilise un flux produits, pas les pages du site."
+  ],
+  "answer": "B. Mises à niveau automatiquement vers AI Max",
+  "clear": "Les DSA, ces annonces créées automatiquement à partir du site, ont été transformées en AI Max. On ne les crée plus comme avant.",
+  "source": "Google, septembre 2026",
+  "example": "Un hôtel avait une campagne DSA qui créait des annonces à partir des pages de son site. Depuis septembre, elle est passée en AI Max : Google peut en plus réécrire les titres et choisir la page d’atterrissage. À surveiller dans le rapport des termes de recherche."
+ },
+ {
+  "n": 9,
+  "theme": "IA & Search",
+  "text": "Pour apparaître dans les nouveaux formats publicitaires de l’AI Mode, quelle condition Google impose-t-il ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Des mots-clés en correspondance exacte",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "AI Max for Search ou PMax avec personnalisation du texte",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Une campagne Demand Gen active",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Un budget minimum de 10 000 € par mois",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’est l’inverse : l’AI Mode a besoin de souplesse.",
+   "Oui, ce sont les deux seules portes d’entrée.",
+   "Non, Demand Gen diffuse sur YouTube, Gmail, Discover et Maps, pas dans les réponses de recherche.",
+   "Aucun budget minimum n’est exigé."
+  ],
+  "answer": "B. AI Max for Search ou PMax avec personnalisation du texte",
+  "clear": "Pour s’afficher dans l’AI Mode, il faut laisser l’IA de Google choisir les recherches. Donc AI Max ou PMax, pas des mots-clés stricts.",
+  "source": "Google Marketing Live 2026",
+  "example": "Un installateur de pompes à chaleur qui n’a que des mots-clés en exact (« pompe à chaleur Namur ») n’apparaîtra pas quand quelqu’un demande à l’AI Mode « quel chauffage choisir pour une maison de 1970 ? ». Il lui faut AI Max ou une PMax."
+ },
+ {
+  "n": 10,
+  "theme": "IA & Search",
+  "text": "Selon Google, les requêtes saisies dans l’AI Mode sont en moyenne combien de fois plus longues qu’une recherche classique ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "1,5 fois",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "2 fois",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "3 fois",
+    "correct": true
+   },
+   {
+    "key": "D",
+    "text": "5 fois",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Sous-estimé.",
+   "Encore trop peu.",
+   "Le chiffre donné par Google.",
+   "Exagéré."
+  ],
+  "answer": "C. 3 fois",
+  "clear": "Dans l’AI Mode, les gens tapent des phrases entières, en moyenne trois fois plus longues qu’une recherche classique.",
+  "source": "Google Marketing Live 2026",
+  "example": "Avant : « hôtel Bruges ». Dans l’AI Mode : « hôtel calme à Bruges pour un week-end en couple, avec parking, à moins de 150 € la nuit ». Personne n’a ce mot-clé dans sa liste : c’est la compréhension de l’intention qui fait le travail."
+ },
+ {
+  "n": 11,
+  "theme": "Demand Gen",
+  "text": "Quel nouvel inventaire Demand Gen ouvre la porte au drive-to-store ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Google Maps",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Google Play",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Waze",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Google Lens",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, idéal pour amener des gens en magasin.",
+   "C’est le store d’applis, pas un emplacement Demand Gen.",
+   "Waze appartient à Google, mais ne fait pas partie de Demand Gen.",
+   "C’est la recherche par image, pas un emplacement Demand Gen."
+  ],
+  "answer": "A. Google Maps",
+  "clear": "Les pubs Demand Gen peuvent maintenant apparaître dans Google Maps, au moment où quelqu’un cherche où aller.",
+  "source": "Google Marketing Live 2026",
+  "example": "Une jardinerie apparaît dans Google Maps quand quelqu’un prépare son trajet du samedi, avec une épingle mise en avant : « -20 % sur les plantes, à 2 km »."
+ },
+ {
+  "n": 12,
+  "theme": "Demand Gen",
+  "text": "Citez deux nouveautés Demand Gen annoncées au GML 2026, en dehors de Google Maps.",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [
+   "Formulaires de lead,récupérer nom et e-mail directement dans la pub.",
+   "Flux véhicules,montrer les voitures en stock d’un concessionnaire.",
+   "Création depuis une PMax,copier les réglages d’une PMax existante pour lancer plus vite.",
+   "Conversions post-impression,compter une vente même si la personne a vu la pub sans cliquer.",
+   "Attribution par type de campagne,voir ce que Demand Gen apporte à côté de Search et PMax.",
+   "Tests d’uplift,mesurer les ventes vraiment ajoutées par Demand Gen.",
+   "Liens de checkout,envoyer directement vers la page de paiement."
+  ],
+  "answer": "Au choix, deux parmi les sept nouveautés ci-dessous.",
+  "clear": "Demand Gen, ce sont les pubs visuelles de Google (YouTube, Gmail, Discover). Elles gagnent des outils pour récolter des contacts, vendre et mesurer leur effet.",
+  "source": "Google Marketing Live 2026",
+  "example": "Avec les formulaires de lead : un club de sport diffuse une vidéo sur YouTube Shorts et récupère directement nom et e-mail pour une séance d’essai, sans que la personne quitte YouTube."
+ },
+ {
+  "n": 13,
+  "theme": "Annonces",
+  "text": "Les annonces « Appel uniquement » disparaissent. Par quoi Google recommande-t-il de les remplacer, et quand cessent-elles de diffuser ?",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [],
+  "answer": "Des annonces responsives (RSA) avec éléments d’appel. Création bloquée depuis février 2026, arrêt de diffusion en février 2027.",
+  "clear": "Les pubs qui servent seulement à téléphoner disparaissent. On les remplace par des annonces classiques avec un bouton d’appel.",
+  "source": "Google Ads, février 2026",
+  "example": "Un serrurier qui tournait avec des annonces « Appel uniquement » crée une RSA classique et y ajoute son numéro en élément d’appel. Sur mobile, le bouton d’appel reste bien visible, et l’annonce peut aussi mener à son site."
+ },
+ {
+  "n": 14,
+  "theme": "Enchères & budgets",
+  "text": "Budget moyen de 260 € par jour. Vous passez les partenaires du Réseau de Recherche en priorité basse avec 12 % d’allocation. Jusqu’à combien Google cherchera-t-il à limiter la dépense sur ce réseau ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "12,00 €",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "26,00 €",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "31,20 €",
+    "correct": true
+   },
+   {
+    "key": "D",
+    "text": "41,60 €",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Piège : c’est le pourcentage lu comme un montant.",
+   "Ce serait 10 % du budget.",
+   "260 × 12 % = 31,20 €.",
+   "Ce serait 16 % du budget."
+  ],
+  "answer": "C. 31,20 €",
+  "clear": "On peut dire à Google : « ce réseau passe en dernier et ne prend que 12 % du budget ». Sur 260 €, ça fait environ 31 €.",
+  "source": "Priorisation des canaux, annoncée le 14 octobre 2026",
+  "example": "C’est comme dire à Google : « dépense surtout sur le Search Google, et sur les sites partenaires, pas plus d’environ 31 € par jour ». Si un jour les partenaires convertissent très bien, Google peut dépasser un peu."
+ },
+ {
+  "n": 15,
+  "theme": "Enchères & budgets",
+  "text": "Smart Bidding Exploration : ROAS cible de 380 % et tolérance de 15 %. Quel est le ROAS cible effectif ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "323 %",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "365 %",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "395 %",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "437 %",
+    "correct": false
+   }
+  ],
+  "why": [
+   "380 × 0,85 : le bon calcul.",
+   "On a retiré 15 points au lieu de 15 %.",
+   "On a ajouté au lieu d’enlever.",
+   "380 × 1,15 : l’inverse de ce qu’on veut."
+  ],
+  "answer": "A. 323 %",
+  "clear": "On autorise Google à être un peu moins rentable (ici 15 %) pour aller chercher plus de ventes. 380 % moins 15 % de 380 %, ça donne 323 %.",
+  "source": "Extension à Shopping et PMax, 2026",
+  "example": "Un e-shop de café vend 100 € pour environ 26 € de pub (ROAS 380 %). Avec 15 % de tolérance, Google accepte d’aller jusqu’à environ 31 € de pub pour 100 € de ventes sur certaines recherches, pour décrocher des ventes en plus."
+ },
+ {
+  "n": 16,
+  "theme": "Enchères & budgets",
+  "text": "Mode Promotion : quels sont les trois réglages que l’on programme ?",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [
+   "Dates de début et de fin,quand la promo commence et s’arrête.",
+   "Tolérance sur le ROAS,on accepte d’être un peu moins rentable pendant la promo.",
+   "Budget en plus (facultatif),un supplément par jour pour ne pas être bloqué."
+  ],
+  "answer": "Dates, tolérance sur le ROAS, budget en plus.",
+  "clear": "Le Mode Promotion, c’est un réglage « spécial promo » qu’on programme à l’avance et qui s’arrête tout seul.",
+  "source": "Annoncé en bêta le 15 juin 2026",
+  "example": "Black Friday d’un e-shop de jouets : du 27 novembre au 1er décembre, ROAS cible assoupli de 10 % et 200 € de budget en plus par jour. Le 2 décembre, tout revient comme avant, sans que personne n’ait à y penser."
+ },
+ {
+  "n": 17,
+  "theme": "Meta",
+  "text": "Depuis mars 2026, quelles interactions comptent encore dans l’attribution « clic » de Meta ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Tous les clics, likes et partages inclus",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Uniquement les clics sur lien",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Les clics et les vues de 3 secondes",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Les commentaires et enregistrements",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’était l’ancienne règle, avant mars 2026.",
+   "Oui, la nouvelle règle.",
+   "Les vues ont leur propre catégorie.",
+   "Ils sont passés en engage-through."
+  ],
+  "answer": "B. Uniquement les clics sur lien",
+  "clear": "Pour Meta, un « clic » qui compte, c’est maintenant seulement un clic qui emmène quelque part : site, formulaire, messagerie. Un like ne compte plus.",
+  "source": "Meta, mars 2026",
+  "example": "Marie aime une pub de baskets, ne clique pas sur le lien, puis achète deux jours plus tard. Avant mars, Meta comptait ça comme une conversion « clic ». Aujourd’hui non : seul un clic vers le site, un formulaire ou une messagerie compte."
+ },
+ {
+  "n": 18,
+  "theme": "Meta",
+  "text": "Où sont passées les conversions issues de likes, partages ou enregistrements ? Donnez le nom de la nouvelle attribution et sa fenêtre.",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [],
+  "answer": "L’attribution engage-through, avec une fenêtre de 1 jour.",
+  "clear": "Les ventes après un like ou un partage ont leur propre case, « engage-through », et ne comptent que si l’achat arrive dans les 24 heures.",
+  "source": "Meta, mars 2026",
+  "example": "Thomas enregistre une pub de canapé à 20 h et achète le lendemain à 18 h : c’est de l’engage-through (moins de 24 h). S’il achète trois jours plus tard, la vente n’est plus attribuée à la pub dans ce rapport."
+ },
+ {
+  "n": 19,
+  "theme": "Meta",
+  "text": "Dans le même mouvement, le seuil de vue engagée sur les vidéos Meta est passé de 10 secondes à…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "2 secondes",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "3 secondes",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "5 secondes",
+    "correct": true
+   },
+   {
+    "key": "D",
+    "text": "7 secondes",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Trop court.",
+   "C’est le seuil d’une vue vidéo classique chez Meta, pas celui-ci.",
+   "Le nouveau seuil.",
+   "N’existe pas."
+  ],
+  "answer": "C. 5 secondes",
+  "clear": "Quelqu’un qui regarde une vidéo 5 secondes sans cliquer puis achète, ça compte maintenant pour la pub. Avant, il fallait 10 secondes.",
+  "source": "Meta, 2026",
+  "example": "Une pub Reels pour une pizzeria : quelqu’un regarde 6 secondes sans cliquer, puis commande en ligne le soir. Avant, il fallait 10 secondes de vue pour que ça compte ; maintenant, 5 suffisent."
+ },
+ {
+  "n": 20,
+  "theme": "Meta",
+  "text": "Advantage+ Shopping a changé de nom. Il s’appelle désormais…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Advantage+ Commerce",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Advantage+ Sales",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Advantage+ Catalog",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Meta Smart Sales",
+    "correct": false
+   }
+  ],
+  "why": [
+   "N’existe pas.",
+   "Oui, le nouveau nom.",
+   "Ce sont les annonces catalogue, un autre outil.",
+   "Inventé."
+  ],
+  "answer": "B. Advantage+ Sales",
+  "clear": "Simple changement de nom : Advantage+ Shopping s’appelle maintenant Advantage+ Sales.",
+  "source": "Meta, début 2026",
+  "example": "Dans nos offres et nos rapports, on écrit « Advantage+ Sales » et plus « ASC ». Un client qui cherche « Advantage+ Shopping » dans son compte ne le trouvera plus sous ce nom."
+ },
+ {
+  "n": 21,
+  "theme": "Meta",
+  "text": "Chez Meta, quel est le rôle d’Andromeda ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Classer les annonces finales (ranking)",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Présélectionner les annonces candidates (retrieval)",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Générer des créas par IA",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Remplacer le Pixel",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’est le rôle de GEM, l’étape suivante.",
+   "Oui, c’est le travail d’Andromeda.",
+   "Ce sont les outils créatifs IA de Meta, pas Andromeda.",
+   "Non, le Pixel et l’API Conversions restent nécessaires."
+  ],
+  "answer": "B. Présélectionner les annonces candidates (retrieval)",
+  "clear": "Andromeda fait le premier tri : parmi des millions de pubs, il garde celles qui pourraient plaire à la personne. Un autre système choisit ensuite la gagnante.",
+  "source": "Engineering at Meta, 28 octobre 2026",
+  "example": "Comme un recrutement : Andromeda fait le premier tri des CV (des millions d’annonces ramenées à quelques centaines), puis GEM fait l’entretien final pour choisir l’annonce à montrer."
+ },
+ {
+  "n": 22,
+  "theme": "Meta",
+  "text": "« La créa est le nouveau ciblage. » Expliquez pourquoi en une phrase.",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [],
+  "answer": "Andromeda lit la créa elle-même (visuel, texte, format) pour décider à qui la montrer : des quasi-copies n’apportent rien, il faut des angles vraiment différents.",
+  "clear": "Meta regarde le contenu de la pub pour décider à qui la montrer. Des créas différentes touchent donc des personnes différentes.",
+  "source": "Meta, 2026",
+  "example": "Une salle de sport : une vidéo « retrouver la forme avant l’été » touchera un public différent d’une vidéo « cours de boxe entre collègues après le boulot ». Même ciblage large, mais chaque créa est montrée à des gens différents."
+ },
+ {
+  "n": 23,
+  "theme": "Meta",
+  "text": "Le seuil pour utiliser l’optimisation par la valeur d’Advantage+ est passé de 50 conversions par semaine à…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "10",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "25",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "35",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "40",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Trop peu pour que l’algorithme apprenne.",
+   "Le nouveau seuil.",
+   "N’existe pas.",
+   "N’existe pas."
+  ],
+  "answer": "B. 25",
+  "clear": "Optimiser sur la valeur, c’est demander à Meta de viser les gros paniers. Il faut maintenant 25 ventes par semaine au lieu de 50.",
+  "source": "Meta, 2026",
+  "example": "Un fleuriste en ligne qui fait 30 ventes par semaine ne pouvait pas optimiser sur la valeur (il en fallait 50). Aujourd’hui, il peut demander à Meta de viser les bouquets à 80 € plutôt que ceux à 25 €."
+ },
+ {
+  "n": 24,
+  "theme": "Meta",
+  "text": "Nouveauté Ads Manager lancée le 28 octobre 2026 :",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Des résultats détaillés par élément créatif",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Le retour du ciblage par centres d’intérêt",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Un Pixel 2.0",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Des enchères au CPC manuel",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, sorti le 28 octobre.",
+   "Non, Meta va dans l’autre sens.",
+   "N’existe pas.",
+   "Non, Meta automatise de plus en plus."
+  ],
+  "answer": "A. Des résultats détaillés par élément créatif",
+  "clear": "Dans Ads Manager, on voit maintenant les résultats de chaque visuel ou texte séparément, pour savoir lequel fonctionne.",
+  "source": "Meta, 28 octobre 2026",
+  "example": "Une campagne avec 6 visuels : on voit maintenant que la photo « produit sur fond blanc » coûte 12 € par vente et la vidéo « témoignage client » 7 €. On coupe la moins bonne sans outil externe."
+ },
+ {
+  "n": 25,
+  "theme": "Commerce",
+  "text": "Que signifie UCP, annoncé par Google ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Unified Campaign Planner",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Universal Commerce Protocol",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "User Consent Platform",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Universal Conversion Pixel",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Inventé.",
+   "Oui.",
+   "Ressemble à une CMP (gestion des cookies), mais ce n’est pas ça.",
+   "Inventé."
+  ],
+  "answer": "B. Universal Commerce Protocol",
+  "clear": "UCP est une norme technique qui permet d’acheter un produit directement depuis Google, sans passer par le site du marchand.",
+  "source": "Google, 2026",
+  "example": "Aux États-Unis, on peut mettre dans un même panier Google des chaussures d’un site et des chaussettes d’un autre, sans quitter Google. Pour nos clients e-commerce, la qualité du flux Merchant Center devient encore plus décisive."
+ },
+ {
+  "n": 26,
+  "theme": "Microsoft Ads",
+  "text": "Depuis le 27 août 2026, AI Max chez Microsoft Advertising est…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Activé par défaut sur les nouvelles campagnes Search",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Réservé à un pilote fermé",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Disponible uniquement en Shopping",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Imposé à toutes les campagnes existantes",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, sur les nouvelles campagnes Search.",
+   "C’était le cas en mai, plus maintenant.",
+   "Non, il concerne le Search.",
+   "Non, seulement les nouvelles (sauf via l’import Google)."
+  ],
+  "answer": "A. Activé par défaut sur les nouvelles campagnes Search",
+  "clear": "Chez Microsoft, toute nouvelle campagne Search a AI Max allumé d’office. Il faut penser à le couper si on n’en veut pas.",
+  "source": "Microsoft Advertising, 27 août 2026",
+  "example": "Vous créez une campagne Search Microsoft pour un cabinet comptable sans regarder les options : AI Max est déjà actif et peut l’afficher sur « aide déclaration d’impôts indépendant », absent de vos mots-clés, avec une page choisie par Microsoft."
+ },
+ {
+  "n": 27,
+  "theme": "Microsoft Ads",
+  "text": "Depuis le 1er octobre 2026, que devient le CPC max sur les nouvelles campagnes Microsoft en enchères automatiques (hors stratégie de portefeuille) ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Il devient obligatoire",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Il n’est plus disponible",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Il est plafonné à 5 €",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Il passe au niveau du compte",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’est l’inverse.",
+   "Oui.",
+   "Aucun montant n’est imposé.",
+   "Non, il disparaît tout simplement."
+  ],
+  "answer": "B. Il n’est plus disponible",
+  "clear": "Sur les nouvelles campagnes automatiques, on ne peut plus fixer de prix maximum par clic : Microsoft décide seul.",
+  "source": "Microsoft Advertising, octobre 2026",
+  "example": "Une campagne au CPA cible créée en novembre ne peut plus avoir de règle « pas plus de 3 € par clic ». Et sur une ancienne campagne, si un collègue efface ce plafond, impossible de le remettre."
+ },
+ {
+  "n": 28,
+  "theme": "Microsoft Ads",
+  "text": "Vrai ou faux : les mots-clés négatifs d’une Performance Max Microsoft s’appliquent à tous ses inventaires, audience et native compris.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non : les annonces visuelles ne tiennent pas compte de ces exclusions.",
+   "Oui : seuls Search et Shopping sont concernés."
+  ],
+  "answer": "B. Faux",
+  "clear": "Les mots-clés exclus dans une PMax Microsoft ne bloquent que les recherches Bing et le Shopping, pas les annonces visuelles.",
+  "source": "Microsoft Advertising, mars 2026",
+  "example": "Vous excluez « gratuit » dans une PMax Microsoft : plus d’annonce sur Bing pour « logiciel facturation gratuit ». Mais vos annonces audience, elles, continuent de tourner sur le réseau Microsoft sans tenir compte de l’exclusion."
+ },
+ {
+  "n": 29,
+  "theme": "Microsoft Ads",
+  "text": "Comment empêcher Microsoft d’ajouter des titres et descriptions générés automatiquement à vos annonces responsives ?",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [],
+  "answer": "Remplir chaque RSA au maximum : 15 titres et 4 descriptions. Une annonce complète ne reçoit rien en plus.",
+  "clear": "Si une annonce n’a pas tous ses titres, Microsoft écrit lui-même ceux qui manquent. Pour l’éviter : tout remplir.",
+  "source": "Microsoft Advertising, janvier et avril 2026",
+  "example": "Une RSA avec 8 titres : Microsoft peut en ajouter 7 rédigés à partir de votre site, avec peut-être une promo expirée. Avec 15 titres déjà remplis, il n’ajoute rien."
+ },
+ {
+  "n": 30,
+  "theme": "Microsoft Ads",
+  "text": "Quand l’API SOAP de Microsoft Advertising sera-t-elle définitivement arrêtée ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "31 décembre 2026",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "31 janvier 2027",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "30 juin 2027",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Elle est maintenue",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Un mois trop tôt.",
+   "La date annoncée.",
+   "Trop tard.",
+   "Non, l’arrêt est confirmé."
+  ],
+  "answer": "B. 31 janvier 2027",
+  "clear": "Les outils qui se connectent à Microsoft Ads avec l’ancienne technologie (SOAP) vont arrêter de fonctionner fin janvier 2027.",
+  "source": "Microsoft Advertising, septembre 2026",
+  "example": "Si votre outil de reporting ou de règles automatiques se connecte encore en SOAP, le 1er février 2027 au matin, vos rapports peuvent être vides et vos règles ne plus tourner."
+ },
+ {
+  "n": 31,
+  "theme": "Microsoft Ads",
+  "text": "Vrai ou faux : en PMax avec objectif nouveaux clients, Microsoft considère un acheteur non identifié comme un nouveau client.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non, c’est l’inverse.",
+   "Oui : par prudence, il est compté comme client existant."
+  ],
+  "answer": "B. Faux",
+  "clear": "Quand Microsoft ne sait pas si un acheteur est nouveau, il le range dans les anciens clients.",
+  "source": "Microsoft Advertising, avril 2026",
+  "example": "Sur 100 acheteurs, 60 sont reconnus comme nouveaux, 25 comme existants et 15 restent inconnus. Microsoft affiche 60 % de nouveaux clients, alors que la réalité est peut-être plus proche de 70 %."
+ },
+ {
+  "n": 32,
+  "theme": "Microsoft Ads",
+  "text": "Vrai ou faux : Microsoft Advertising accepte désormais des listes d’entreprises LinkedIn allant jusqu’à 10 000 sociétés.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, annoncé fin septembre 2026.",
+   "Non, la limite a bien été relevée à 10 000."
+  ],
+  "answer": "A. Vrai",
+  "clear": "Microsoft Ads peut utiliser des listes LinkedIn de 10 000 entreprises, pratique pour cibler des comptes B2B précis.",
+  "source": "Microsoft Advertising, 30 septembre 2026",
+  "example": "Un éditeur de logiciel RH importe sa liste de 5 000 entreprises cibles et touche leurs salariés sur Bing et le réseau Microsoft, pas seulement sur LinkedIn."
+ },
+ {
+  "n": 33,
+  "theme": "LinkedIn Ads",
+  "text": "Dans Campaign Manager, l’ancien « Campaign Group » s’appelle désormais…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Campaign",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Portfolio",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Program",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Account Set",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui.",
+   "Ce terme n’est pas utilisé.",
+   "Non.",
+   "Inventé."
+  ],
+  "answer": "A. Campaign",
+  "clear": "LinkedIn a renommé ses niveaux pour ressembler à Meta et Google : Campaign Group devient Campaign, et Campaign devient Ad Set.",
+  "source": "LinkedIn, déploiement depuis fin 2025",
+  "example": "Si vos URL de suivi utilisent le jeton {{CAMPAIGN_ID}}, il désigne maintenant l’ad set et plus le groupe de campagnes : sans correction, vos rapports GA4 mélangent les niveaux."
+ },
+ {
+  "n": 34,
+  "theme": "LinkedIn Ads",
+  "text": "Citez trois outils créatifs IA ajoutés à LinkedIn Campaign Manager le 1er juillet 2026.",
+  "type": "open",
+  "points": 2,
+  "options": [],
+  "why": [
+   "Brand Kit,on enregistre logo, couleurs et ton une fois pour toutes.",
+   "Draft with AI,l’IA rédige le texte à partir d’une page web.",
+   "Personnalisation des annonces,adapter le message selon la personne.",
+   "Variantes IA,plusieurs versions d’une même pub pour tester.",
+   "Création Flexible,un parcours de création plus souple, plusieurs formats d’un coup."
+  ],
+  "answer": "Au choix, trois parmi les cinq outils ci-dessous.",
+  "clear": "LinkedIn ajoute des outils IA pour créer des pubs plus vite, surtout pour les petits annonceurs.",
+  "source": "LinkedIn, 1er juillet 2026",
+  "example": "Draft with AI : on colle l’URL de la page d’une formation et LinkedIn propose des textes d’intro et des titres. Brand Kit : on enregistre une fois pour toutes logo, couleurs et ton."
+ },
+ {
+  "n": 35,
+  "theme": "LinkedIn Ads",
+  "text": "Depuis mai 2026, les Event Ads LinkedIn peuvent renvoyer vers…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Uniquement un événement LinkedIn",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Une page externe : webinar, inscription, livestream",
+    "correct": true
+   },
+   {
+    "key": "C",
+    "text": "Un formulaire Meta",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Une fiche Google Business",
+    "correct": false
+   }
+  ],
+  "why": [
+   "C’était l’ancienne limite.",
+   "Oui, nouveauté de mai 2026.",
+   "Impossible : ce sont deux plateformes différentes.",
+   "Sans rapport."
+  ],
+  "answer": "B. Une page externe : webinar, inscription, livestream",
+  "clear": "Une pub d’événement LinkedIn peut maintenant envoyer vers sa propre page d’inscription (Zoom, site…).",
+  "source": "LinkedIn, mai 2026",
+  "example": "Une agence organise un webinar sur Zoom : la pub LinkedIn affiche « S’inscrire » et renvoie directement vers la page d’inscription Zoom, au lieu de créer un événement LinkedIn."
+ },
+ {
+  "n": 36,
+  "theme": "LinkedIn Ads",
+  "text": "BrandLink, chez LinkedIn, c’est…",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Une vidéo in-stream diffusée dans du contenu d’éditeurs et créateurs premium",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Un générateur de liens UTM",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Un programme d’affiliation",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Un nouveau tag de conversion",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui.",
+   "Sans rapport.",
+   "Non.",
+   "C’est le rôle de l’Insight Tag, autre chose."
+  ],
+  "answer": "A. Une vidéo in-stream diffusée dans du contenu d’éditeurs et créateurs premium",
+  "clear": "BrandLink, c’est une pub vidéo qui passe avant ou pendant des vidéos d’éditeurs et de créateurs sur LinkedIn, comme sur YouTube.",
+  "source": "LinkedIn, 2026",
+  "example": "Un éditeur de logiciel comptable diffuse une vidéo de 15 secondes avant un épisode d’une émission business vue sur LinkedIn, comme une pub avant une vidéo YouTube."
+ },
+ {
+  "n": 37,
+  "theme": "LinkedIn Ads",
+  "text": "Quelle est la promesse des First Impression Ads de LinkedIn ?",
+  "type": "qcm",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Être la première annonce vue par le membre ciblé ce jour-là",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Apparaître en premier dans la recherche LinkedIn",
+    "correct": false
+   },
+   {
+    "key": "C",
+    "text": "Ne pas payer le premier clic",
+    "correct": false
+   },
+   {
+    "key": "D",
+    "text": "Toucher les visiteurs non connectés",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui.",
+   "Non, c’est dans le fil, pas dans la recherche.",
+   "N’existe pas.",
+   "Non, il faut être membre connecté."
+  ],
+  "answer": "A. Être la première annonce vue par le membre ciblé ce jour-là",
+  "clear": "La pub est la toute première que la personne voit en ouvrant LinkedIn ce jour-là, en grand format.",
+  "source": "LinkedIn, fin 2025",
+  "example": "Le jour du lancement d’un nouveau produit, chaque décideur ciblé qui ouvre l’app LinkedIn voit d’abord votre vidéo plein écran, avant toute autre pub."
+ },
+ {
+  "n": 38,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : sous Andromeda, décliner une même pub en 20 variantes de couleur suffit à nourrir l’algorithme.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non : l’algorithme les voit comme quasi identiques.",
+   "Oui : il faut des idées vraiment différentes."
+  ],
+  "answer": "B. Faux",
+  "clear": "Changer seulement la couleur ne suffit pas : pour Meta, c’est presque la même pub.",
+  "source": "Meta, octobre 2026",
+  "example": "20 versions de la même photo de chaussure en rouge, bleu, vert… comptent presque comme une seule annonce. 4 angles différents (confort, style, prix, avis clients) valent bien plus."
+ },
+ {
+  "n": 39,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : la priorisation des canaux Google Ads garantit que l’allocation budgétaire ne sera jamais dépassée.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non, ce n’est pas un plafond strict.",
+   "Oui, c’est un objectif indicatif."
+  ],
+  "answer": "B. Faux",
+  "clear": "Google essaie de respecter la limite, mais peut la dépasser un peu certains jours.",
+  "source": "Google Ads, octobre 2026",
+  "example": "Allocation de 30 € par jour pour le Display, et un mardi Google en dépense 34 € : c’est normal, c’est un objectif et non un plafond strict."
+ },
+ {
+  "n": 40,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : le Mode Promotion remplace les ajustements de saisonnalité.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non, les deux existent toujours.",
+   "Oui, et on peut même les combiner."
+  ],
+  "answer": "B. Faux",
+  "clear": "Ce sont deux outils différents : l’un prévient Google d’un pic de ventes, l’autre accepte d’être moins rentable.",
+  "source": "Google Ads, 2026",
+  "example": "Saisonnalité : « ce week-end, mes soldes vont doubler mon taux de conversion ». Mode Promotion : « pendant mes soldes, j’accepte d’être un peu moins rentable pour vendre plus »."
+ },
+ {
+  "n": 41,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : la baisse du ROAS « clic » sur Meta après mars 2026 traduit une vraie baisse de performance.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": false
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": true
+   }
+  ],
+  "why": [
+   "Non, seul le rangement des ventes a changé.",
+   "Oui : comparez avec les ventes réelles du site."
+  ],
+  "answer": "B. Faux",
+  "clear": "Meta compte autrement, c’est tout. Les ventes réelles n’ont pas changé.",
+  "source": "Meta, mars 2026",
+  "example": "Mars : 50 ventes « clic ». Avril : 40 ventes « clic » et 8 en engage-through. Le chiffre d’affaires du site n’a pas bougé : seul le classement des ventes a changé."
+ },
+ {
+  "n": 42,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : les annonces « Appel uniquement » déjà en ligne diffusent encore jusqu’en février 2027.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, jusqu’en février 2027.",
+   "Non, elles n’ont pas encore été coupées."
+  ],
+  "answer": "A. Vrai",
+  "clear": "Les anciennes pubs « appel uniquement » tournent encore, mais on ne peut plus en créer.",
+  "source": "Google Ads, 2026",
+  "example": "Un plombier qui a encore une annonce « Appel uniquement » la voit tourner jusqu’en février 2027. Mais s’il veut en créer une nouvelle aujourd’hui, l’option n’existe plus."
+ },
+ {
+  "n": 43,
+  "theme": "Vrai ou faux",
+  "text": "Vrai ou faux : avec Advantage+ Audience, l’âge minimum reste une contrainte ferme.",
+  "type": "tf",
+  "points": 1,
+  "options": [
+   {
+    "key": "A",
+    "text": "Vrai",
+    "correct": true
+   },
+   {
+    "key": "B",
+    "text": "Faux",
+    "correct": false
+   }
+  ],
+  "why": [
+   "Oui, comme la localisation.",
+   "Non, l’âge minimum reste respecté."
+  ],
+  "answer": "A. Vrai",
+  "clear": "Meta peut élargir le ciblage, mais ne descend jamais sous l’âge minimum choisi.",
+  "source": "Meta, 2026",
+  "example": "Une pub pour une bière réglée sur 18 ans minimum ne sera jamais montrée à quelqu’un de 16 ans, même si l’IA pense qu’il ressemble à vos acheteurs."
+ }
+]

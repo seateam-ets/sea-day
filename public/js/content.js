@@ -1,0 +1,159 @@
+// ─────────────────────────────────────────────────────────────
+//  CONTENU DU SEA DAY : tout le texte du deck est ici.
+// ─────────────────────────────────────────────────────────────
+
+export const PEOPLE = [
+  { id: "quentin", name: "Quentin", role: "Team Leader" },
+  { id: "mh", name: "Mh", role: "Team Leader" },
+  { id: "lucas", name: "Lucas", role: "Team Member" },
+  { id: "nelia", name: "Nélia", role: "Team Member" },
+  { id: "caro", name: "Caro", role: "Team Member" },
+  { id: "melissa", name: "Mélissa", role: "Team Member" },
+];
+
+export const TOUR_QUESTIONS = [
+  { id: "q1", short: "Monter en compétences", text: "Sur quel sujet, outil ou compétence aimerais-tu te former ou monter en compétences pour être plus à l'aise et serein(e) au quotidien ?" },
+  { id: "q2", short: "Ce qui fait perdre du temps", text: "Quel outil, réunion ou processus actuel te fait perdre le plus de temps ou génère le plus de frustration au quotidien ?" },
+  { id: "q3", short: "Une chose à changer dès demain", text: "S'il y avait une seule chose à changer radicalement dans notre façon de collaborer ou de communiquer ensemble dès demain, ce serait quoi ?" },
+  { id: "q4", short: "Ma fierté récente", text: "Quelle est la réussite récente (individuelle ou collective) dont tu es le plus fier ou la plus fière, et qu'est-ce qui a rendu cela possible ?" },
+];
+
+export const AGENDA = [
+  { id: "breakfast", icon: "☕", title: "Petit-déjeuner chez Grain", who: "" },
+  { id: "tour", icon: "◎", title: "Tour de table", who: "Mh" },
+  { id: "demain", icon: "↗", title: "SEA d'hier vs SEA de demain", who: "Quentin · Mh" },
+  { id: "pause1", icon: "❚❚", title: "Pause", who: "" },
+  { id: "jeux", icon: "✦", title: "Petits jeux SEA", who: "Mh" },
+  { id: "process", icon: "⌘", title: "Redessiner notre process SEA", who: "Quentin" },
+  { id: "conclusion", icon: "✓", title: "Conclusion du matin", who: "Quentin · Mh" },
+  { id: "diner", icon: "🍽", title: "Dîner", who: "" },
+  { id: "cruz", icon: "⚡", title: "SEA Cruz : Google Ads via MCP", who: "Quentin" },
+  { id: "news", icon: "★", title: "ChatGPT Ads + nouveautés", who: "Mh" },
+  { id: "quiz", icon: "?", title: "Question pour un Champion SEA", who: "Mh" },
+  { id: "fin", icon: "◆", title: "Clôture", who: "" },
+];
+
+// ── Cas Cetronic ─────────────────────────────────────────────
+export const CETRONIC_MAIL = [
+  { k: "Factures", t: "Je viens de recevoir deux factures de gestion SEA pour ce mois-ci (535 € et 214 €). Peux-tu m'expliquer à quoi correspondent ces deux montants ?" },
+  { k: "ChatGPT Ads", t: "Où en sommes-nous avec les campagnes ChatGPT Ads ? […] J'imagine que rien n'a encore été lancé ?" },
+  { k: "L'IA", t: "Plusieurs personnes de mon entourage gèrent d'ailleurs leurs campagnes directement via Claude ou ChatGPT, avec des résultats assez impressionnants." },
+  { k: "Visibilité", t: "Je paie plus de 500 € par mois en frais de gestion, sans avoir réellement de visibilité sur le travail effectué, les optimisations apportées ou les résultats concrets obtenus." },
+  { k: "Prix", t: "J'estime que les tarifs actuels ne sont plus forcément en adéquation avec les outils disponibles et le travail réellement nécessaire." },
+];
+
+export const CETRONIC_DONE = [
+  { t: "Visuels pour les campagnes", s: "sans facturation supplémentaire" },
+  { t: "Landing page dédiée", s: "sans frais supplémentaires" },
+  { t: "Tests de campagnes et de stratégies", s: "types de campagnes, enchères, angles" },
+  { t: "Autres canaux : Meta", s: "habituellement une prestation distincte" },
+  { t: "Tracking et qualité de la donnée", s: "optimisation continue" },
+];
+
+export const CETRONIC_LESSONS = [
+  { t: "Ce qu'on ne montre pas n'existe pas", s: "On a lissé les heures sur un spectre large… et le client ne l'a pas vu." },
+  { t: "Le reporting ne suffit plus", s: "Des points réguliers : résultats, optimisations faites, prochaines actions." },
+  { t: "L'IA accélère, elle ne décide pas", s: "Notre valeur : connaissance métier, recul, choix stratégiques, expérience." },
+  { t: "Une formule, deux options", s: "Garder l'approche globale (5 h/mois + budget de diffusion revu) ou réduire le périmètre et les frais." },
+];
+
+// ── Métier de demain ─────────────────────────────────────────
+export const LEVERS = [
+  { n: "01", t: "Création & contenu", up: "Créatifs, UGC et vidéos IA", c: "violet" },
+  { n: "02", t: "Conversion & CRO", up: "Landing pages et A/B tests", c: "teal" },
+  { n: "03", t: "Data & CRM", up: "CRM, automation, remontée des leads", c: "orange" },
+  { n: "04", t: "Tracking & mesure", up: "GA4, Consent Mode V2, CAPI, server-side", c: "blue" },
+];
+
+export const HIER_DEMAIN = [
+  ["Piloter des campagnes", "Piloter la croissance (full-funnel)"],
+  ["Mots-clés et enchères", "Créas, landing pages, flux, données"],
+  ["Le client fournit tout", "On détecte les besoins et on propose"],
+  ["Reporting mensuel", "Points réguliers + valeur rendue visible"],
+  ["Heures de gestion", "Solutions vendues (upsell)"],
+  ["Exécuter à la main", "Exécuter avec l'IA, décider avec l'expertise"],
+];
+
+export const UPSELL = [
+  { t: "Visuels & vidéos IA", s: "Repo motion + Claude Code : déclinaisons, formats Shorts/Reels, UGC", tag: "Création" },
+  { t: "Landing page conversion", s: "Page dédiée, prix, SEO, responsive, A/B test", tag: "CRO" },
+  { t: "Flux e-commerce", s: "Merchant Center, optimisation titres/attributs, feed rules", tag: "Commerce" },
+  { t: "Remontée des leads", s: "Formulaires → CRM, conversions hors ligne, qualité des leads", tag: "Data" },
+  { t: "Audit & mise à niveau tracking", s: "GA4, GTM, Consent Mode V2, CAPI, server-side", tag: "Tracking" },
+  { t: "Nouveaux canaux", s: "Meta, Microsoft, LinkedIn, ChatGPT Ads (quand c'est mûr)", tag: "Acquisition" },
+];
+
+// ── Process SEA à redessiner ─────────────────────────────────
+export const PROCESS_STEPS = [
+  { t: "Bon de commande signé", s: "Rien ne se configure avant (wiki)" },
+  { t: "Onboarding & accès", s: "GA4, GTM, flux, régies, CRM" },
+  { t: "Brief & objectifs", s: "See–Think–Do, KPIs, LP" },
+  { t: "Visuels", s: "Repo motion / Claude Code" },
+  { t: "Landing page", s: "Prix, SEO, responsive" },
+  { t: "Tracking", s: "Consent Mode V2, GTM, CAPI" },
+  { t: "Lancement", s: "Annonces, extensions, PMax" },
+  { t: "Optimisation", s: "Routine, tests" },
+  { t: "Reporting & point client", s: "Valeur rendue visible" },
+];
+
+export const DECISIONS = [
+  { id: "outils", theme: "Outils", q: "Claude, Claude Code, ChatGPT, Replit, GitHub : qui sert à quoi ?",
+    hint: "Proposition : Claude = rédaction, analyse, annonces · Claude Code = code, repo motion, landing pages · GitHub = source unique · Replit = hébergement seulement (plus de modifs dedans) · ChatGPT = au cas par cas ?" },
+  { id: "lp", theme: "Landing pages", q: "Qui valide une landing page avant de la déclarer terminée ?",
+    hint: "Tout le monde peut en faire, une personne référente relit : prix, SEO, responsive, tracking, consent." },
+  { id: "lp_check", theme: "Landing pages", q: "La checklist de validation d'une landing page",
+    hint: "Visuels · prix · balises SEO (title, meta, Hn) · responsive · formulaire → CRM · Consent Mode V2 · tags GTM · vitesse." },
+  { id: "annonces", theme: "Annonces", q: "Rédaction des annonces : quel outil, quel prompt commun ?",
+    hint: "Un prompt partagé (ton, USP, 15 titres / 4 descriptions) dans le repo." },
+  { id: "pmax", theme: "Brief", q: "Qu'est-ce qu'on demande systématiquement au client ?",
+    hint: "Liens annexes, thèmes de recherche (PMax), USP, prix, promos, audiences, exclusions…" },
+  { id: "tracking", theme: "Tracking", q: "GTM & Consent Mode V2 : comment on documente (stop captures d'écran) ?",
+    hint: "Export du conteneur GTM versionné, note de setup dans le repo client, checklist Consent Mode V2." },
+  { id: "taches", theme: "Organisation", q: "Qui crée les tâches, où, avec quel niveau de détail ?",
+    hint: "TL à la signature ? Chaque TM pour ses comptes ? Modèle de tâche commun ?" },
+  { id: "contrat", theme: "Organisation", q: "Lance-t-on une campagne si le contrat n'est pas payé ?",
+    hint: "Le wiki dit : ne rien configurer avant la signature du bon de commande. Et le paiement ?" },
+  { id: "visibilite", theme: "Client", q: "Comment rendre notre travail visible chaque mois (leçon Cetronic) ?",
+    hint: "Journal des optimisations ? Point trimestriel ? Section « ce qu'on a fait » dans le reporting ?" },
+];
+
+// ── SEA Cruz ─────────────────────────────────────────────────
+export const CRUZ = {
+  steps: [
+    { t: "On demande", s: "« Baisse de 10 % les enchères des groupes qui ont un CPA > 40 € sur 30 jours »" },
+    { t: "Claude lit", s: "Le MCP interroge l'API Google Ads : campagnes, groupes, métriques" },
+    { t: "Claude propose", s: "Liste des changements, avec le pourquoi" },
+    { t: "On valide", s: "L'humain garde la décision" },
+    { t: "Claude applique", s: "Modifications via l'API, journalisées" },
+  ],
+  pros: ["Vitesse sur les tâches répétitives", "Analyse multi-comptes", "Traçabilité des changements"],
+  cons: ["Garde-fous et validation humaine", "Droits d'accès MCC", "Savoir quand ne pas automatiser"],
+};
+
+// ── Petits jeux (provisoire, à remplacer par le .md de Mh) ───
+export const GAMES = [
+  { id: "quisuisje", name: "Qui suis-je ?", rule: "Une personne fait deviner l'élément à son équipe en le décrivant, sans dire son nom.", time: 60,
+    cards: ["Performance Max", "Quality Score", "Consent Mode V2", "Google Tag Manager", "Merchant Center", "ROAS", "Landing page", "Advantage+ Sales", "Andromeda", "Liens annexes", "Remarketing", "Demand Gen", "AI Max", "GA4", "Mot-clé négatif"] },
+  { id: "motinterdit", name: "Mot interdit", rule: "Faire deviner le mot sans prononcer les mots interdits.", time: 60,
+    cards: ["ROAS | retour · dépense · rentabilité", "PMax | Google · campagne · automatique", "Pixel | Meta · code · suivi", "Enchère | prix · clic · CPC", "Landing page | page · site · atterrissage", "Budget | argent · jour · dépense", "CTR | clic · taux · impression", "Conversion | vente · lead · objectif"] },
+  { id: "pictionary", name: "Pictionary SEA", rule: "Dessiner, sans lettres ni chiffres.", time: 90,
+    cards: ["Entonnoir de conversion", "Remarketing", "Taux de rebond", "Flux produits", "Cookie banner", "A/B test", "Enchère au clic", "Le client qui ne répond plus"] },
+  { id: "client", name: "Client impossible", rule: "Un joueur incarne le client, l'autre doit garder le contrat.", time: 120,
+    cards: ["« Mon neveu fait ça avec ChatGPT pour 0 €. »", "« Je veux être premier sur Google. Sur tous les mots. »", "« Pourquoi je paie si les ventes baissent ? »", "« Coupez tout, on n'a pas de résultats » (après 4 jours)", "« Le budget ? On verra selon les résultats. »", "« Vous pouvez changer le logo dans la pub ? Et la police. Et la couleur. »"] },
+];
+
+// ── Notes orateur (affichées sur la télécommande) ────────────
+export const NOTES = {
+  welcome: "Écran d'accueil en boucle pendant le petit-déjeuner chez Grain.",
+  agenda: "Présenter le déroulé. Lucas absent une heure dans la matinée : on place les petits jeux à ce moment-là.",
+  tour: "Mh anime. Chacun répond depuis son téléphone (QR / lien /repondre) ou on remplit en direct.",
+  cetronic_mail: "Lire les extraits. Demander à l'équipe : qu'auriez-vous répondu ?",
+  cetronic_done: "Tout ce qu'on a fait… sans que le client le voie.",
+  metier: "Le gestionnaire de campagne devient chef d'orchestre de la croissance.",
+  upsell: "Mh : transformer les besoins détectés en missions vendues.",
+  process: "Quentin : on passe chaque question, on tranche, on note la décision à l'écran.",
+  conclusion: "Résumer les décisions et la direction. Chaque personne note un engagement.",
+  cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
+  news: "Mh : ChatGPT Ads (état des lieux, limites rencontrées) + nouveautés.",
+  quiz: "Question pour un Champion. Espace = révéler, → suivante, 1-8 = point à l'équipe, C = classement.",
+};

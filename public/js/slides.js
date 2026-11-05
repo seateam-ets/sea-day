@@ -1,0 +1,537 @@
+import { store, esc } from "./store.js";
+import * as C from "./content.js";
+
+// Chaque slide : { id, agenda, kind, render() → html, mount?(root) → cleanup, key?(ev) → bool }
+let QUIZ = [];
+export const loadQuiz = async () => { QUIZ = await (await fetch("/data/quiz.json")).json(); return QUIZ; };
+
+const a = (i) => `data-a style="--i:${i}"`; // élément animé à l'entrée, i = ordre
+const tag = (t) => `<span class="tag">${esc(t)}</span>`;
+const fmt = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+
+const section = (id, agenda, num, title, who, sub = "") => ({
+  id, agenda, kind: "section",
+  render: () => `
+    <div class="section">
+      <div class="section-num" ${a(0)}>${num}</div>
+      <div>
+        ${who ? `<div class="kicker" ${a(1)}>${esc(who)}</div>` : ""}
+        <h1 class="mega" ${a(2)}>${title}</h1>
+        ${sub ? `<p class="lead" ${a(3)}>${sub}</p>` : ""}
+      </div>
+    </div>`,
+});
+
+// ── Écran de pause (timer partagé) ───────────────────────────
+const pause = (id, agenda, title, sub, minutes) => ({
+  id, agenda, kind: "pause",
+  render: () => `
+    <div class="pause">
+      <div class="kicker" ${a(0)}>${esc(sub)}</div>
+      <h1 class="mega" ${a(1)}>${title}</h1>
+      <div class="timer big" ${a(2)} data-timer>—</div>
+      <div class="pause-ctrl" ${a(3)}>
+        ${[5, 10, 15, 30, 60].map((m) => `<button data-min="${m}">${m} min</button>`).join("")}
+        <button data-min="0">Stop</button>
+      </div>
+      <div class="fact" ${a(4)}><span class="fact-k">Le saviez-vous ?</span><p data-fact></p></div>
+    </div>`,
+  mount(root) {
+    const t = root.querySelector("[data-timer]");
+    const f = root.querySelector("[data-fact]");
+    root.querySelectorAll("[data-min]").forEach((b) => b.onclick = () => {
+      const m = +b.dataset.min;
+      store.set({ [`timer:${id}`]: m ? Date.now() + m * 60000 : null });
+    });
+    if (!store.get(`timer:${id}`) && minutes) store.set({ [`timer:${id}`]: Date.now() + minutes * 60000 });
+    const facts = QUIZ.filter((q) => q.clear).map((q) => q.clear);
+    let fi = Math.floor(Math.random() * facts.length);
+    const showFact = () => { f.classList.remove("in"); setTimeout(() => { f.textContent = facts[fi++ % facts.length] || ""; f.classList.add("in"); }, 300); };
+    showFact();
+    const fiv = setInterval(showFact, 12000);
+    const tiv = setInterval(() => {
+      const end = store.get(`timer:${id}`);
+      t.textContent = end ? (end - Date.now() > 0 ? fmt(end - Date.now()) : "On reprend !") : new Date().toLocaleTimeString("fr-BE", { hour: "2-digit", minute: "2-digit" });
+      t.classList.toggle("done", !!end && end - Date.now() <= 0);
+    }, 250);
+    return () => { clearInterval(fiv); clearInterval(tiv); };
+  },
+});
+
+// ── Tour de table ────────────────────────────────────────────
+const tour = {
+  id: "tour", agenda: "tour", kind: "interactive",
+  render: () => `
+    <div class="tour">
+      <header class="row-head">
+        <div><div class="kicker" ${a(0)}>Tour de table · Mh</div>
+        <h2 ${a(1)} data-q-title></h2></div>
+        <div class="qr" ${a(2)}><span>Répondez sur<br><b>${location.host}/repondre</b></span></div>
+      </header>
+      <nav class="qtabs" ${a(2)}>${C.TOUR_QUESTIONS.map((q, i) => `<button data-q="${q.id}">${i + 1}. ${esc(q.short)}</button>`).join("")}</nav>
+      <div class="people">${C.PEOPLE.map((p, i) => `
+        <article class="person" ${a(3 + i)} data-p="${p.id}">
+          <div class="avatar">${esc(p.name[0])}</div>
+          <div class="pmeta"><b>${esc(p.name)}</b><small>${esc(p.role)}</small></div>
+          <p class="answer" data-ans></p>
+        </article>`).join("")}</div>
+    </div>`,
+  mount(root) {
+    const draw = () => {
+      const qid = store.get("tour:q", "q1");
+      const q = C.TOUR_QUESTIONS.find((x) => x.id === qid);
+      root.querySelector("[data-q-title]").textContent = q.text;
+      root.querySelectorAll("[data-q]").forEach((b) => b.classList.toggle("on", b.dataset.q === qid));
+      root.querySelectorAll("[data-p]").forEach((card) => {
+        const v = store.get(`tour:${card.dataset.p}:${qid}`, "");
+        const el = card.querySelector("[data-ans]");
+        if (document.activeElement !== el) el.textContent = v || "…";
+        card.classList.toggle("filled", !!v);
+      });
+    };
+    root.querySelectorAll("[data-q]").forEach((b) => b.onclick = () => store.set({ "tour:q": b.dataset.q }));
+    root.querySelectorAll("[data-p]").forEach((card) => {
+      const el = card.querySelector("[data-ans]");
+      card.onclick = () => { if (el.isContentEditable) return; el.contentEditable = "true"; if (el.textContent === "…") el.textContent = ""; el.focus(); };
+      el.onblur = () => { el.contentEditable = "false"; store.set({ [`tour:${card.dataset.p}:${store.get("tour:q", "q1")}`]: el.textContent.trim() || null }); draw(); };
+    });
+    return store.subscribe(draw);
+  },
+};
+
+// ── Petits jeux ──────────────────────────────────────────────
+const jeux = {
+  id: "jeux", agenda: "jeux", kind: "interactive",
+  render: () => `
+    <div class="games">
+      <div class="kicker" ${a(0)}>Petits jeux SEA · Mh</div>
+      <nav class="gtabs" ${a(1)}>${C.GAMES.map((g) => `<button data-g="${g.id}">${esc(g.name)}</button>`).join("")}</nav>
+      <div class="game-stage" ${a(2)}>
+        <p class="rule" data-rule></p>
+        <div class="card-flip" data-card><div class="face back">✦<small>Carte cachée<br>(visible sur la télécommande)</small></div><div class="face front" data-front></div></div>
+        <div class="timer" data-gt>—</div>
+        <div class="game-ctrl">
+          <button data-act="draw">Tirer une carte</button>
+          <button data-act="reveal">Révéler</button>
+          <button data-act="start">Chrono</button>
+        </div>
+        <small class="muted" data-left></small>
+      </div>
+    </div>`,
+  mount(root) {
+    const g = () => C.GAMES.find((x) => x.id === store.get("game:id", C.GAMES[0].id));
+    const draw = () => {
+      const game = g();
+      root.querySelectorAll("[data-g]").forEach((b) => b.classList.toggle("on", b.dataset.g === game.id));
+      root.querySelector("[data-rule]").textContent = game.rule;
+      const idx = store.get("game:card", null);
+      const card = idx != null ? game.cards[idx] : null;
+      const [main, ban] = (card || "").split("|");
+      root.querySelector("[data-front]").innerHTML = card ? `<b>${esc(main.trim())}</b>${ban ? `<small>Interdit : ${esc(ban.trim())}</small>` : ""}` : "";
+      root.querySelector("[data-card]").classList.toggle("flipped", !!card && store.get("game:revealed", false));
+      root.querySelector("[data-card]").classList.toggle("empty", !card);
+      const used = store.get("game:used", []);
+      root.querySelector("[data-left]").textContent = `${game.cards.length - used.length} cartes restantes`;
+    };
+    root.querySelectorAll("[data-g]").forEach((b) => b.onclick = () => store.set({ "game:id": b.dataset.g, "game:card": null, "game:used": [], "game:end": null, "game:revealed": false }));
+    root.querySelectorAll("[data-act]").forEach((b) => b.onclick = () => gameAction(b.dataset.act));
+    const iv = setInterval(() => {
+      const end = store.get("game:end");
+      const el = root.querySelector("[data-gt]");
+      el.textContent = end ? fmt(end - Date.now()) : fmt(g().time * 1000);
+      el.classList.toggle("done", !!end && end <= Date.now());
+    }, 200);
+    const un = store.subscribe(draw);
+    return () => { clearInterval(iv); un(); };
+  },
+  key(ev) {
+    if (ev.key === "d") return gameAction("draw"), true;
+    if (ev.key === " ") return gameAction("reveal"), true;
+    if (ev.key === "t") return gameAction("start"), true;
+  },
+};
+export function gameAction(act) {
+  const game = C.GAMES.find((x) => x.id === store.get("game:id", C.GAMES[0].id));
+  if (act === "draw") {
+    let used = store.get("game:used", []);
+    if (used.length >= game.cards.length) used = [];
+    const left = game.cards.map((_, i) => i).filter((i) => !used.includes(i));
+    const pick = left[Math.floor(Math.random() * left.length)];
+    store.set({ "game:card": pick, "game:used": [...used, pick], "game:revealed": false, "game:end": null });
+  }
+  if (act === "reveal") store.set({ "game:revealed": !store.get("game:revealed", false) });
+  if (act === "start") store.set({ "game:end": Date.now() + game.time * 1000 });
+}
+
+// ── Décisions process ────────────────────────────────────────
+const decisions = {
+  id: "decisions", agenda: "process", kind: "interactive",
+  render: () => `
+    <div class="decisions">
+      <div class="dec-list" ${a(0)}>
+        <div class="kicker">Questions à trancher</div>
+        ${C.DECISIONS.map((d, i) => `<button data-d="${d.id}"><span class="tag">${esc(d.theme)}</span>${esc(d.q)}<i data-ok></i></button>`).join("")}
+      </div>
+      <div class="dec-focus" ${a(1)}>
+        <div class="kicker" data-theme></div>
+        <h2 data-q></h2>
+        <p class="hint" data-hint></p>
+        <label class="kicker">Décision</label>
+        <textarea data-val placeholder="On note la décision ici…"></textarea>
+        <label class="kicker">Responsable</label>
+        <input data-owner placeholder="Qui ?">
+      </div>
+    </div>`,
+  mount(root) {
+    const ta = root.querySelector("[data-val]");
+    const ow = root.querySelector("[data-owner]");
+    const cur = () => store.get("dec:cur", C.DECISIONS[0].id);
+    const draw = () => {
+      const d = C.DECISIONS.find((x) => x.id === cur());
+      root.querySelectorAll("[data-d]").forEach((b) => {
+        b.classList.toggle("on", b.dataset.d === d.id);
+        b.classList.toggle("done", !!store.get(`dec:${b.dataset.d}`));
+      });
+      root.querySelector("[data-theme]").textContent = d.theme;
+      root.querySelector("[data-q]").textContent = d.q;
+      root.querySelector("[data-hint]").textContent = d.hint;
+      if (document.activeElement !== ta) ta.value = store.get(`dec:${d.id}`, "");
+      if (document.activeElement !== ow) ow.value = store.get(`dec:${d.id}:owner`, "");
+    };
+    root.querySelectorAll("[data-d]").forEach((b) => b.onclick = () => store.set({ "dec:cur": b.dataset.d }));
+    let tmo;
+    const save = () => { clearTimeout(tmo); tmo = setTimeout(() => store.set({ [`dec:${cur()}`]: ta.value.trim() || null, [`dec:${cur()}:owner`]: ow.value.trim() || null }), 400); };
+    ta.oninput = save; ow.oninput = save;
+    return store.subscribe(draw);
+  },
+};
+
+// ── Conclusion ───────────────────────────────────────────────
+const conclusion = {
+  id: "conclusion", agenda: "conclusion", kind: "interactive",
+  render: () => `
+    <div class="concl">
+      <div class="concl-left">
+        <div class="kicker" ${a(0)}>Conclusion du matin</div>
+        <h2 ${a(1)}>La direction qu'on prend</h2>
+        <textarea ${a(2)} data-dir placeholder="En une phrase : demain, le pôle SEA…"></textarea>
+        <div class="kicker" ${a(3)}>Décisions prises</div>
+        <ul class="recap" ${a(4)} data-recap></ul>
+      </div>
+      <div class="concl-right" ${a(3)}>
+        <div class="kicker">Mon engagement pour le mois prochain</div>
+        ${C.PEOPLE.map((p) => `<label class="eng"><b>${esc(p.name)}</b><input data-eng="${p.id}" placeholder="Je m'engage à…"></label>`).join("")}
+      </div>
+    </div>`,
+  mount(root) {
+    const dir = root.querySelector("[data-dir]");
+    const draw = () => {
+      if (document.activeElement !== dir) dir.value = store.get("concl:dir", "");
+      root.querySelectorAll("[data-eng]").forEach((i) => { if (document.activeElement !== i) i.value = store.get(`eng:${i.dataset.eng}`, ""); });
+      const items = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`));
+      root.querySelector("[data-recap]").innerHTML = items.length
+        ? items.map((d) => `<li><span class="tag">${esc(d.theme)}</span> ${esc(store.get(`dec:${d.id}`))}${store.get(`dec:${d.id}:owner`) ? ` <em>→ ${esc(store.get(`dec:${d.id}:owner`))}</em>` : ""}</li>`).join("")
+        : `<li class="muted">Les décisions de la slide précédente s'affichent ici.</li>`;
+    };
+    let tmo;
+    const deb = (obj) => { clearTimeout(tmo); tmo = setTimeout(() => store.set(obj), 400); };
+    dir.oninput = () => deb({ "concl:dir": dir.value.trim() || null });
+    root.querySelectorAll("[data-eng]").forEach((i) => i.oninput = () => deb({ [`eng:${i.dataset.eng}`]: i.value.trim() || null }));
+    return store.subscribe(draw);
+  },
+};
+
+// ── Quiz ─────────────────────────────────────────────────────
+const DEFAULT_TEAMS = [{ name: "Équipe ROAS", score: 0 }, { name: "Équipe CTR", score: 0 }, { name: "Équipe PMax", score: 0 }];
+const qz = () => store.get("quiz", { i: -1, revealed: false, board: false });
+const teams = () => store.get("quiz:teams", DEFAULT_TEAMS);
+export function quizAction(act, arg) {
+  const s = { ...qz() };
+  if (act === "next") { s.i = Math.min(QUIZ.length, s.i + 1); s.revealed = false; s.board = s.i >= QUIZ.length; store.set({ quiz: s, "quiz:end": s.i < QUIZ.length && QUIZ[s.i]?.type !== "open" ? Date.now() + 30000 : null }); return; }
+  if (act === "prev") { s.i = Math.max(-1, s.i - 1); s.revealed = false; s.board = false; store.set({ quiz: s, "quiz:end": null }); return; }
+  if (act === "reveal") { s.revealed = !s.revealed; store.set({ quiz: s, "quiz:end": null }); return; }
+  if (act === "board") { s.board = !s.board; store.set({ quiz: s }); return; }
+  if (act === "point") {
+    const t = teams().map((x) => ({ ...x }));
+    if (!t[arg]) return;
+    const q = QUIZ[s.i];
+    t[arg].score += q ? q.points : 1;
+    store.set({ "quiz:teams": t });
+    return;
+  }
+  if (act === "minus") { const t = teams().map((x) => ({ ...x })); if (t[arg]) t[arg].score -= 1; store.set({ "quiz:teams": t }); return; }
+  if (act === "reset") store.set({ quiz: { i: -1, revealed: false, board: false }, "quiz:teams": teams().map((t) => ({ ...t, score: 0 })), "quiz:end": null });
+}
+const quiz = {
+  id: "quiz", agenda: "quiz", kind: "interactive",
+  render: () => `<div class="quiz" data-quiz></div>`,
+  mount(root) {
+    const box = root.querySelector("[data-quiz]");
+    let last = "";
+    const draw = () => {
+      const s = qz();
+      const T = teams();
+      const sig = JSON.stringify([s, T]);
+      if (sig === last) return; last = sig;
+      const scores = `<div class="scores">${T.map((t, i) => `<button class="score" data-pt="${i}"><b>${esc(t.name)}</b><span>${t.score}</span><kbd>${i + 1}</kbd></button>`).join("")}</div>`;
+      if (s.board || s.i >= QUIZ.length) {
+        const sorted = T.map((t, i) => ({ ...t, i })).sort((x, y) => y.score - x.score);
+        const max = Math.max(1, ...T.map((t) => t.score));
+        box.innerHTML = `
+          <div class="kicker" ${a(0)}>${s.i >= QUIZ.length ? "Et le budget gagnant est…" : "Classement"}</div>
+          <div class="board">${sorted.map((t, r) => `<div class="bar ${r === 0 ? "first" : ""}" ${a(r + 1)}><span class="rank">${r + 1}</span><b>${esc(t.name)}</b><div class="fill" style="--w:${(t.score / max) * 100}%"></div><span class="pts">${t.score} pts</span></div>`).join("")}</div>`;
+        return;
+      }
+      if (s.i < 0) {
+        box.innerHTML = `
+          <div class="quiz-intro">
+            <div class="kicker" ${a(0)}>Question pour un Champion SEA</div>
+            <h1 class="mega" ${a(1)}>${QUIZ.length} questions.<br>Qui suit vraiment l'actu ?</h1>
+            <p class="lead" ${a(2)}>QCM et vrai/faux = 1 point · question ouverte = 2 points · 30 s par QCM</p>
+            <div class="team-edit" ${a(3)}>${T.map((t, i) => `<input data-tn="${i}" value="${esc(t.name)}">`).join("")}
+              <button data-addteam>+ équipe</button><button data-rmteam>− équipe</button></div>
+            <p class="muted" ${a(4)}>Espace : révéler · → suivante · ← précédente · 1-8 : point · C : classement</p>
+          </div>`;
+        box.querySelectorAll("[data-tn]").forEach((inp) => inp.onchange = () => { const t = teams().map((x) => ({ ...x })); t[+inp.dataset.tn].name = inp.value; store.set({ "quiz:teams": t }); });
+        box.querySelector("[data-addteam]").onclick = () => teams().length < 8 && store.set({ "quiz:teams": [...teams(), { name: `Équipe ${teams().length + 1}`, score: 0 }] });
+        box.querySelector("[data-rmteam]").onclick = () => teams().length > 1 && store.set({ "quiz:teams": teams().slice(0, -1) });
+        return;
+      }
+      const q = QUIZ[s.i];
+      const typeLabel = { qcm: "QCM", tf: "Vrai ou faux", open: "Question ouverte" }[q.type];
+      const opts = q.options.length
+        ? `<div class="opts ${q.type}">${q.options.map((o, k) => `<div class="opt ${s.revealed ? (o.correct ? "right" : "wrong") : ""}" ${a(3 + k)}><span>${o.key}</span>${esc(o.text)}${s.revealed && q.why[k] ? `<small>${esc(q.why[k])}</small>` : ""}</div>`).join("")}</div>`
+        : `<div class="open-ans ${s.revealed ? "show" : ""}" ${a(3)}><b>${esc(q.answer)}</b>${s.revealed && q.why.length ? `<ul>${q.why.map((w) => { const [h, ...r] = w.split(","); return `<li><b>${esc(h)}</b>${r.length ? " : " + esc(r.join(",")) : ""}</li>`; }).join("")}</ul>` : ""}</div>`;
+      box.innerHTML = `
+        <header class="q-head" ${a(0)}><span class="tag">${esc(q.theme)}</span><span class="tag ghost">${typeLabel} · ${q.points} pt${q.points > 1 ? "s" : ""}</span><span class="q-n">${s.i + 1} / ${QUIZ.length}</span><span class="timer small" data-qt></span></header>
+        <h2 class="q-text" ${a(1)}>${esc(q.text)}</h2>
+        ${opts}
+        ${s.revealed ? `<div class="explain" ${a(8)}><p><b>En clair :</b> ${esc(q.clear)}</p>${q.example ? `<p class="muted"><b>Exemple :</b> ${esc(q.example)}</p>` : ""}<small class="muted">Source : ${esc(q.source)}</small></div>` : ""}
+        ${scores}`;
+      box.querySelectorAll("[data-pt]").forEach((b) => { b.onclick = () => quizAction("point", +b.dataset.pt); b.oncontextmenu = (e) => { e.preventDefault(); quizAction("minus", +b.dataset.pt); }; });
+    };
+    const iv = setInterval(() => {
+      const el = box.querySelector("[data-qt]"); if (!el) return;
+      const end = store.get("quiz:end");
+      el.textContent = end ? fmt(end - Date.now()) : "";
+      el.classList.toggle("done", !!end && end <= Date.now());
+    }, 200);
+    const un = store.subscribe(draw);
+    return () => { clearInterval(iv); un(); };
+  },
+  key(ev) {
+    const s = qz();
+    if (ev.key === " ") return quizAction("reveal"), true;
+    if (ev.key === "ArrowRight" && s.i < QUIZ.length) return quizAction("next"), true;
+    if (ev.key === "ArrowLeft" && s.i >= 0) return quizAction("prev"), true;
+    if (/^[1-8]$/.test(ev.key)) return quizAction(ev.shiftKey ? "minus" : "point", +ev.key - 1), true;
+    if (ev.key === "c") return quizAction("board"), true;
+  },
+};
+
+// ── Clôture ──────────────────────────────────────────────────
+const fin = {
+  id: "fin", agenda: "fin", kind: "interactive",
+  render: () => `
+    <div class="fin">
+      <div class="kicker" ${a(0)}>SEA Day 2026</div>
+      <h1 class="mega" ${a(1)}>Merci l'équipe&nbsp;!</h1>
+      <p class="lead" ${a(2)} data-dir></p>
+      <div class="fin-grid" ${a(3)}>
+        <div><div class="kicker">Décisions</div><b class="big-n" data-nd>0</b></div>
+        <div><div class="kicker">Engagements</div><b class="big-n" data-ne>0</b></div>
+        <div><div class="kicker">Champion SEA</div><b class="big-n champ" data-champ>—</b></div>
+      </div>
+      <button class="ghost-btn" ${a(4)} data-export>Exporter le compte-rendu (.md)</button>
+    </div>`,
+  mount(root) {
+    const draw = () => {
+      root.querySelector("[data-dir]").textContent = store.get("concl:dir", "");
+      root.querySelector("[data-nd]").textContent = C.DECISIONS.filter((d) => store.get(`dec:${d.id}`)).length;
+      root.querySelector("[data-ne]").textContent = C.PEOPLE.filter((p) => store.get(`eng:${p.id}`)).length;
+      const T = teams(); const best = [...T].sort((x, y) => y.score - x.score)[0];
+      root.querySelector("[data-champ]").textContent = best && best.score ? best.name : "—";
+    };
+    root.querySelector("[data-export]").onclick = exportReport;
+    return store.subscribe(draw);
+  },
+};
+
+export function exportReport() {
+  const g = (k) => store.get(k, "");
+  let md = `# SEA Day 2026 : compte-rendu\n\n## Direction\n\n${g("concl:dir") || "_(non renseignée)_"}\n\n## Tour de table\n`;
+  for (const q of C.TOUR_QUESTIONS) {
+    md += `\n### ${q.text}\n\n`;
+    for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`tour:${p.id}:${q.id}`) || "—"}\n`;
+  }
+  md += `\n## Décisions process\n\n`;
+  for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
+  md += `\n## Engagements\n\n`;
+  for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`eng:${p.id}`) || "—"}\n`;
+  md += `\n## Quiz\n\n`;
+  for (const t of [...teams()].sort((x, y) => y.score - x.score)) md += `- ${t.name} : ${t.score} pts\n`;
+  const blob = new Blob([md], { type: "text/markdown" });
+  const link = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "sea-day-2026-compte-rendu.md" });
+  link.click();
+}
+
+// ── LA LISTE DES SLIDES ──────────────────────────────────────
+export const SLIDES = [
+  { id: "welcome", agenda: "breakfast", kind: "hero",
+    render: () => `
+      <div class="hero">
+        <img src="/assets/eteamsys-logo.png" class="hero-logo" alt="eTeamsys" ${a(0)}>
+        <h1 class="giga" ${a(1)}><span>SEA</span><span class="outline">DAY</span></h1>
+        <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
+        <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
+        <div class="hero-foot" ${a(4)}>☕ Petit-déjeuner chez Grain, on commence juste après</div>
+      </div>` },
+  { id: "agenda", agenda: null, kind: "agenda",
+    render: () => `
+      <div class="agenda">
+        <div class="kicker" ${a(0)}>Le programme</div>
+        <h2 ${a(1)}>Une journée, deux temps</h2>
+        <div class="agenda-cols">
+          ${[C.AGENDA.slice(0, 7), C.AGENDA.slice(7)].map((col, ci) => `
+            <ol class="agenda-list">
+              <li class="agenda-h" ${a(2 + ci)}>${ci ? "Après-midi" : "Matinée"}</li>
+              ${col.map((it, i) => `<li ${a(3 + i + ci * 7)} data-ag="${it.id}"><span class="ag-i">${it.icon}</span><b>${esc(it.title)}</b>${it.who ? `<em>${esc(it.who)}</em>` : ""}</li>`).join("")}
+            </ol>`).join("")}
+        </div>
+      </div>` },
+
+  section("s-tour", "tour", "01", "Tour de table", "Animé par Mh", "Métier, ressources, outils, frustrations… et ce qui va bien."),
+  tour,
+
+  section("s-demain", "demain", "02", "SEA d'hier<br>vs SEA de demain", "Quentin · Mh", "Un vrai mail client pour commencer."),
+  { id: "cetronic_mail", agenda: "demain", kind: "content",
+    render: () => `
+      <div class="mail">
+        <div class="mail-head" ${a(0)}><span class="dot"></span><b>Cetronic</b><span class="muted">→ Quentin</span><span class="tag">Objet : gestion SEA</span></div>
+        <div class="mail-body">${C.CETRONIC_MAIL.map((m, i) => `<blockquote ${a(1 + i)}><span class="tag">${esc(m.k)}</span>« ${esc(m.t)} »</blockquote>`).join("")}</div>
+        <p class="mail-q" ${a(7)}>Qu'est-ce que vous auriez répondu ?</p>
+      </div>` },
+  { id: "cetronic_done", agenda: "demain", kind: "content",
+    render: () => `
+      <div class="two">
+        <div>
+          <div class="kicker" ${a(0)}>Ce qu'on avait fait, sans le montrer</div>
+          <h2 ${a(1)}>« Nous ne sommes plus simplement des gestionnaires de campagnes. »</h2>
+          <p class="lead" ${a(2)}>On a lissé les heures de gestion sur un spectre d'intervention plus large plutôt que de facturer chaque action séparément.</p>
+          <div class="price" ${a(3)}><b>535 €</b><span>= 5 h de gestion mensuelle</span></div>
+        </div>
+        <ul class="checks">${C.CETRONIC_DONE.map((d, i) => `<li ${a(2 + i)}><i>✓</i><div><b>${esc(d.t)}</b><small>${esc(d.s)}</small></div></li>`).join("")}</ul>
+      </div>` },
+  { id: "cetronic_lessons", agenda: "demain", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Ce que Cetronic nous apprend</div>
+        <h2 ${a(1)}>Quatre leçons</h2>
+        <div class="grid4">${C.CETRONIC_LESSONS.map((l, i) => `<article class="tile" ${a(2 + i)}><span class="tile-n">0${i + 1}</span><b>${esc(l.t)}</b><p>${esc(l.s)}</p></article>`).join("")}</div>
+      </div>` },
+  { id: "hier_demain", agenda: "demain", kind: "content",
+    render: () => `
+      <div class="vs">
+        <div class="vs-head" ${a(0)}><span>Hier</span><span class="vs-x">vs</span><span class="accent">Demain</span></div>
+        ${C.HIER_DEMAIN.map(([h, d], i) => `<div class="vs-row" ${a(1 + i)}><span class="old">${esc(h)}</span><span class="arrow">→</span><b>${esc(d)}</b></div>`).join("")}
+      </div>` },
+  { id: "metier", agenda: "demain", kind: "content",
+    render: () => `
+      <div class="metier">
+        <div class="metier-title">
+          <div class="kicker" ${a(0)}>Vision 2026</div>
+          <h2 ${a(1)}>Gestionnaire de campagne</h2>
+          <p class="lead" ${a(2)}>Un chef d'orchestre de la croissance, pas seulement un pilote de campagnes.</p>
+        </div>
+        <div class="metier-map">
+          <div class="core" ${a(3)}><div class="core-ico">▦</div><b>Gestionnaire<br>de campagne</b><ul><li>Coordonne les expertises</li><li>Détecte les besoins</li><li>Propose des solutions</li></ul><span class="pill">Pilotage full-funnel</span></div>
+          <svg class="wires" viewBox="0 0 100 400" preserveAspectRatio="none" ${a(4)}>${[50, 150, 250, 350].map((y) => `<path d="M0 200 C 50 200, 50 ${y}, 100 ${y}" />`).join("")}</svg>
+          <div class="levers">${C.LEVERS.map((l, i) => `
+            <div class="lever ${l.c}" ${a(5 + i)}><span class="lv-n">${l.n}</span><b>${esc(l.t)}</b><span class="lv-arrow">→</span><span class="lv-up">+ ${esc(l.up)}</span></div>`).join("")}</div>
+        </div>
+      </div>` },
+  { id: "upsell", agenda: "demain", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Upsell · Mh</div>
+        <h2 ${a(1)}>Des besoins à transformer en missions</h2>
+        <div class="grid3">${C.UPSELL.map((u, i) => `<article class="tile" ${a(2 + i)}>${tag(u.tag)}<b>${esc(u.t)}</b><p>${esc(u.s)}</p></article>`).join("")}</div>
+        <p class="lead center" ${a(9)}>Le métier se justifie par ce qu'on <b class="accent">rend visible</b>.</p>
+      </div>` },
+
+  pause("pause1", "pause1", "Pause", "On souffle", 15),
+
+  section("s-jeux", "jeux", "03", "Petits jeux SEA", "Animé par Mh", "Qui suis-je ? · Mot interdit · Pictionary · Client impossible"),
+  jeux,
+
+  section("s-process", "process", "04", "Redessiner<br>notre process SEA", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
+  { id: "process_flow", agenda: "process", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Le parcours d'une campagne</div>
+        <h2 ${a(1)}>De la signature au point client</h2>
+        <div class="flow">${C.PROCESS_STEPS.map((s, i) => `<div class="step" ${a(2 + i)}><span class="st-n">${i + 1}</span><b>${esc(s.t)}</b><small>${esc(s.s)}</small></div>`).join("")}</div>
+        <div class="tools" ${a(12)}>
+          ${["Claude", "Claude Code", "ChatGPT", "GitHub", "Replit"].map((t) => `<span class="tool">${t}</span>`).join("")}
+          <span class="muted">Aujourd'hui : chacun fait à sa façon. Objectif : <b class="accent">une seule façon de faire</b>.</span>
+        </div>
+      </div>` },
+  decisions,
+  conclusion,
+
+  pause("diner", "diner", "Bon appétit", "Dîner à l'extérieur", 0),
+
+  section("s-cruz", "cruz", "05", "SEA Cruz", "Quentin", "Piloter Google Ads avec Claude, via le MCP et l'API."),
+  { id: "cruz", agenda: "cruz", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Comment ça marche</div>
+        <h2 ${a(1)}>Du langage courant à l'API Google Ads</h2>
+        <div class="chain">${C.CRUZ.steps.map((s, i) => `<div class="link" ${a(2 + i)}><span class="st-n">${i + 1}</span><b>${esc(s.t)}</b><small>${esc(s.s)}</small></div>`).join("")}</div>
+        <div class="two small">
+          <div ${a(8)}><div class="kicker">Ce que ça change</div><ul class="plain">${C.CRUZ.pros.map((p) => `<li>+ ${esc(p)}</li>`).join("")}</ul></div>
+          <div ${a(9)}><div class="kicker">À cadrer</div><ul class="plain">${C.CRUZ.cons.map((p) => `<li>! ${esc(p)}</li>`).join("")}</ul></div>
+        </div>
+      </div>` },
+
+  section("s-news", "news", "06", "ChatGPT Ads<br>+ nouveautés", "Mh"),
+  { id: "chatgpt_ads", agenda: "news", kind: "content",
+    render: () => `
+      <div class="two">
+        <div>
+          <div class="kicker" ${a(0)}>ChatGPT Ads</div>
+          <h2 ${a(1)}>Où on en est</h2>
+          <p class="lead" ${a(2)}>Premières démarches lancées pour Cetronic, difficultés côté plateforme. Le canal a encore des limites face aux régies classiques.</p>
+        </div>
+        <ul class="checks">
+          <li ${a(3)}><i>?</i><div><b>Accès & ouverture du compte</b><small>À compléter par Mh</small></div></li>
+          <li ${a(4)}><i>?</i><div><b>Formats et ciblage disponibles</b><small>À compléter par Mh</small></div></li>
+          <li ${a(5)}><i>?</i><div><b>Mesure et tracking</b><small>À compléter par Mh</small></div></li>
+          <li ${a(6)}><i>?</i><div><b>Pour quels clients, quand ?</b><small>Notre position commune</small></div></li>
+        </ul>
+      </div>` },
+  { id: "news", agenda: "news", kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Nouveautés 2026</div>
+        <h2 ${a(1)}>Ce qui change pour nos comptes</h2>
+        <div class="grid3">
+          ${[
+            ["Google", "AI Max remplace les DSA", "Bascule automatique depuis septembre. À surveiller dans les termes de recherche."],
+            ["Google", "Priorisation des canaux", "Allocation de budget par réseau dans PMax (objectif, pas plafond)."],
+            ["Google", "Audiences dès 100 utilisateurs", "Les petites listes B2B deviennent activables."],
+            ["Meta", "Attribution clic = clic sur lien", "Like, partage → engage-through 1 jour. Le ROAS « clic » baisse, pas les ventes."],
+            ["Meta", "Andromeda : la créa cible", "Des angles vraiment différents, pas 20 variantes de couleur."],
+            ["Microsoft", "AI Max activé par défaut", "Sur les nouvelles campagnes Search. CPC max supprimé en auto."],
+          ].map(([t, h, p], i) => `<article class="tile" ${a(2 + i)}>${tag(t)}<b>${esc(h)}</b><p>${esc(p)}</p></article>`).join("")}
+        </div>
+      </div>` },
+
+  section("s-quiz", "quiz", "07", "Question pour<br>un Champion SEA", "Animé par Mh", "Formez les équipes."),
+  quiz,
+
+  pause("pause2", "fin", "Pause", "Avant le mot de la fin", 10),
+  fin,
+];
+
+SLIDES.forEach((s) => { s.notes = C.NOTES[s.id] || ""; });

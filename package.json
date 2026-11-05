@@ -1,0 +1,10 @@
+{
+  "name": "sea-day",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-quiz.mjs",
+    "dev": "node scripts/build-quiz.mjs && node scripts/dev.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
