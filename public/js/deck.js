@@ -21,8 +21,10 @@ function show(i) {
   current = i;
   const slide = SLIDES[i];
   cleanup?.(); cleanup = null;
+  // une seule slide sortante à la fois : on supprime tout ce qui traîne
+  stage.querySelectorAll(".slide.out-left, .slide.out-right").forEach((s) => s.remove());
   const old = stage.querySelector(".slide");
-  if (old) { old.classList.add(dir > 0 ? "out-left" : "out-right"); setTimeout(() => old.remove(), 600); }
+  if (old) { old.classList.remove("in"); old.classList.add(dir > 0 ? "out-left" : "out-right"); setTimeout(() => old.remove(), 500); }
   const el = document.createElement("section");
   el.className = `slide kind-${slide.kind}`;
   el.dataset.id = slide.id;

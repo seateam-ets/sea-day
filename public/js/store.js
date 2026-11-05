@@ -5,6 +5,7 @@ const listeners = new Set();
 let state = {};
 let mode = "remote"; // "remote" | "local"
 let pending = {}; // écritures locales pas encore confirmées
+const recent = {}; // clé → horodatage de la dernière écriture locale
 const bc = "BroadcastChannel" in window ? new BroadcastChannel("seaday") : null;
 
 const readLocal = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch { return {}; } };
@@ -40,7 +41,13 @@ export async function checkPassword(pw) {
 async function pull() {
   if (mode === "local") return;
   try {
+    const t0 = Date.now();
     const s = await api("GET");
+    // une écriture locale faite pendant ou juste avant la requête prime sur la réponse
+    for (const [k, t] of Object.entries(recent)) {
+      if (t >= t0 - 1500) { if (k in state) s[k] = state[k]; else delete s[k]; }
+      else delete recent[k];
+    }
     state = { ...s, ...pending };
     emit();
   } catch (e) {
@@ -60,6 +67,7 @@ export const store = {
   subscribe(fn) { listeners.add(fn); fn(state); return () => listeners.delete(fn); },
   async set(obj) {
     state = { ...state, ...obj };
+    for (const k of Object.keys(obj)) recent[k] = Date.now();
     for (const [k, v] of Object.entries(obj)) if (v === null) delete state[k];
     emit();
     if (mode === "local") {

@@ -380,7 +380,7 @@ export const SLIDES = [
   { id: "welcome", agenda: "breakfast", kind: "hero",
     render: () => `
       <div class="hero">
-        <img src="/assets/eteamsys-logo.png" class="hero-logo" alt="eTeamsys" ${a(0)}>
+        <div ${a(0)}><img src="/assets/eteamsys-logo.png" class="hero-logo" alt="eTeamsys"></div>
         <h1 class="giga" ${a(1)}><span>SEA</span><span class="outline">DAY</span></h1>
         <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
         <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
