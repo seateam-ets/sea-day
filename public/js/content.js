@@ -28,7 +28,35 @@ export const AGENDA = [
   { id: "diner", icon: "🍽", title: "Dîner", who: "" },
   { id: "cruz", icon: "⚡", title: "SEA Cruz : Google Ads via MCP", who: "Quentin" },
   { id: "news", icon: "★", title: "ChatGPT Ads + nouveautés", who: "Mh" },
+  { id: "offre", icon: "◈", title: "Atelier : produit à vendre & upsell", who: "Quentin · Mh" },
   { id: "fin", icon: "◆", title: "Clôture", who: "" },
+];
+
+// ── Pourquoi on est là ───────────────────────────────────────
+export const PURPOSE = [
+  { n: "01", t: "Se retrouver", s: "Une journée ensemble, hors du quotidien, pour se dire ce qui va et ce qui coince." },
+  { n: "02", t: "Redéfinir le métier de demain", s: "Ensemble : ce qu'on fait, comment on le fait, ce qu'on arrête." },
+  { n: "03", t: "Repartir avec une offre", s: "Un produit à vendre ou un upsell pour nos clients actifs, et une façon de les fédérer." },
+];
+
+// ── Atelier offre (l'après-midi) ─────────────────────────────
+export const OFFER_TRACKS = [
+  { id: "produit", t: "Un produit à vendre", s: "Une offre packagée, avec un nom, un prix, un périmètre clair." },
+  { id: "upsell", t: "Upsell clients actifs", s: "Ce qu'on peut proposer en plus à ceux qu'on gère déjà." },
+  { id: "federer", t: "Fédérer nos clients", s: "Les faire se sentir membres d'un club, pas seulement payeurs de factures." },
+];
+
+// Idées de départ (pré-remplies, à voter / modifier / compléter en séance)
+export const OFFER_SEEDS = [
+  { id: "s1", track: "produit", t: "Pack Performance 360", s: "Gestion SEA + tracking (GA4, Consent Mode V2, CAPI) + 1 landing page/trimestre + créas IA. Forfait mensuel." },
+  { id: "s2", track: "produit", t: "Audit « prêt pour l'IA »", s: "AI Max, AI Mode, PMax, flux, tracking : un audit livré en 1 semaine, prix fixe, porte d'entrée vers la gestion." },
+  { id: "s3", track: "produit", t: "Landing page conversion", s: "Page dédiée prête en 10 jours : visuels, prix, SEO, responsive, tracking, A/B test." },
+  { id: "s4", track: "upsell", t: "Créas & vidéos IA à la demande", s: "Déclinaisons Shorts/Reels/PMax via le repo motion, au pack de 10." },
+  { id: "s5", track: "upsell", t: "Remontée des leads & CRM", s: "Formulaires → CRM, conversions hors ligne, qualité des leads." },
+  { id: "s6", track: "upsell", t: "Flux e-commerce optimisé", s: "Merchant Center, titres/attributs, feed rules : ce que l'UCP va rendre décisif." },
+  { id: "s7", track: "federer", t: "Point stratégie trimestriel", s: "Résultats, optimisations faites, plan à 3 mois. La leçon Cetronic : rendre le travail visible." },
+  { id: "s8", track: "federer", t: "Club clients eTeamsys", s: "Un webinar/petit-déj par trimestre : nouveautés SEA, retours d'expérience entre clients." },
+  { id: "s9", track: "federer", t: "Newsletter « ce qui change »", s: "Chaque mois, les nouveautés Google/Meta/Microsoft expliquées pour nos clients." },
 ];
 
 // ── Cas Cetronic ─────────────────────────────────────────────
@@ -153,5 +181,7 @@ export const NOTES = {
   conclusion: "Résumer les décisions et la direction. Chaque personne note un engagement.",
   cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
   news: "Mh : ChatGPT Ads (état des lieux, limites rencontrées) + nouveautés.",
+  purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
+  offre: "Atelier : chacun vote (+), on ajoute des idées, on retient le top 3 avec un porteur et un prochain pas.",
   quiz: "Question pour un Champion. Espace = révéler, → suivante, 1-8 = point à l'équipe, C = classement.",
 };

@@ -241,6 +241,64 @@ const conclusion = {
   },
 };
 
+// ── Atelier offre : produit / upsell / fédérer ───────────────
+const offre = {
+  id: "offre", agenda: "offre", kind: "interactive",
+  render: () => `
+    <div class="offre">
+      <header class="row-head">
+        <div><div class="kicker" ${a(0)}>Atelier · Quentin · Mh</div>
+        <h2 ${a(1)}>Qu'est-ce qu'on vend demain ?</h2></div>
+        <div class="offre-top" ${a(2)} data-top></div>
+      </header>
+      <div class="tracks">${C.OFFER_TRACKS.map((tr, i) => `
+        <section class="track" ${a(3 + i)}>
+          <div class="track-h"><b>${esc(tr.t)}</b><small>${esc(tr.s)}</small></div>
+          <div class="ideas" data-track="${tr.id}"></div>
+          <form class="idea-add" data-add="${tr.id}"><input placeholder="+ Une idée…" maxlength="80"></form>
+        </section>`).join("")}</div>
+    </div>`,
+  mount(root) {
+    const ideas = () => {
+      const custom = Object.entries(store.prefix("idea:")).filter(([k]) => !k.includes(":v")).map(([k, v]) => ({ id: k.slice(5), ...v }));
+      const seeds = C.OFFER_SEEDS.filter((x) => !store.get(`idea:${x.id}:hidden`));
+      return [...seeds, ...custom].map((x) => ({ ...x, votes: store.get(`idea:${x.id}:v`, 0) }));
+    };
+    let last = "";
+    const draw = () => {
+      const all = ideas();
+      const sig = JSON.stringify(all); if (sig === last) return; last = sig;
+      for (const tr of C.OFFER_TRACKS) {
+        const list = all.filter((x) => x.track === tr.id).sort((x, y) => y.votes - x.votes);
+        root.querySelector(`[data-track="${tr.id}"]`).innerHTML = list.map((x) => `
+          <article class="idea ${x.votes > 0 ? "hot" : ""}">
+            <div><b>${esc(x.t)}</b>${x.s ? `<small>${esc(x.s)}</small>` : ""}</div>
+            <div class="vote"><button data-v="${x.id}" data-d="1">+</button><span>${x.votes}</span><button data-v="${x.id}" data-d="-1">−</button></div>
+          </article>`).join("");
+      }
+      const top = [...all].filter((x) => x.votes > 0).sort((x, y) => y.votes - x.votes).slice(0, 3);
+      root.querySelector("[data-top]").innerHTML = top.length
+        ? `<span class="kicker">Top 3</span>${top.map((x, i) => `<span class="top-i"><i>${i + 1}</i>${esc(x.t)}</span>`).join("")}`
+        : `<span class="muted">Votez avec + pour faire émerger le top 3</span>`;
+      root.querySelectorAll("[data-v]").forEach((b) => b.onclick = () => {
+        const k = `idea:${b.dataset.v}:v`;
+        store.set({ [k]: Math.max(0, store.get(k, 0) + +b.dataset.d) });
+      });
+    };
+    root.querySelectorAll("[data-add]").forEach((f) => f.onsubmit = (ev) => {
+      ev.preventDefault();
+      const inp = f.querySelector("input"); const t = inp.value.trim(); if (!t) return;
+      store.set({ [`idea:c${Date.now().toString(36)}`]: { track: f.dataset.add, t } });
+      inp.value = "";
+    });
+    return store.subscribe(draw);
+  },
+};
+export const offerIdeas = () => {
+  const custom = Object.entries(store.prefix("idea:")).filter(([k]) => !k.includes(":v") && !k.includes(":hidden")).map(([k, v]) => ({ id: k.slice(5), ...v }));
+  return [...C.OFFER_SEEDS, ...custom].map((x) => ({ ...x, votes: store.get(`idea:${x.id}:v`, 0) })).sort((x, y) => y.votes - x.votes);
+};
+
 // ── Quiz ─────────────────────────────────────────────────────
 const DEFAULT_TEAMS = [{ name: "Équipe ROAS", score: 0 }, { name: "Équipe CTR", score: 0 }, { name: "Équipe PMax", score: 0 }];
 const qz = () => store.get("quiz", { i: -1, revealed: false, board: false });
@@ -340,6 +398,7 @@ const fin = {
       <div class="fin-grid" ${a(3)}>
         <div><div class="kicker">Décisions</div><b class="big-n" data-nd>0</b></div>
         <div><div class="kicker">Engagements</div><b class="big-n" data-ne>0</b></div>
+        <div><div class="kicker">Offre n°1</div><b class="big-n champ" data-offer>—</b></div>
         <div><div class="kicker">Champion SEA</div><b class="big-n champ" data-champ>—</b></div>
       </div>
       <button class="ghost-btn" ${a(4)} data-export>Exporter le compte-rendu (.md)</button>
@@ -351,6 +410,7 @@ const fin = {
       root.querySelector("[data-ne]").textContent = C.PEOPLE.filter((p) => store.get(`eng:${p.id}`)).length;
       const T = teams(); const best = [...T].sort((x, y) => y.score - x.score)[0];
       root.querySelector("[data-champ]").textContent = best && best.score ? best.name : "—";
+      const o = offerIdeas()[0]; root.querySelector("[data-offer]").textContent = o && o.votes ? o.t : "—";
     };
     root.querySelector("[data-export]").onclick = exportReport;
     return store.subscribe(draw);
@@ -368,6 +428,12 @@ export function exportReport() {
   for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
   md += `\n## Engagements\n\n`;
   for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`eng:${p.id}`) || "—"}\n`;
+  md += `\n## Produit à vendre, upsell, fédérer nos clients\n\n`;
+  for (const tr of C.OFFER_TRACKS) {
+    md += `### ${tr.t}\n\n`;
+    for (const x of offerIdeas().filter((x) => x.track === tr.id)) md += `- ${x.t} (${x.votes} vote${x.votes > 1 ? "s" : ""})${x.s ? ` : ${x.s}` : ""}\n`;
+    md += `\n`;
+  }
   md += `\n## Quiz\n\n`;
   for (const t of [...teams()].sort((x, y) => y.score - x.score)) md += `- ${t.name} : ${t.score} pts\n`;
   const blob = new Blob([md], { type: "text/markdown" });
@@ -385,6 +451,13 @@ export const SLIDES = [
         <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
         <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
         <div class="hero-foot" ${a(4)}>On s'installe, on commence dans un instant</div>
+      </div>` },
+  { id: "purpose", agenda: null, kind: "content",
+    render: () => `
+      <div>
+        <div class="kicker" ${a(0)}>Pourquoi on est là</div>
+        <h2 ${a(1)}>Se retrouver et redéfinir, ensemble, le métier de demain</h2>
+        <div class="grid3">${C.PURPOSE.map((p, i) => `<article class="tile purpose" ${a(2 + i)}><span class="tile-n">${p.n}</span><b>${esc(p.t)}</b><p>${esc(p.s)}</p></article>`).join("")}</div>
       </div>` },
   { id: "agenda", agenda: null, kind: "agenda",
     render: () => `
@@ -526,6 +599,9 @@ export const SLIDES = [
           ].map(([t, h, p], i) => `<article class="tile" ${a(2 + i)}>${tag(t)}<b>${esc(h)}</b><p>${esc(p)}</p></article>`).join("")}
         </div>
       </div>` },
+
+  section("s-offre", "offre", "07", "Produit à vendre<br>& upsell", "Atelier · Quentin · Mh", "Ce qu'on vend demain, et comment on fédère nos clients actifs."),
+  offre,
 
   pause("pause2", "fin", "Pause", "Avant le mot de la fin", 10),
   fin,
