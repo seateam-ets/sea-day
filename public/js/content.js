@@ -19,7 +19,6 @@ export const TOUR_QUESTIONS = [
 ];
 
 export const AGENDA = [
-  { id: "breakfast", icon: "☕", title: "Petit-déjeuner chez Grain", who: "" },
   { id: "tour", icon: "◎", title: "Tour de table", who: "Mh" },
   { id: "demain", icon: "↗", title: "SEA d'hier vs SEA de demain", who: "Quentin · Mh" },
   { id: "pause1", icon: "❚❚", title: "Pause", who: "" },
@@ -143,7 +142,7 @@ export const GAMES = [
 
 // ── Notes orateur (affichées sur la télécommande) ────────────
 export const NOTES = {
-  welcome: "Écran d'accueil en boucle pendant le petit-déjeuner chez Grain.",
+  welcome: "Écran d'accueil affiché pendant que tout le monde s'installe.",
   agenda: "Présenter le déroulé. Lucas absent une heure dans la matinée : les jeux SEA tombent juste après la pause.",
   tour: "Mh anime. Chacun répond depuis son téléphone (QR / lien /repondre) ou on remplit en direct.",
   cetronic_mail: "Lire les extraits. Demander à l'équipe : qu'auriez-vous répondu ?",

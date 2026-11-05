@@ -377,14 +377,14 @@ export function exportReport() {
 
 // ── LA LISTE DES SLIDES ──────────────────────────────────────
 export const SLIDES = [
-  { id: "welcome", agenda: "breakfast", kind: "hero",
+  { id: "welcome", agenda: null, kind: "hero",
     render: () => `
       <div class="hero">
         <div ${a(0)}><img src="/assets/eteamsys-logo.png" class="hero-logo" alt="eTeamsys"></div>
         <h1 class="giga" ${a(1)}><span>SEA</span><span class="outline">DAY</span></h1>
         <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
         <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
-        <div class="hero-foot" ${a(4)}>☕ Petit-déjeuner chez Grain, on commence juste après</div>
+        <div class="hero-foot" ${a(4)}>On s'installe, on commence dans un instant</div>
       </div>` },
   { id: "agenda", agenda: null, kind: "agenda",
     render: () => `
@@ -392,10 +392,10 @@ export const SLIDES = [
         <div class="kicker" ${a(0)}>Le programme</div>
         <h2 ${a(1)}>Une journée, deux temps</h2>
         <div class="agenda-cols">
-          ${[C.AGENDA.slice(0, 7), C.AGENDA.slice(7)].map((col, ci) => `
+          ${[C.AGENDA.slice(0, 6), C.AGENDA.slice(6)].map((col, ci) => `
             <ol class="agenda-list">
               <li class="agenda-h" ${a(2 + ci)}>${ci ? "Après-midi" : "Matinée"}</li>
-              ${col.map((it, i) => `<li ${a(3 + i + ci * 7)} data-ag="${it.id}"><span class="ag-i">${it.icon}</span><b>${esc(it.title)}</b>${it.who ? `<em>${esc(it.who)}</em>` : ""}</li>`).join("")}
+              ${col.map((it, i) => `<li ${a(3 + i + ci * 6)} data-ag="${it.id}"><span class="ag-i">${it.icon}</span><b>${esc(it.title)}</b>${it.who ? `<em>${esc(it.who)}</em>` : ""}</li>`).join("")}
             </ol>`).join("")}
         </div>
       </div>` },
