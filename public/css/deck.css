@@ -548,3 +548,36 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .giga > span.outline .ch { color: transparent; -webkit-text-stroke: 4px var(--lilac); background: none; }
 .hero .giga { font-size: 250px; }
 .join { right: 110px; }
+
+/* ── Fil rouge Cetronic ───────────────────────────── */
+.lessons { position: absolute; left: 130px; right: 130px; top: 70px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.lessons .kicker { margin: 0 8px 0 0; font-size: 16px; }
+.lesson { display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 17px; color: var(--muted); }
+.lesson i { font-style: normal; font-weight: 800; color: var(--muted); }
+.lesson.on { color: var(--cream); background: rgba(91,44,232,.3); border-color: var(--violet); }
+.lesson.on i { color: var(--lilac); }
+/* ── Nouveautés par régie ─────────────────────────── */
+.slide[data-id^="news_"] { justify-content: flex-start; padding-top: 90px; }
+.newsw h2 { margin-bottom: 20px; }
+.news-head, .news-row { display: grid; grid-template-columns: 1.1fr 1.3fr 1.3fr; gap: 26px; align-items: start; }
+.news-head { font-size: 16px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lilac); padding: 0 20px 10px; }
+.news-row { padding: 16px 20px; border-radius: 16px; background: rgba(255,255,255,.035); border: 1px solid var(--line); margin-bottom: 10px; }
+.news-row b { font-family: var(--display); font-size: 24px; line-height: 1.2; }
+.news-row p { margin: 0; font-size: 19px; line-height: 1.4; color: #c9c5d6; }
+.news-row .todo { color: #86efac; font-weight: 600; }
+.slide [data-a].news-row { transform: translateX(-50px); }
+.slide.in [data-a].news-row { transform: none; }
+/* ── Plan d'action ────────────────────────────────── */
+.slide[data-id="plan"] { justify-content: flex-start; padding-top: 90px; }
+.plan h2 { margin-bottom: 22px; }
+.plan-head, .plan-row { display: grid; grid-template-columns: 170px 1fr 220px 220px 36px; gap: 14px; align-items: center; }
+.plan-head { font-size: 15px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--lilac); padding: 0 16px 8px; }
+.plan-head span:last-child { visibility: hidden; }
+.plan-rows { display: grid; gap: 8px; max-height: 610px; overflow: auto; }
+.plan-row { padding: 12px 16px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--line); }
+.plan-row .tag { justify-content: center; font-size: 13px; }
+.plan-row b { font-size: 21px; font-weight: 600; line-height: 1.3; }
+.plan-row input, .plan-add input { background: rgba(9,10,19,.7); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 19px; outline: none; width: 100%; }
+.plan-row input:focus, .plan-add input:focus { border-color: var(--violet); }
+.plan-row button { border: 0; background: none; font-size: 24px; color: var(--muted); }
+.plan-add { margin-top: 12px; } .plan-add input { border-style: dashed; font-size: 21px; padding: 14px 16px; }

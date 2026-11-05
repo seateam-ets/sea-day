@@ -9,9 +9,11 @@ const a = (i) => `data-a style="--i:${i}"`; // élément animé à l'entrée, i 
 const tag = (t) => `<span class="tag">${esc(t)}</span>`;
 const fmt = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
 
-const section = (id, agenda, num, title, who, sub = "") => ({
+// fil rouge : les 4 leçons Cetronic, avec celle(s) traitée(s) dans le bloc mises en avant
+const lessonsStrip = (on = []) => `<div class="lessons" data-a style="--i:5"><span class="kicker">Ce que Cetronic nous apprend</span>${C.CETRONIC_LESSONS.map((l, i) => `<span class="lesson ${on.includes(i) ? "on" : ""}"><i>0${i + 1}</i>${esc(l.t)}</span>`).join("")}</div>`;
+const section = (id, agenda, num, title, who, sub = "", lessons = null) => ({
   id, agenda, kind: "section",
-  render: () => `
+  render: () => `${lessons ? lessonsStrip(lessons) : ""}
     <div class="section">
       <div class="section-num" ${a(0)}>${num}</div>
       <div>
@@ -78,7 +80,7 @@ const tour = {
     </div>`,
   mount(root) {
     const draw = () => {
-      const qid = store.get("tour:q", "q1");
+      const qid = store.get("tour:q", "q0");
       const q = C.TOUR_QUESTIONS.find((x) => x.id === qid);
       root.querySelector("[data-q-title]").textContent = q.text;
       root.querySelectorAll("[data-q]").forEach((b) => b.classList.toggle("on", b.dataset.q === qid));
@@ -93,7 +95,7 @@ const tour = {
     root.querySelectorAll("[data-p]").forEach((card) => {
       const el = card.querySelector("[data-ans]");
       card.onclick = () => { if (el.isContentEditable) return; el.contentEditable = "true"; if (el.textContent === "…") el.textContent = ""; el.focus(); };
-      el.onblur = () => { el.contentEditable = "false"; store.set({ [`tour:${card.dataset.p}:${store.get("tour:q", "q1")}`]: el.innerText.trim() || null }); draw(); };
+      el.onblur = () => { el.contentEditable = "false"; store.set({ [`tour:${card.dataset.p}:${store.get("tour:q", "q0")}`]: el.innerText.trim() || null }); draw(); };
     });
     return store.subscribe(draw);
   },
@@ -367,7 +369,7 @@ const hub = {
   render: () => `
     <div class="offre hubw">
       <header class="row-head">
-        <div><div class="kicker" ${a(0)}>Le Hub · Quentin</div>
+        <div><div class="kicker" ${a(0)}>Le Hub · tour en live sur hub.eteamsys.com · Quentin</div>
         <h2 ${a(1)}>Faire évoluer le Hub : on priorise ce qu'on utilise vraiment</h2></div>
       </header>
       <div class="tracks four">${C.HUB_COLS.map((c, i) => `
@@ -405,7 +407,7 @@ const offre = {
   render: () => `
     <div class="offre">
       <header class="row-head">
-        <div><div class="kicker" ${a(0)}>Produit à vendre & upsell · Quentin · Mh</div>
+        <div><div class="kicker" ${a(0)}>Suite de l'upsell du matin · Quentin · Mh</div>
         <h2 ${a(1)}>Qu'est-ce qu'on vend demain ?</h2></div>
         <div class="offre-top" ${a(2)} data-top></div>
       </header>
@@ -582,6 +584,57 @@ const quiz = {
   },
 };
 
+// ── Plan d'action 30 jours : reprend tout ce qui a été décidé ─
+export function planRows() {
+  const rows = [];
+  for (const d of C.DECISIONS) {
+    const v = store.get(`dec:${d.id}`), o = store.get(`dec:${d.id}:owner`);
+    if (v || o) rows.push({ k: `dec_${d.id}`, src: d.theme, t: v || d.q, owner: o });
+  }
+  rows.push({ k: "clean", src: "Reporting", t: "Journée de mise en place : clean du portfolio, reportings dédiés, envoi automatique", date: store.get("clean:day") });
+  const heat = C.PROCESS_STEPS.map((st, i) => ({ st, i, h: store.get(`heat:${i}`, 0) })).filter((x) => x.h).sort((a, b) => b.h - a.h).slice(0, 2);
+  for (const x of heat) rows.push({ k: `heat_${x.i}`, src: "Process", t: `Débloquer l'étape « ${x.st.t} » (${x.h} vote${x.h > 1 ? "s" : ""} « ça coince »)` });
+  for (const o of offerIdeas().filter((x) => x.votes > 0).slice(0, 2)) rows.push({ k: `offre_${o.id}`, src: "Offre", t: `Packager et lancer : ${o.t}` });
+  const hubs = Object.entries(store.prefix("hub:")).filter(([k]) => !k.endsWith(":v")).map(([k, v]) => ({ id: k.slice(4), ...v, votes: store.get(`${k}:v`, 0) }))
+    .filter((x) => (x.col === "evoluer" || x.col === "nouveau") && x.votes > 0).sort((a, b) => b.votes - a.votes).slice(0, 2);
+  for (const h of hubs) rows.push({ k: `hub_${h.id}`, src: "Hub", t: `Hub : ${h.t}` });
+  for (const [k, v] of Object.entries(store.prefix("planc:"))) rows.push({ k, src: "Ajouté", t: v, custom: true });
+  return rows.map((r) => ({ ...r, owner: store.get(`plan:${r.k}:o`) ?? r.owner ?? "", date: store.get(`plan:${r.k}:d`) ?? r.date ?? "" }));
+}
+const plan = {
+  id: "plan", agenda: "fin", kind: "interactive",
+  render: () => `
+    <div class="plan">
+      <div class="kicker" ${a(0)}>On repart avec quoi ?</div>
+      <h2 ${a(1)}>Plan d'action : les 30 prochains jours</h2>
+      <div class="plan-head" ${a(2)}><span>D'où ça vient</span><span>Action</span><span>Qui</span><span>Pour quand</span><span></span></div>
+      <div class="plan-rows" ${a(3)} data-rows></div>
+      <form class="plan-add" ${a(4)} data-add><input maxlength="120" placeholder="+ Ajouter une action (Entrée)"></form>
+    </div>`,
+  mount(root) {
+    let last = "", tmo;
+    const draw = () => {
+      if (root.contains(document.activeElement) && document.activeElement.matches("[data-rows] input")) return;
+      const rows = planRows(); const sig = JSON.stringify(rows); if (sig === last) return; last = sig;
+      root.querySelector("[data-rows]").innerHTML = rows.map((r) => `
+        <div class="plan-row"><span class="tag">${esc(r.src)}</span><b>${esc(r.t)}</b>
+          <input data-k="${r.k}" data-f="o" value="${esc(r.owner)}" placeholder="Qui ?">
+          <input data-k="${r.k}" data-f="d" value="${esc(r.date)}" placeholder="Date">
+          ${r.custom ? `<button data-del="${r.k}" aria-label="Supprimer">×</button>` : "<i></i>"}</div>`).join("");
+      root.querySelectorAll("[data-rows] input").forEach((inp) => {
+        inp.oninput = () => { clearTimeout(tmo); tmo = setTimeout(() => store.set({ [`plan:${inp.dataset.k}:${inp.dataset.f}`]: inp.value.trim() || null }), 350); };
+        inp.onblur = () => { clearTimeout(tmo); store.set({ [`plan:${inp.dataset.k}:${inp.dataset.f}`]: inp.value.trim() || null }); };
+      });
+      root.querySelectorAll("[data-del]").forEach((b) => b.onclick = () => store.set({ [b.dataset.del]: null }));
+    };
+    root.querySelector("[data-add]").onsubmit = (ev) => {
+      ev.preventDefault(); const inp = ev.target.querySelector("input"); const t = inp.value.trim(); if (!t) return;
+      store.set({ [`planc:${Date.now().toString(36)}`]: t }); inp.value = "";
+    };
+    return store.subscribe(draw);
+  },
+};
+
 // ── Clôture ──────────────────────────────────────────────────
 const fin = {
   id: "fin", agenda: "fin", kind: "interactive",
@@ -614,7 +667,9 @@ const fin = {
 
 export function exportReport() {
   const g = (k) => store.get(k, "");
-  let md = `# SEA Day 2026 : compte-rendu\n\n## Direction\n\n${g("concl:dir") || "_(non renseignée)_"}\n\n## Tour de table\n`;
+  let md = `# SEA Day 2026 : compte-rendu\n\n## Direction\n\n${g("concl:dir") || "_(non renseignée)_"}\n\n## Plan d'action 30 jours\n\n| D'où | Action | Qui | Pour quand |\n|---|---|---|---|\n`;
+  for (const r of planRows()) md += `| ${r.src} | ${r.t.replace(/\|/g, "/")} | ${r.owner || "—"} | ${r.date || "—"} |\n`;
+  md += `\n## Tour de table\n`;
   for (const q of C.TOUR_QUESTIONS) {
     md += `\n### ${q.text}\n\n`;
     for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`tour:${p.id}:${q.id}`) || "—"}\n`;
@@ -739,10 +794,10 @@ export const SLIDES = [
   { id: "upsell", agenda: "demain", kind: "content",
     render: () => `
       <div>
-        <div class="kicker" ${a(0)}>Upsell · Mh</div>
-        <h2 ${a(1)}>Des besoins à transformer en missions</h2>
+        <div class="kicker" ${a(0)}>Upsell · le constat · Mh</div>
+        <h2 ${a(1)}>Ce qu'on détecte déjà chez nos clients</h2>
         <div class="grid3">${C.UPSELL.map((u, i) => `<article class="tile" ${a(2 + i)}>${tag(u.tag)}<b>${esc(u.t)}</b><p>${esc(u.s)}</p></article>`).join("")}</div>
-        <p class="lead center" ${a(9)}>Le métier se justifie par ce qu'on <b class="accent">rend visible</b>.</p>
+        <p class="lead center" ${a(9)}>Des besoins qu'on couvre souvent gratuitement. <b class="accent">Cet après-midi, on en fait une offre.</b></p>
       </div>` },
 
   pause("pause1", "pause1", "Pause", "On souffle", 15),
@@ -750,7 +805,7 @@ export const SLIDES = [
   section("s-jeux", "jeux", "03", "Question pour<br>un Champion SEA", "Petits jeux SEA · animé par Mh", "Formez les équipes."),
   quiz,
 
-  section("s-process", "process", "04", "Process SEA<br>& outils", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
+  section("s-process", "process", "04", "Process SEA<br>& outils", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment.", [0, 2]),
   processChaos,
   processFlow,
   processCoince,
@@ -759,7 +814,7 @@ export const SLIDES = [
 
   pause("diner", "diner", "Bon appétit", "Dîner à l'extérieur", 0),
 
-  section("s-cruz", "cruz", "05", "SEA Cruz, hub<br>& produit à vendre", "Quentin", "Piloter Google Ads avec Claude via le MCP, puis ce qu'on vend en plus."),
+  section("s-cruz", "cruz", "05", "SEA Cruz, hub<br>& produit à vendre", "Quentin", "Piloter Google Ads avec Claude via le MCP, rendre notre travail visible, puis ce qu'on vend en plus.", [1, 2, 3]),
   { id: "cruz", agenda: "cruz", kind: "content",
     render: () => `
       <div>
@@ -777,23 +832,18 @@ export const SLIDES = [
   offre,
 
   section("s-news", "news", "06", "Nouveautés", "Mh", "Ce qui a changé cette année sur Google, Meta et Microsoft."),
-  { id: "news", agenda: "news", kind: "content",
+  ...C.NEWS.map((n, k) => ({
+    id: `news_${n.id}`, agenda: "news", kind: "content",
     render: () => `
-      <div>
-        <div class="kicker" ${a(0)}>Nouveautés 2026</div>
-        <h2 ${a(1)}>Ce qui change pour nos comptes</h2>
-        <div class="grid3">
-          ${[
-            ["Google", "AI Max remplace les DSA", "Bascule automatique depuis septembre. À surveiller dans les termes de recherche."],
-            ["Google", "Priorisation des canaux", "Allocation de budget par réseau dans PMax (objectif, pas plafond)."],
-            ["Google", "Audiences dès 100 utilisateurs", "Les petites listes B2B deviennent activables."],
-            ["Meta", "Attribution clic = clic sur lien", "Like, partage → engage-through 1 jour. Le ROAS « clic » baisse, pas les ventes."],
-            ["Meta", "Andromeda : la créa cible", "Des angles vraiment différents, pas 20 variantes de couleur."],
-            ["Microsoft", "AI Max activé par défaut", "Sur les nouvelles campagnes Search. CPC max supprimé en auto."],
-          ].map(([t, h, p], i) => `<article class="tile" ${a(2 + i)}>${tag(t)}<b>${esc(h)}</b><p>${esc(p)}</p></article>`).join("")}
-        </div>
-      </div>` },
+      <div class="newsw">
+        <div class="kicker" ${a(0)}>Nouveautés ${k + 1}/${C.NEWS.length} · Mh</div>
+        <h2 ${a(1)}>${esc(n.t)}</h2>
+        <div class="news-head" ${a(2)}><span></span><span>Ce que ça change</span><span>Ce qu'on fait lundi</span></div>
+        ${n.items.map((x, i) => `<div class="news-row" ${a(3 + i)}><b>${esc(x.h)}</b><p>${esc(x.c)}</p><p class="todo">→ ${esc(x.d)}</p></div>`).join("")}
+      </div>`,
+  })),
 
+  plan,
   pause("pause2", "fin", "Pause", "Avant le mot de la fin", 10),
   fin,
 ];

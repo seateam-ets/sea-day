@@ -15,6 +15,7 @@ export const PEOPLE = [
 ];
 
 export const TOUR_QUESTIONS = [
+  { id: "q0", short: "Mon métier aujourd'hui", text: "Ton rôle aujourd'hui, les outils que tu utilises au quotidien et le temps dont tu disposes vraiment : c'est quoi ?" },
   { id: "q1", short: "Monter en compétences", text: "Sur quel sujet, outil ou compétence aimerais-tu te former ou monter en compétences pour être plus à l'aise et serein(e) au quotidien ?" },
   { id: "q2", short: "Ce qui fait perdre du temps", text: "Quel outil, réunion ou processus actuel te fait perdre le plus de temps ou génère le plus de frustration au quotidien ?" },
   { id: "q3", short: "Une chose à changer dès demain", text: "S'il y avait une seule chose à changer radicalement dans notre façon de collaborer ou de communiquer ensemble dès demain, ce serait quoi ?" },
@@ -190,8 +191,37 @@ export const DECISIONS = [
     hint: "TL à la signature ? Chaque TM pour ses comptes ? Modèle de tâche commun ?" },
   { id: "contrat", theme: "Organisation", q: "Lance-t-on une campagne si le contrat n'est pas payé ?",
     hint: "Le wiki dit : ne rien configurer avant la signature du bon de commande. Et le paiement ?" },
+  { id: "formules", theme: "Tarifs", q: "Nos formules de gestion : comment on les structure, et comment on montre ce qui est inclus ?",
+    hint: "Leçon Cetronic : 535 € = 5 h, mais le client ne voit pas ce qu'il y a dedans. Proposition : Essentiel (gestion + reporting) · Global (+ visuels, LP, tracking) · Premium (+ point stratégie, nouveaux canaux). Chaque mois, la liste de ce qui a été fait." },
   { id: "visibilite", theme: "Client", q: "Comment rendre notre travail visible chaque mois (leçon Cetronic) ?",
     hint: "Journal des optimisations ? Point trimestriel ? Section « ce qu'on a fait » dans le reporting ?" },
+];
+
+// ── Nouveautés : une slide par régie (source : contenu du quiz) ─
+export const NEWS = [
+  { id: "google", t: "Google Ads", items: [
+    { h: "AI Max remplace les DSA", c: "Bascule automatique depuis septembre. Google peut réécrire les titres et choisir la page.", d: "Vérifier les termes de recherche de chaque ancien compte DSA." },
+    { h: "AI Mode : requêtes 3× plus longues", c: "Accès réservé à AI Max ou PMax avec personnalisation du texte.", d: "Identifier les clients 100 % exact qui passent à côté." },
+    { h: "Priorisation des canaux PMax", c: "Allocation de budget par réseau : un objectif, pas un plafond.", d: "Limiter les partenaires/Display là où ils ne convertissent pas." },
+    { h: "Audiences dès 100 utilisateurs", c: "Avant : 1 000. Les petites listes B2B deviennent activables.", d: "Réimporter les listes clients B2B trop petites jusqu'ici." },
+    { h: "Conversion Lift dès 5 000 $", c: "Mesurer les ventes vraiment créées par la pub.", d: "Le proposer aux clients YouTube / Demand Gen (argument de valeur)." },
+    { h: "Mode Promotion", c: "Dates + tolérance ROAS + budget en plus, qui s'arrête tout seul.", d: "Le programmer pour le Black Friday de nos e-shops." },
+  ] },
+  { id: "meta", t: "Meta", items: [
+    { h: "Clic = clic sur lien uniquement", c: "Likes, partages → engage-through (fenêtre 1 jour). Le ROAS « clic » baisse, pas les ventes.", d: "Prévenir les clients avant qu'ils ne voient la baisse dans le reporting." },
+    { h: "Andromeda : la créa fait le ciblage", c: "Meta lit le visuel pour choisir à qui le montrer. 20 variantes de couleur = 1 seule pub.", d: "Briefer des angles vraiment différents (prix, avis, usage)." },
+    { h: "Résultats par élément créatif", c: "Depuis le 28 octobre, chaque visuel/texte a ses propres résultats.", d: "Couper les visuels faibles chaque mois, l'écrire dans le reporting." },
+    { h: "Valeur dès 25 conversions/semaine", c: "Avant : 50. Plus de clients peuvent viser les gros paniers.", d: "Lister les e-shops entre 25 et 50 ventes/semaine." },
+    { h: "Advantage+ Sales", c: "Nouveau nom d'Advantage+ Shopping. Ciblage détaillé = simple suggestion.", d: "Mettre à jour nos offres, rapports et docs." },
+  ] },
+  { id: "msli", t: "Microsoft & LinkedIn", items: [
+    { h: "Microsoft : AI Max activé par défaut", c: "Sur toute nouvelle campagne Search depuis le 27 août.", d: "Le couper à la création si le client ne le veut pas." },
+    { h: "Microsoft : plus de CPC max en auto", c: "Depuis le 1er octobre sur les nouvelles campagnes.", d: "Ne pas effacer un plafond existant : impossible de le remettre." },
+    { h: "Microsoft : fin de l'API SOAP", c: "Arrêt le 31 janvier 2027.", d: "Vérifier que nos outils de reporting n'utilisent plus SOAP." },
+    { h: "Microsoft : RSA complètes", c: "Une annonce incomplète reçoit des titres générés automatiquement.", d: "15 titres et 4 descriptions partout." },
+    { h: "LinkedIn : Campaign Group → Campaign", c: "Les niveaux sont renommés, le jeton {{CAMPAIGN_ID}} change de sens.", d: "Contrôler les UTM LinkedIn dans GA4." },
+    { h: "LinkedIn : Event Ads vers une page externe", c: "Webinar Zoom, page d'inscription : plus besoin d'un événement LinkedIn.", d: "Le proposer aux clients B2B qui font des webinars." },
+  ] },
 ];
 
 // ── SEA Cruz ─────────────────────────────────────────────────
@@ -234,11 +264,16 @@ export const NOTES = {
   process_coince: "Chacun tape sur les étapes où ça coince (+). On note les irritants, puis on passe aux décisions.",
   process: "Quentin : on passe chaque question, on tranche, on note la décision à l'écran.",
   conclusion: "Résumer les décisions et la direction. Chaque personne note un engagement.",
-  cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
+  cruz: "Démo live : Claude + MCP Google Ads sur un compte.",
   news: "Mh : les nouveautés qui changent nos comptes.",
+  news_google: "Mh : pour chaque nouveauté, ce que ça change et ce qu'on fait lundi.",
+  news_meta: "Mh : prévenir les clients de la baisse du ROAS clic.",
+  news_msli: "Mh : Microsoft et LinkedIn.",
+  plan: "On reprend tout ce qui a été décidé dans la journée : un responsable et une date pour chaque action.",
   purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
   clean: "Point d'attention de Quentin : chiffres réels tirés d'AdPilot le 5 novembre. On fixe une date pour une journée de mise en place.",
-  hub: "Chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien. On vote (+) pour prioriser les évolutions.",
+  hub: "Faire le tour du Hub en live (hub.eteamsys.com), puis chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien.",
+  hub_old: "Chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien. On vote (+) pour prioriser les évolutions.",
   offre: "Atelier : chacun vote (+), on ajoute des idées, on retient le top 3 avec un porteur et un prochain pas.",
   quiz: "Question pour un Champion. Espace = révéler, → suivante, 1-8 = point à l'équipe, C = classement.",
 };
