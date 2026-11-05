@@ -44,3 +44,4 @@ input, textarea { font: inherit; color: inherit; }
   font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: rgba(91, 44, 232, .22); color: var(--lilac); white-space: nowrap; vertical-align: middle; }
 .tag.ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); }
 .gate-logo, .hero-logo, .m-logo { filter: brightness(0) invert(1); }
+[hidden] { display: none !important; }

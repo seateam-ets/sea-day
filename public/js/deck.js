@@ -62,7 +62,7 @@ addEventListener("keydown", (ev) => {
 // Navigation rapide (touche G ou bouton)
 function openNav() {
   const nav = document.getElementById("nav");
-  nav.innerHTML = SLIDES.map((s, i) => `<button data-i="${i}" class="${i === current ? "on" : ""}">${String(i + 1).padStart(2, "0")} · ${s.id}</button>`).join("");
+  nav.innerHTML = SLIDES.map((s, i) => `<button data-i="${i}" class="${i === current ? "on" : ""}">${String(i + 1).padStart(2, "0")} · ${s.title}</button>`).join("");
   nav.hidden = !nav.hidden;
   nav.onclick = (e) => { const b = e.target.closest("[data-i]"); if (b) { go(+b.dataset.i); nav.hidden = true; } };
 }

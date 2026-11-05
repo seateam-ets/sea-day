@@ -41,7 +41,7 @@
     const go = (i) => store.set({ slide: Math.max(0, Math.min(SLIDES.length - 1, i)) });
     $("prev").onclick = () => go(store.get("slide", 0) - 1);
     $("next").onclick = () => go(store.get("slide", 0) + 1);
-    $("list").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}">${String(i + 1).padStart(2, "0")} · ${s.id}</button>`).join("");
+    $("list").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}">${String(i + 1).padStart(2, "0")} · ${esc(s.title)}</button>`).join("");
     $("list").onclick = (e) => { const b = e.target.closest("[data-i]"); if (b) go(+b.dataset.i); };
     const fmt = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
 
@@ -50,7 +50,8 @@
       const i = store.get("slide", 0), s = SLIDES[i];
       $("pos").textContent = `${i + 1}/${SLIDES.length}`;
       $("ag").textContent = AGENDA.find((a) => a.id === s.agenda)?.title || "";
-      $("title").textContent = s.id;
+      $("title").textContent = s.title;
+      $("list").querySelectorAll("[data-i]").forEach((b) => b.classList.toggle("on", +b.dataset.i === i));
       $("notes").textContent = s.notes || "";
       const ctx = $("ctx");
       let html = "";

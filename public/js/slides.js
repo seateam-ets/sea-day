@@ -848,4 +848,11 @@ export const SLIDES = [
   fin,
 ];
 
+// titre lisible : premier h1/h2 rendu (ou kicker), sans balises
+const plain = (h) => h.replace(/<br\s*\/?>/g, " ").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const TITLES = { welcome: "Accueil", purpose: "Pourquoi on est là", agenda: "Le programme", tour: "Tour de table", quiz: "Quiz : Question pour un Champion", fin: "Clôture", plan: "Plan d'action 30 jours", pause1: "Pause", pause2: "Pause", diner: "Dîner", conclusion: "Conclusion du matin" };
+SLIDES.forEach((s) => {
+  if (TITLES[s.id]) { s.title = TITLES[s.id]; return; }
+  try { const h = s.render(); const m = h.match(/<h[12][^>]*>([\s\S]*?)<\/h[12]>/) || h.match(/class="kicker"[^>]*>([\s\S]*?)<\/div>/); s.title = m ? plain(m[1]) : s.id; } catch { s.title = s.id; }
+});
 SLIDES.forEach((s) => { s.notes = C.NOTES[s.id] || (s.id.startsWith("dec_") ? C.NOTES.process : ""); });

@@ -10,40 +10,111 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/mobile.css">
+  <style>
+    .who-bar { display: flex; align-items: center; gap: 12px; }
+    .who-bar .av { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--violet), var(--lilac)); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 20px; }
+    .who-bar b { font-size: 18px; display: block; } .who-bar small { color: var(--muted); }
+    .who-bar button { margin-left: auto; padding: 10px 14px !important; font-size: 14px !important; }
+    .progress-m { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+    .progress-m .bar { flex: 1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+    .progress-m .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--violet), var(--lilac)); transition: width .4s; }
+    .qcard { scroll-margin-top: 90px; transition: border-color .3s, box-shadow .3s; }
+    .qcard.live { border-color: var(--violet); box-shadow: 0 0 0 2px rgba(91,44,232,.35); }
+    .qcard .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .live-badge { display: none; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; background: var(--violet); color: #fff; white-space: nowrap; }
+    .qcard.live .live-badge { display: inline-flex; gap: 6px; align-items: center; }
+    .live-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: blink 1.2s infinite; }
+    @keyframes blink { 50% { opacity: .2; } }
+    .st { font-size: 13px; min-height: 18px; color: var(--muted); text-align: right; }
+    .st.ok { color: #86efac; }
+    .qcard.done .kicker::after { content: " ✓"; color: #86efac; }
+    textarea { min-height: 96px; overflow: hidden; resize: none; line-height: 1.45; }
+    .goto { position: sticky; top: 8px; z-index: 5; display: none; }
+    .goto.show { display: block; }
+    .goto button { width: 100%; background: var(--violet) !important; border-color: var(--violet) !important; padding: 12px !important; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+  </style>
 </head>
 <body>
   <main class="m">
     <header class="m-head"><img src="/assets/eteamsys-logo.png" alt="" class="m-logo"><b>Tour de table</b></header>
-    <section class="m-card">
+    <div class="goto" id="goto"><button>↓ Aller à la question affichée à l'écran</button></div>
+    <section class="m-card" id="pick">
       <div class="kicker">Qui es-tu ?</div>
       <div id="who" class="m-grid"></div>
     </section>
+    <section class="m-card who-bar" id="me" hidden></section>
+    <div class="progress-m" id="prog" hidden><span id="progTxt"></span><span class="bar"><i id="progBar"></i></span></div>
     <form id="form" hidden></form>
-    <p id="saved" class="muted center"></p>
   </main>
   <script type="module">
     import { store, gate, esc } from "/js/store.js";
     import { PEOPLE, TOUR_QUESTIONS } from "/js/content.js";
-    await gate(); store.start(3000);
+    await gate(); store.start(2000);
     const $ = (id) => document.getElementById(id);
     let me = null; try { me = localStorage.getItem("seaday-me"); } catch {}
+
     $("who").innerHTML = PEOPLE.map((p) => `<button data-p="${p.id}">${esc(p.name)}</button>`).join("");
     $("who").onclick = (e) => { const b = e.target.closest("[data-p]"); if (b) pick(b.dataset.p); };
+
+    const grow = (ta) => { ta.style.height = "auto"; ta.style.height = Math.max(96, ta.scrollHeight + 2) + "px"; };
+    const timers = {};
+    const save = (ta, now) => {
+      const card = ta.closest(".qcard"), st = card.querySelector(".st");
+      clearTimeout(timers[ta.dataset.q]);
+      const go = async () => {
+        await store.set({ [`tour:${me}:${ta.dataset.q}`]: ta.value.trim() || null });
+        st.textContent = ta.value.trim() ? "Enregistré ✓" : ""; st.classList.add("ok");
+        card.classList.toggle("done", !!ta.value.trim()); progress();
+      };
+      if (now) return go();
+      st.textContent = "…"; st.classList.remove("ok");
+      timers[ta.dataset.q] = setTimeout(go, 500);
+    };
+    function progress() {
+      const n = TOUR_QUESTIONS.filter((q) => store.get(`tour:${me}:${q.id}`)).length;
+      $("progTxt").textContent = `${n}/${TOUR_QUESTIONS.length} répondue${n > 1 ? "s" : ""}`;
+      $("progBar").style.width = `${(n / TOUR_QUESTIONS.length) * 100}%`;
+    }
     function pick(id) {
       me = id; try { localStorage.setItem("seaday-me", id); } catch {}
-      $("who").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.p === id));
-      $("form").hidden = false;
-      $("form").innerHTML = TOUR_QUESTIONS.map((q, i) => `
-        <label class="m-card"><span class="kicker">${i + 1}. ${esc(q.short)}</span><span class="q">${esc(q.text)}</span>
-        <textarea data-q="${q.id}" rows="4" placeholder="Ta réponse…">${esc(store.get(`tour:${id}:${q.id}`, ""))}</textarea></label>`).join("");
-      let t;
-      $("form").querySelectorAll("textarea").forEach((ta) => ta.oninput = () => {
-        clearTimeout(t); $("saved").textContent = "…";
-        t = setTimeout(async () => { await store.set({ [`tour:${me}:${ta.dataset.q}`]: ta.value.trim() || null }); $("saved").textContent = "Enregistré ✓"; }, 500);
+      const p = PEOPLE.find((x) => x.id === id);
+      $("pick").hidden = true; $("me").hidden = false; $("prog").hidden = false; $("form").hidden = false;
+      $("me").innerHTML = `<span class="av">${esc(p.name[0])}</span><div><b>${esc(p.name)}</b><small>${esc(p.role)}</small></div><button type="button" id="change">Changer</button>`;
+      $("change").onclick = () => { $("pick").hidden = false; $("me").hidden = true; $("prog").hidden = true; $("form").hidden = true; };
+      $("form").innerHTML = TOUR_QUESTIONS.map((q, i) => {
+        const v = store.get(`tour:${id}:${q.id}`, "");
+        return `<label class="m-card qcard ${v ? "done" : ""}" id="card-${q.id}">
+          <span class="top"><span class="kicker">${i + 1}. ${esc(q.short)}</span><span class="live-badge">À l'écran</span></span>
+          <span class="q">${esc(q.text)}</span>
+          <textarea data-q="${q.id}" rows="3" placeholder="Ta réponse… (tu peux revenir la modifier)" enterkeyhint="done">${esc(v)}</textarea>
+          <span class="st"></span></label>`;
+      }).join("");
+      $("form").querySelectorAll("textarea").forEach((ta) => {
+        grow(ta);
+        ta.oninput = () => { grow(ta); save(ta); };
+        ta.onblur = () => save(ta, true); // rien ne se perd si on ferme vite la page
       });
+      progress(); live();
     }
+    // met en avant la question affichée sur le grand écran
+    let lastLive = null;
+    function live() {
+      if (!me) return;
+      const qid = store.get("tour:q", TOUR_QUESTIONS[0].id);
+      document.querySelectorAll(".qcard").forEach((c) => c.classList.toggle("live", c.id === `card-${qid}`));
+      const card = $(`card-${qid}`);
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      $("goto").classList.toggle("show", r.bottom < 0 || r.top > innerHeight);
+      if (qid !== lastLive && lastLive !== null && !document.activeElement?.matches("textarea")) card.scrollIntoView({ behavior: "smooth", block: "start" });
+      lastLive = qid;
+    }
+    $("goto").onclick = () => $(`card-${store.get("tour:q", TOUR_QUESTIONS[0].id)}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    addEventListener("scroll", live, { passive: true });
+    store.subscribe(live);
     // attendre la première synchro avant de pré-remplir
     setTimeout(() => me && pick(me), 700);
+    addEventListener("pagehide", () => document.querySelectorAll("textarea").forEach((ta) => save(ta, true)));
   </script>
 </body>
 </html>
