@@ -23,13 +23,12 @@ export const AGENDA = [
   { id: "tour", icon: "◎", title: "Tour de table", who: "Mh" },
   { id: "demain", icon: "↗", title: "SEA d'hier vs SEA de demain", who: "Quentin · Mh" },
   { id: "pause1", icon: "❚❚", title: "Pause", who: "" },
-  { id: "jeux", icon: "✦", title: "Petits jeux SEA", who: "Mh" },
+  { id: "jeux", icon: "?", title: "Jeux SEA : Question pour un Champion", who: "Mh" },
   { id: "process", icon: "⌘", title: "Redessiner notre process SEA", who: "Quentin" },
   { id: "conclusion", icon: "✓", title: "Conclusion du matin", who: "Quentin · Mh" },
   { id: "diner", icon: "🍽", title: "Dîner", who: "" },
   { id: "cruz", icon: "⚡", title: "SEA Cruz : Google Ads via MCP", who: "Quentin" },
   { id: "news", icon: "★", title: "ChatGPT Ads + nouveautés", who: "Mh" },
-  { id: "quiz", icon: "?", title: "Question pour un Champion SEA", who: "Mh" },
   { id: "fin", icon: "◆", title: "Clôture", who: "" },
 ];
 
@@ -145,7 +144,7 @@ export const GAMES = [
 // ── Notes orateur (affichées sur la télécommande) ────────────
 export const NOTES = {
   welcome: "Écran d'accueil en boucle pendant le petit-déjeuner chez Grain.",
-  agenda: "Présenter le déroulé. Lucas absent une heure dans la matinée : on place les petits jeux à ce moment-là.",
+  agenda: "Présenter le déroulé. Lucas absent une heure dans la matinée : les jeux SEA tombent juste après la pause.",
   tour: "Mh anime. Chacun répond depuis son téléphone (QR / lien /repondre) ou on remplit en direct.",
   cetronic_mail: "Lire les extraits. Demander à l'équipe : qu'auriez-vous répondu ?",
   cetronic_done: "Tout ce qu'on a fait… sans que le client le voie.",

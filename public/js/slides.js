@@ -104,7 +104,7 @@ const jeux = {
   id: "jeux", agenda: "jeux", kind: "interactive",
   render: () => `
     <div class="games">
-      <div class="kicker" ${a(0)}>Petits jeux SEA · Mh</div>
+      <div class="kicker" ${a(0)}>Bonus · petits jeux SEA</div>
       <nav class="gtabs" ${a(1)}>${C.GAMES.map((g) => `<button data-g="${g.id}">${esc(g.name)}</button>`).join("")}</nav>
       <div class="game-stage" ${a(2)}>
         <p class="rule" data-rule></p>
@@ -263,7 +263,7 @@ export function quizAction(act, arg) {
   if (act === "reset") store.set({ quiz: { i: -1, revealed: false, board: false }, "quiz:teams": teams().map((t) => ({ ...t, score: 0 })), "quiz:end": null });
 }
 const quiz = {
-  id: "quiz", agenda: "quiz", kind: "interactive",
+  id: "quiz", agenda: "jeux", kind: "interactive",
   render: () => `<div class="quiz" data-quiz></div>`,
   mount(root) {
     const box = root.querySelector("[data-quiz]");
@@ -461,8 +461,9 @@ export const SLIDES = [
 
   pause("pause1", "pause1", "Pause", "On souffle", 15),
 
-  section("s-jeux", "jeux", "03", "Petits jeux SEA", "Animé par Mh", "Qui suis-je ? · Mot interdit · Pictionary · Client impossible"),
-  jeux,
+  section("s-jeux", "jeux", "03", "Question pour<br>un Champion SEA", "Jeux SEA · animé par Mh", "Formez les équipes."),
+  quiz,
+  jeux, // bonus : petits jeux (Qui suis-je ?, mot interdit…) si on a le temps
 
   section("s-process", "process", "04", "Redessiner<br>notre process SEA", "Quentin", "Tout le monde peut tout faire. Mais pas n'importe comment."),
   { id: "process_flow", agenda: "process", kind: "content",
@@ -526,9 +527,6 @@ export const SLIDES = [
           ].map(([t, h, p], i) => `<article class="tile" ${a(2 + i)}>${tag(t)}<b>${esc(h)}</b><p>${esc(p)}</p></article>`).join("")}
         </div>
       </div>` },
-
-  section("s-quiz", "quiz", "07", "Question pour<br>un Champion SEA", "Animé par Mh", "Formez les équipes."),
-  quiz,
 
   pause("pause2", "fin", "Pause", "Avant le mot de la fin", 10),
   fin,

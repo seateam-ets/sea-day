@@ -64,7 +64,7 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 
 /* ── Agenda ───────────────────────────────────────── */
 .agenda-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-.agenda-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.agenda-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; align-content: start; }
 .agenda-h { font-size: 20px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
 .agenda-list li[data-ag] { display: flex; align-items: center; gap: 22px; padding: 18px 26px; border-radius: 18px; background: rgba(255, 255, 255, .035); border: 1px solid var(--line); font-size: 30px; }
 .agenda-list li.next { background: var(--violet); border-color: transparent; box-shadow: 0 20px 60px rgba(91, 44, 232, .45); }
