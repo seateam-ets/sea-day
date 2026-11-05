@@ -241,6 +241,32 @@ const conclusion = {
   },
 };
 
+// ── Point d'attention : clean & reporting ────────────────────
+const clean = {
+  id: "clean", agenda: "cruz", kind: "interactive",
+  render: () => `
+    <div class="clean">
+      <div class="kicker" ${a(0)}>⚠ Point d'attention · Quentin · chiffres AdPilot au 5 novembre 2026</div>
+      <h2 ${a(1)}>On a toutes les données. On envoie encore des PowerPoint.</h2>
+      <div class="stats">${C.ADPILOT_STATS.map((x, i) => `<div class="stat" ${a(2 + i)}><b>${x.n}</b><span>${esc(x.t)}</span><small>${esc(x.s)}</small></div>`).join("")}</div>
+      <div class="clean-grid">
+        <ul class="checks" ${a(8)}>${C.CLEAN_ACTIONS.map((c) => `<li><i>→</i><div><b>${esc(c.t)}</b><small>${esc(c.s)}</small></div></li>`).join("")}</ul>
+        <div class="ask" ${a(9)}>
+          <div class="kicker">Demander à Claude, via AdPilot</div>
+          ${C.ADPILOT_PROMPTS.map((p) => `<p class="prompt">« ${esc(p)} »</p>`).join("")}
+          <label class="kicker day-l">Journée de mise en place</label>
+          <input data-day placeholder="Date + qui (ex. jeudi 20/11, toute l'équipe)">
+        </div>
+      </div>
+    </div>`,
+  mount(root) {
+    const inp = root.querySelector("[data-day]"); let t;
+    const draw = () => { if (document.activeElement !== inp) inp.value = store.get("clean:day", ""); };
+    inp.oninput = () => { clearTimeout(t); t = setTimeout(() => store.set({ "clean:day": inp.value.trim() || null }), 400); };
+    return store.subscribe(draw);
+  },
+};
+
 // ── Le Hub : prioriser ───────────────────────────────────────
 const hub = {
   id: "hub", agenda: "cruz", kind: "interactive",
@@ -466,6 +492,7 @@ export function exportReport() {
   for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
   md += `\n## Engagements\n\n`;
   for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`eng:${p.id}`) || "—"}\n`;
+  md += `\n## Clean clients & reporting\n\nJournée de mise en place : ${g("clean:day") || "à fixer"}\n`;
   md += `\n## Le Hub\n\n`;
   for (const c of C.HUB_COLS) {
     md += `### ${c.t}\n\n`;
@@ -619,6 +646,7 @@ export const SLIDES = [
         </div>
       </div>` },
 
+  clean,
   hub,
   offre,
 

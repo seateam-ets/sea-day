@@ -31,6 +31,27 @@ export const AGENDA = [
   { id: "fin", icon: "◆", title: "Clôture", who: "" },
 ];
 
+// ── Point d'attention : clean clients & reporting (chiffres AdPilot, 5 nov. 2026) ─
+export const ADPILOT_STATS = [
+  { n: "499", t: "projets clients", s: "dans AdPilot : combien sont encore actifs ?" },
+  { n: "565", t: "comptes publicitaires", s: "375 Meta · 161 Google · 17 Microsoft · 12 TikTok" },
+  { n: "24", t: "reportings dédiés", s: "pour une vingtaine de clients seulement" },
+  { n: "3", t: "envois automatiques", s: "et aucun envoi depuis fin août 2026" },
+  { n: "39", t: "comptes en erreur de synchro", s: "des données qui ne remontent plus" },
+];
+export const CLEAN_ACTIONS = [
+  { t: "Faire le clean des clients", s: "Qui est actif, qui ne l'est plus, ce qu'on offre réellement à chacun." },
+  { t: "Fini les PowerPoint", s: "Toutes les données sont dans AdPilot : un reporting dédié pour chaque client actif." },
+  { t: "Envoi automatique des reportings", s: "Planifié, avec les bons KPI par client. Aujourd'hui, on ne le fait pas." },
+  { t: "Interroger AdPilot avec Claude", s: "« Quels comptes ont dépensé sans convertir ce mois-ci ? » : la réponse en une question." },
+];
+export const ADPILOT_PROMPTS = [
+  "Quels clients actifs n'ont pas encore de reporting dédié ?",
+  "Quels comptes ont dépensé ce mois-ci sans aucune conversion ?",
+  "Quels comptes sont en erreur de synchronisation ?",
+  "Quelles sont les 5 meilleures annonces de ce client sur 90 jours ?",
+];
+
 // ── Le Hub : faire évoluer, prioriser ce qu'on utilise vraiment ─
 export const HUB_COLS = [
   { id: "garder", t: "On l'utilise vraiment", s: "À garder et à mettre en avant", c: "teal" },
@@ -202,6 +223,7 @@ export const NOTES = {
   cruz: "Démo live si possible : Claude + MCP Google Ads sur un compte de test.",
   news: "Mh : les nouveautés qui changent nos comptes.",
   purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
+  clean: "Point d'attention de Quentin : chiffres réels tirés d'AdPilot le 5 novembre. On fixe une date pour une journée de mise en place.",
   hub: "Chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien. On vote (+) pour prioriser les évolutions.",
   offre: "Atelier : chacun vote (+), on ajoute des idées, on retient le top 3 avec un porteur et un prochain pas.",
   quiz: "Question pour un Champion. Espace = révéler, → suivante, 1-8 = point à l'équipe, C = classement.",
