@@ -33,20 +33,20 @@ export const AGENDA = [
 
 // ── Point d'attention : clean clients & reporting (chiffres AdPilot, 5 nov. 2026) ─
 export const ADPILOT_STATS = [
-  { n: "499", t: "projets clients", s: "dans AdPilot : combien sont encore actifs ?" },
-  { n: "565", t: "comptes publicitaires", s: "375 Meta · 161 Google · 17 Microsoft · 12 TikTok" },
-  { n: "24", t: "reportings dédiés", s: "pour une vingtaine de clients seulement" },
-  { n: "3", t: "envois automatiques", s: "et aucun envoi depuis fin août 2026" },
-  { n: "39", t: "comptes en erreur de synchro", s: "des données qui ne remontent plus" },
+  { id: "portfolio", n: "?", t: "clients dans notre portfolio", s: "Ceux qu'on gère vraiment : à compter ensemble", edit: true },
+  { id: "reportings", n: "24", t: "reportings dédiés dans AdPilot", s: "qui couvrent 18 clients (hors eTeamsys)" },
+  { id: "sans", n: "?", t: "clients sans reporting dédié", s: "encore sur PowerPoint, ou sans rien" },
+  { id: "auto", n: "3", t: "envois automatiques", s: "et aucun envoi depuis fin août 2026" },
+  { id: "sync", n: "39", t: "comptes en erreur de synchro", s: "des données qui ne remontent plus dans AdPilot" },
 ];
 export const CLEAN_ACTIONS = [
-  { t: "Faire le clean des clients", s: "Qui est actif, qui ne l'est plus, ce qu'on offre réellement à chacun." },
-  { t: "Fini les PowerPoint", s: "Toutes les données sont dans AdPilot : un reporting dédié pour chaque client actif." },
+  { t: "Faire le clean du portfolio", s: "Les clients qu'on gère : qui est actif, qui ne l'est plus, ce qu'on offre réellement à chacun." },
+  { t: "Fini les PowerPoint", s: "Toutes les données sont dans AdPilot : un reporting dédié pour chaque client du portfolio." },
   { t: "Envoi automatique des reportings", s: "Planifié, avec les bons KPI par client. Aujourd'hui, on ne le fait pas." },
   { t: "Interroger AdPilot avec Claude", s: "« Quels comptes ont dépensé sans convertir ce mois-ci ? » : la réponse en une question." },
 ];
 export const ADPILOT_PROMPTS = [
-  "Quels clients actifs n'ont pas encore de reporting dédié ?",
+  "Lesquels de nos clients n'ont pas encore de reporting dédié ?",
   "Quels comptes ont dépensé ce mois-ci sans aucune conversion ?",
   "Quels comptes sont en erreur de synchronisation ?",
   "Quelles sont les 5 meilleures annonces de ce client sur 90 jours ?",

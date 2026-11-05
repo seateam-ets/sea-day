@@ -248,7 +248,7 @@ const clean = {
     <div class="clean">
       <div class="kicker" ${a(0)}>⚠ Point d'attention · Quentin · chiffres AdPilot au 5 novembre 2026</div>
       <h2 ${a(1)}>On a toutes les données. On envoie encore des PowerPoint.</h2>
-      <div class="stats">${C.ADPILOT_STATS.map((x, i) => `<div class="stat" ${a(2 + i)}><b>${x.n}</b><span>${esc(x.t)}</span><small>${esc(x.s)}</small></div>`).join("")}</div>
+      <div class="stats">${C.ADPILOT_STATS.map((x, i) => `<div class="stat ${x.edit ? "edit" : ""}" ${a(2 + i)}>${x.edit ? `<input data-portfolio inputmode="numeric" placeholder="?">` : `<b data-stat="${x.id}">${x.n}</b>`}<span>${esc(x.t)}</span><small>${esc(x.s)}</small></div>`).join("")}</div>
       <div class="clean-grid">
         <ul class="checks" ${a(8)}>${C.CLEAN_ACTIONS.map((c) => `<li><i>→</i><div><b>${esc(c.t)}</b><small>${esc(c.s)}</small></div></li>`).join("")}</ul>
         <div class="ask" ${a(9)}>
@@ -261,7 +261,15 @@ const clean = {
     </div>`,
   mount(root) {
     const inp = root.querySelector("[data-day]"); let t;
-    const draw = () => { if (document.activeElement !== inp) inp.value = store.get("clean:day", ""); };
+    const pf = root.querySelector("[data-portfolio]");
+    const draw = () => {
+      if (document.activeElement !== inp) inp.value = store.get("clean:day", "");
+      const n = parseInt(store.get("clean:portfolio", ""), 10);
+      if (document.activeElement !== pf) pf.value = Number.isFinite(n) ? n : "";
+      // clients sans reporting dédié = portfolio − reportings dédiés (18 clients couverts)
+      root.querySelector('[data-stat="sans"]').textContent = Number.isFinite(n) ? `${Math.max(0, n - 18)}` : "?";
+    };
+    pf.oninput = () => { clearTimeout(t); t = setTimeout(() => store.set({ "clean:portfolio": pf.value.replace(/\D/g, "") || null }), 400); };
     inp.oninput = () => { clearTimeout(t); t = setTimeout(() => store.set({ "clean:day": inp.value.trim() || null }), 400); };
     return store.subscribe(draw);
   },
@@ -492,7 +500,7 @@ export function exportReport() {
   for (const d of C.DECISIONS) md += `- **${d.q}**\n  ${g(`dec:${d.id}`) || "—"}${g(`dec:${d.id}:owner`) ? ` (responsable : ${g(`dec:${d.id}:owner`)})` : ""}\n`;
   md += `\n## Engagements\n\n`;
   for (const p of C.PEOPLE) md += `- **${p.name}** : ${g(`eng:${p.id}`) || "—"}\n`;
-  md += `\n## Clean clients & reporting\n\nJournée de mise en place : ${g("clean:day") || "à fixer"}\n`;
+  md += `\n## Clean du portfolio & reporting\n\nClients dans le portfolio : ${g("clean:portfolio") || "à compter"}\nJournée de mise en place : ${g("clean:day") || "à fixer"}\n`;
   md += `\n## Le Hub\n\n`;
   for (const c of C.HUB_COLS) {
     md += `### ${c.t}\n\n`;
