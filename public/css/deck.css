@@ -334,3 +334,6 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .join .kicker { display: block; margin-bottom: 8px; font-size: 18px; }
 .join b { display: block; font-size: 30px; }
 .join em { font-size: 26px; }
+/* garder les retours à la ligne saisis sur téléphone */
+.answer, .recap li, .idea b, .lead[data-dir] { white-space: pre-line; }
+.answer { max-height: 150px; overflow: auto; }

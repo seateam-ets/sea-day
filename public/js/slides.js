@@ -93,7 +93,7 @@ const tour = {
     root.querySelectorAll("[data-p]").forEach((card) => {
       const el = card.querySelector("[data-ans]");
       card.onclick = () => { if (el.isContentEditable) return; el.contentEditable = "true"; if (el.textContent === "…") el.textContent = ""; el.focus(); };
-      el.onblur = () => { el.contentEditable = "false"; store.set({ [`tour:${card.dataset.p}:${store.get("tour:q", "q1")}`]: el.textContent.trim() || null }); draw(); };
+      el.onblur = () => { el.contentEditable = "false"; store.set({ [`tour:${card.dataset.p}:${store.get("tour:q", "q1")}`]: el.innerText.trim() || null }); draw(); };
     });
     return store.subscribe(draw);
   },
