@@ -372,14 +372,34 @@ export const offerIdeas = () => {
 };
 
 // ── Quiz ─────────────────────────────────────────────────────
+export const QCM_TIME = 30000, OPEN_TIME = 60000;
+// joueurs inscrits depuis le téléphone : qp:<personId> = { team }
+export const quizPlayers = () => Object.entries(store.prefix("qp:")).map(([k, v]) => ({ id: k.slice(3), ...v }));
 const DEFAULT_TEAMS = [{ name: "Équipe ROAS", score: 0 }, { name: "Équipe CTR", score: 0 }, { name: "Équipe PMax", score: 0 }];
 const qz = () => store.get("quiz", { i: -1, revealed: false, board: false });
 const teams = () => store.get("quiz:teams", DEFAULT_TEAMS);
 export function quizAction(act, arg) {
   const s = { ...qz() };
-  if (act === "next") { s.i = Math.min(QUIZ.length, s.i + 1); s.revealed = false; s.board = s.i >= QUIZ.length; store.set({ quiz: s, "quiz:end": s.i < QUIZ.length && QUIZ[s.i]?.type !== "open" ? Date.now() + 30000 : null }); return; }
+  if (act === "next") {
+    s.i = Math.min(QUIZ.length, s.i + 1); s.revealed = false; s.board = s.i >= QUIZ.length;
+    const q = QUIZ[s.i];
+    store.set({ quiz: s, "quiz:end": q ? Date.now() + (q.type === "open" ? OPEN_TIME : QCM_TIME) : null });
+    return;
+  }
   if (act === "prev") { s.i = Math.max(-1, s.i - 1); s.revealed = false; s.board = false; store.set({ quiz: s, "quiz:end": null }); return; }
-  if (act === "reveal") { s.revealed = !s.revealed; store.set({ quiz: s, "quiz:end": null }); return; }
+  if (act === "reveal") {
+    s.revealed = !s.revealed;
+    const upd = { quiz: s, "quiz:end": null };
+    const q = QUIZ[s.i];
+    // score automatique (une seule fois par question) : QCM / vrai-faux répondus depuis les téléphones
+    if (s.revealed && q && q.type !== "open" && !store.get(`qs:${s.i}`)) {
+      const good = q.options.find((o) => o.correct)?.key;
+      const t = teams().map((x, k) => ({ ...x, score: x.score + (store.get(`qa:${s.i}:${k}`)?.a === good ? q.points : 0) }));
+      upd["quiz:teams"] = t; upd[`qs:${s.i}`] = true;
+    }
+    store.set(upd);
+    return;
+  }
   if (act === "board") { s.board = !s.board; store.set({ quiz: s }); return; }
   if (act === "point") {
     const t = teams().map((x) => ({ ...x }));
@@ -390,7 +410,10 @@ export function quizAction(act, arg) {
     return;
   }
   if (act === "minus") { const t = teams().map((x) => ({ ...x })); if (t[arg]) t[arg].score -= 1; store.set({ "quiz:teams": t }); return; }
-  if (act === "reset") store.set({ quiz: { i: -1, revealed: false, board: false }, "quiz:teams": teams().map((t) => ({ ...t, score: 0 })), "quiz:end": null });
+  if (act === "reset") {
+    const clear = Object.fromEntries(Object.keys(store.state).filter((k) => /^q[asp]:/.test(k)).map((k) => [k, null]));
+    store.set({ ...clear, quiz: { i: -1, revealed: false, board: false }, "quiz:teams": teams().map((t) => ({ ...t, score: 0 })), "quiz:end": null });
+  }
 }
 const quiz = {
   id: "quiz", agenda: "jeux", kind: "interactive",
@@ -401,9 +424,20 @@ const quiz = {
     const draw = () => {
       const s = qz();
       const T = teams();
-      const sig = JSON.stringify([s, T]);
+      const P = quizPlayers();
+      const ans = T.map((_, k) => store.get(`qa:${s.i}:${k}`, null));
+      const sig = JSON.stringify([s, T, P, ans]);
       if (sig === last) return; last = sig;
-      const scores = `<div class="scores">${T.map((t, i) => `<button class="score" data-pt="${i}"><b>${esc(t.name)}</b><span>${t.score}</span><kbd>${i + 1}</kbd></button>`).join("")}</div>`;
+      const cur = QUIZ[s.i];
+      const good = cur?.options.find((o) => o.correct)?.key;
+      const scores = `<div class="scores">${T.map((t, i) => {
+        const a1 = ans[i];
+        const st = !a1 ? `<em class="st wait">en attente…</em>`
+          : !s.revealed ? `<em class="st ok">✓ a répondu</em>`
+          : cur?.type === "open" ? `<em class="st txt">« ${esc(a1.a)} »</em>`
+          : `<em class="st ${a1.a === good ? "right" : "bad"}">${esc(a1.a)} ${a1.a === good ? "✓" : "✗"}</em>`;
+        return `<button class="score" data-pt="${i}"><b>${esc(t.name)}</b>${s.i >= 0 && cur ? st : ""}<span>${t.score}</span><kbd>${i + 1}</kbd></button>`;
+      }).join("")}</div>`;
       if (s.board || s.i >= QUIZ.length) {
         const sorted = T.map((t, i) => ({ ...t, i })).sort((x, y) => y.score - x.score);
         const max = Math.max(1, ...T.map((t) => t.score));
@@ -418,9 +452,12 @@ const quiz = {
             <div class="kicker" ${a(0)}>Question pour un Champion SEA</div>
             <h1 class="mega" ${a(1)}>${QUIZ.length} questions.<br>Qui suit vraiment l'actu ?</h1>
             <p class="lead" ${a(2)}>QCM et vrai/faux = 1 point · question ouverte = 2 points · 30 s par QCM</p>
-            <div class="team-edit" ${a(3)}>${T.map((t, i) => `<input data-tn="${i}" value="${esc(t.name)}">`).join("")}
-              <button data-addteam>+ équipe</button><button data-rmteam>− équipe</button></div>
-            <p class="muted" ${a(4)}>Espace : révéler · → suivante · ← précédente · 1-8 : point · C : classement</p>
+            <div class="quiz-join" ${a(3)}>
+              <div class="join-qr"><img src="/assets/qr-quiz.svg" alt="QR code du quiz"><div><span class="kicker">Rejoindre le quiz</span><b>${C.ACCESS.host}/quiz</b><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
+              <div class="team-cols">${T.map((t, i) => `<div class="team-col"><input data-tn="${i}" value="${esc(t.name)}"><ul>${P.filter((p) => p.team === i).map((p) => `<li>${esc(C.PEOPLE.find((x) => x.id === p.id)?.name || p.id)}</li>`).join("") || `<li class="muted">personne</li>`}</ul></div>`).join("")}</div>
+            </div>
+            <div class="team-edit" ${a(4)}><button data-addteam>+ équipe</button><button data-rmteam>− équipe</button>
+              <span class="muted">${P.length} joueur${P.length > 1 ? "s" : ""} connecté${P.length > 1 ? "s" : ""} · Espace : révéler · → suivante · 1-8 : point · C : classement</span></div>
           </div>`;
         box.querySelectorAll("[data-tn]").forEach((inp) => inp.onchange = () => { const t = teams().map((x) => ({ ...x })); t[+inp.dataset.tn].name = inp.value; store.set({ "quiz:teams": t }); });
         box.querySelector("[data-addteam]").onclick = () => teams().length < 8 && store.set({ "quiz:teams": [...teams(), { name: `Équipe ${teams().length + 1}`, score: 0 }] });

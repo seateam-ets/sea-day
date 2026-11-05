@@ -25,6 +25,11 @@
       <button id="next" class="primary">Suivante →</button>
     </nav>
     <details class="m-card"><summary>Aller à une slide</summary><div id="list" class="m-list"></div></details>
+    <details class="m-card"><summary>Réglages</summary>
+      <p class="muted">Après des tests, remettre la journée à zéro : réponses du tour de table, décisions, votes, idées, quiz, joueurs et minuteurs.</p>
+      <div class="m-grid"><button id="resetQuiz">Remettre le quiz à zéro</button><button id="resetAll" class="danger">Tout remettre à zéro</button></div>
+      <p id="resetMsg" class="muted"></p>
+    </details>
   </main>
   <script type="module">
     import { store, gate, esc } from "/js/store.js";
@@ -80,6 +85,14 @@
       ctx.querySelector("[data-export]")?.addEventListener("click", exportReport);
     }
     store.subscribe(draw);
+    $("resetQuiz").onclick = () => confirm("Remettre le quiz à zéro (scores, réponses, joueurs) ?") && (quizAction("reset"),
+      store.set(Object.fromEntries(Object.keys(store.state).filter((k) => k.startsWith("qp:")).map((k) => [k, null]))), $("resetMsg").textContent = "Quiz remis à zéro ✓");
+    $("resetAll").onclick = async () => {
+      if (!confirm("Tout effacer ? Les réponses, décisions, votes et scores de la journée seront supprimés.")) return;
+      const keys = Object.keys(store.state);
+      await store.set({ ...Object.fromEntries(keys.map((k) => [k, null])), slide: 0 });
+      $("resetMsg").textContent = `Tout est remis à zéro ✓ (${keys.length} éléments effacés)`;
+    };
   </script>
 </body>
 </html>

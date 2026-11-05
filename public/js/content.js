@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────────────────────
 
 // Accès affiché à l'écran (QR + code). À changer aussi dans Vercel (SEADAY_PASSWORD) si on le modifie.
-export const ACCESS = { url: "seaday.eteamsys.be/repondre", code: "seaday2026" };
+export const ACCESS = { host: "seaday.eteamsys.be", url: "seaday.eteamsys.be/repondre", code: "seaday2026" };
 
 export const PEOPLE = [
   { id: "quentin", name: "Quentin", role: "Team Leader" },
