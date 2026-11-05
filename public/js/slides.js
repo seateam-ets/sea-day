@@ -66,7 +66,7 @@ const tour = {
       <header class="row-head">
         <div><div class="kicker" ${a(0)}>Tour de table · Mh</div>
         <h2 ${a(1)} data-q-title></h2></div>
-        <div class="qr" ${a(2)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><span>Scannez ou allez sur<br><b>${C.ACCESS.url}</b><em>Code : <code>${C.ACCESS.code}</code></em></span></div>
+        <div class="qr" ${a(2)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><span>Scannez pour répondre<em>Code : <code>${C.ACCESS.code}</code></em></span></div>
       </header>
       <nav class="qtabs" ${a(2)}>${C.TOUR_QUESTIONS.map((q, i) => `<button data-q="${q.id}">${i + 1}. ${esc(q.short)}</button>`).join("")}</nav>
       <div class="people">${C.PEOPLE.map((p, i) => `
@@ -539,7 +539,7 @@ const quiz = {
             <h1 class="mega" ${a(1)}>${QUIZ.length} questions.<br>Qui suit vraiment l'actu ?</h1>
             <p class="lead" ${a(2)}>QCM et vrai/faux = 1 point · question ouverte = 2 points · 30 s par QCM</p>
             <div class="quiz-join" ${a(3)}>
-              <div class="join-qr"><img src="/assets/qr-quiz.svg" alt="QR code du quiz"><div><span class="kicker">Rejoindre le quiz</span><b>${C.ACCESS.host}/quiz</b><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
+              <div class="join-qr"><img src="/assets/qr-quiz.svg" alt="QR code du quiz"><div><span class="kicker">Scannez pour rejoindre le quiz</span><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
               <div class="team-cols">${T.map((t, i) => `<div class="team-col"><input data-tn="${i}" value="${esc(t.name)}"><ul>${P.filter((p) => p.team === i).map((p) => `<li>${esc(C.PEOPLE.find((x) => x.id === p.id)?.name || p.id)}</li>`).join("") || `<li class="muted">personne</li>`}</ul></div>`).join("")}</div>
             </div>
             <div class="team-edit" ${a(4)}><button data-addteam>+ équipe</button><button data-rmteam>− équipe</button>
@@ -655,7 +655,7 @@ export const SLIDES = [
         <h1 class="giga" ${a(1)}><span>SEA</span><span class="outline">DAY</span></h1>
         <p class="lead" ${a(2)}>Le pôle SEA se pose une journée pour regarder où va le métier.</p>
         <div class="hero-meta" ${a(3)}>${C.PEOPLE.map((p) => `<span>${esc(p.name)}</span>`).join("")}</div>
-        <div class="join" ${a(4)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><div><span class="kicker">Rejoindre le SEA Day</span><b>${C.ACCESS.url}</b><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
+        <div class="join" ${a(4)}><img src="/assets/qr-repondre.svg" alt="QR code vers ${C.ACCESS.url}"><div><span class="kicker">Rejoindre le SEA Day</span><em>Code : <code>${C.ACCESS.code}</code></em></div></div>
       </div>` },
   { id: "purpose", agenda: null, kind: "content",
     render: () => `

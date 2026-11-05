@@ -1,6 +1,7 @@
 import { store, gate } from "./store.js";
 import { SLIDES, loadQuiz } from "./slides.js";
 import { AGENDA } from "./content.js";
+import { fx } from "./fx.js";
 
 const stage = document.getElementById("stage");
 const viewport = document.getElementById("viewport");
@@ -25,14 +26,16 @@ function show(i) {
   const all = [...stage.querySelectorAll(".slide")];
   const old = all.pop(); // la slide affichée devient la sortante
   all.forEach((s) => s.remove()); // tout le reste disparaît immédiatement
-  if (old) { old.classList.remove("in"); old.classList.add(dir > 0 ? "out-left" : "out-right"); setTimeout(() => old.remove(), 500); }
+  if (old) { old.classList.remove("in"); old.classList.add(dir > 0 ? "out-left" : "out-right"); setTimeout(() => old.remove(), 300); }
   const el = document.createElement("section");
   el.className = `slide kind-${slide.kind}`;
   el.dataset.id = slide.id;
   el.innerHTML = slide.render();
   stage.appendChild(el);
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("in")));
-  cleanup = slide.mount?.(el) || null;
+  const c1 = slide.mount?.(el) || null;
+  const c2 = fx(el);
+  cleanup = () => { c1?.(); c2?.(); };
   bar.style.width = `${((i + 1) / SLIDES.length) * 100}%`;
   const ag = AGENDA.find((x) => x.id === slide.agenda);
   chip.textContent = ag ? `${ag.icon}  ${ag.title}` : "SEA Day";
