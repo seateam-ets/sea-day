@@ -356,3 +356,10 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .score { flex-wrap: wrap; gap: 4px 12px; }
 .score .st { font-style: normal; font-size: 17px; flex-basis: 100%; order: 3; }
 .st.wait { color: var(--muted); } .st.ok { color: var(--lilac); } .st.right { color: #86efac; font-weight: 800; } .st.bad { color: #fca5a5; } .st.txt { color: var(--cream); }
+/* accueil : QR dans sa propre colonne à droite, sans chevaucher le titre */
+.hero .lead { max-width: 1050px; }
+.join { top: 50%; bottom: auto; right: 130px; transform: translateY(-50%); flex-direction: column; text-align: center; gap: 18px; padding: 28px; width: 420px; }
+.slide [data-a].join { transform: translateY(calc(-50% + 40px)); }
+.slide.in [data-a].join { transform: translateY(-50%); }
+.join img { width: 300px; height: 300px; }
+.join b { font-size: 26px; }
