@@ -73,7 +73,7 @@ const tour = {
       <nav class="qtabs" ${a(2)}>${C.TOUR_QUESTIONS.map((q, i) => `<button data-q="${q.id}">${i + 1}. ${esc(q.short)}</button>`).join("")}</nav>
       <div class="people">${C.PEOPLE.map((p, i) => `
         <article class="person" ${a(3 + i)} data-p="${p.id}">
-          <div class="avatar">${esc(p.name[0])}</div>
+          <div class="avatar"><img src="/assets/team/${p.photo}.webp" alt=""></div>
           <div class="pmeta"><b>${esc(p.name)}</b><small>${esc(p.role)}</small></div>
           <p class="answer" data-ans></p>
         </article>`).join("")}</div>
@@ -718,6 +718,28 @@ export const SLIDES = [
         <div class="kicker" ${a(0)}>Pourquoi on est là</div>
         <h2 ${a(1)}>Se retrouver et redéfinir, ensemble, le métier de demain</h2>
         <div class="grid3">${C.PURPOSE.map((p, i) => `<article class="tile purpose" ${a(2 + i)}><span class="tile-n">${p.n}</span><b>${esc(p.t)}</b><p>${esc(p.s)}</p></article>`).join("")}</div>
+      </div>` },
+  { id: "team", agenda: null, kind: "content",
+    render: () => `
+      <div class="team">
+        <div class="kicker" ${a(0)}>L'équipe SEA</div>
+        <h2 ${a(1)}>Six personnes, un même métier à réinventer</h2>
+        <div class="team-grid">${C.PEOPLE.map((p, i) => `
+          <figure class="member ${p.isNew ? "new" : ""} ${p.id === "lucas" ? "joining" : ""}" ${a(2 + i)}>
+            <div class="ph"><img src="/assets/team/${p.photo}.webp" alt="Portrait de ${esc(p.name)}" loading="eager">${p.isNew ? `<span class="badge-new">Nouvelle</span>` : ""}</div>
+            <figcaption><b>${esc(p.name)}</b><span>${esc(p.job)}</span>${p.note ? `<small>${esc(p.note)}</small>` : ""}</figcaption>
+          </figure>`).join("")}</div>
+      </div>` },
+  { id: "nelia", agenda: null, kind: "content",
+    render: () => `
+      <div class="welcome-n">
+        <div class="wn-photo" ${a(0)}><img src="/assets/team/nelia.webp" alt="Portrait de Nélia"></div>
+        <div>
+          <div class="kicker" ${a(1)}>Bienvenue dans l'équipe</div>
+          <h1 class="mega" ${a(2)}>Nélia</h1>
+          <p class="lead" ${a(3)}>Consultante SEA & CM · arrivée le <b class="accent">17 août</b>, et déjà bien intégrée.</p>
+          <div class="mic" ${a(4)}><span class="mic-ico">🎤</span><div><b>Un petit mot, Nélia ?</b><span>Tes premiers mois, ce qui t'a surprise, ce que tu as envie d'apporter.</span></div></div>
+        </div>
       </div>` },
   { id: "agenda", agenda: null, kind: "agenda",
     render: () => `

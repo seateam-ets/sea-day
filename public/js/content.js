@@ -6,12 +6,12 @@
 export const ACCESS = { host: "seaday.eteamsys.be", url: "seaday.eteamsys.be/repondre", code: "seaday2026" };
 
 export const PEOPLE = [
-  { id: "quentin", name: "Quentin", role: "Team Leader" },
-  { id: "mh", name: "Mh", role: "Team Leader" },
-  { id: "lucas", name: "Lucas", role: "Team Member" },
-  { id: "nelia", name: "Nélia", role: "Team Member" },
-  { id: "caro", name: "Caro", role: "Team Member" },
-  { id: "melissa", name: "Mélissa", role: "Team Member" },
+  { id: "quentin", name: "Quentin", role: "Team Leader", job: "Team Leader SEA", photo: "quentin" },
+  { id: "mh", name: "Mh", role: "Team Leader", job: "Team Leader SEA", photo: "mh" },
+  { id: "lucas", name: "Lucas", role: "Team Member", job: "CRM, Automation & IA", photo: "lucas", note: "Son propre pôle, rejoint petit à petit le département SEA" },
+  { id: "nelia", name: "Nélia", role: "Team Member", job: "Consultante SEA & CM", photo: "nelia", note: "Arrivée le 17 août", isNew: true },
+  { id: "caro", name: "Caro", role: "Team Member", job: "Consultante SEA", photo: "caroline" },
+  { id: "melissa", name: "Mélissa", role: "Team Member", job: "Consultante SEA", photo: "melissa" },
 ];
 
 export const TOUR_QUESTIONS = [
@@ -270,6 +270,8 @@ export const NOTES = {
   news_meta: "Mh : prévenir les clients de la baisse du ROAS clic.",
   news_msli: "Mh : Microsoft et LinkedIn.",
   plan: "On reprend tout ce qui a été décidé dans la journée : un responsable et une date pour chaque action.",
+  team: "L'équipe SEA au complet. Lucas a son propre pôle (CRM, Automation & IA) mais rejoint petit à petit le département.",
+  nelia: "Nélia est arrivée le 17 août : on lui laisse la parole pour un petit mot.",
   purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
   clean: "Point d'attention de Quentin : chiffres réels tirés d'AdPilot le 5 novembre. On fixe une date pour une journée de mise en place.",
   hub: "Faire le tour du Hub en live (hub.eteamsys.com), puis chacun ajoute ce qu'il utilise, ce qui manque, ce qui ne sert à rien.",
