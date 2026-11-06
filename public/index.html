@@ -2,30 +2,76 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>SEA Day 2026 · eTeamsys</title>
+  <meta name="theme-color" content="#090a13">
+  <title>Merci · SEA Day 2026</title>
   <link rel="icon" href="/assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/deck.css">
+  <link rel="stylesheet" href="/css/merci.css">
 </head>
 <body>
-  <div class="bg" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="grid"></i></div>
-  <div id="viewport"><div id="stage"></div></div>
-  <div class="hud">
-    <span id="chip">SEA Day</span>
-    <span class="hud-r"><span id="mode"></span>
-      <button id="prev" aria-label="Précédente">←</button>
-      <button id="navbtn" aria-label="Plan">☰</button>
-      <button id="fsbtn" aria-label="Plein écran" title="Plein écran (F)">⛶</button>
-      <button id="next" aria-label="Suivante">→</button></span>
-  </div>
-  <div id="nav" hidden></div>
-  <button id="fshint" hidden>⛶ Passer en plein écran <kbd>F</kbd></button>
-  <div class="progress"><i id="progress"></i></div>
-  <script type="module" src="/js/deck.js"></script>
+  <div class="bg" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i></div>
+  <nav class="top">
+    <img src="/assets/eteamsys-logo.png" alt="eTeamsys" class="logo">
+    <div class="top-links">
+      <a href="#plan">Plan d'action</a><a href="#entendu">Ce qu'on a dit</a><a href="#hub">Hub</a><a href="#offre">Offre</a>
+      <a href="/deck" class="ghost">Revoir le deck →</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <p class="kicker reveal">SEA Day 2026 · c'était le 5 novembre</p>
+      <h1 class="reveal">Merci l'équipe&nbsp;!</h1>
+      <div class="faces reveal" id="faces"></div>
+      <p class="lead reveal" id="direction"></p>
+      <div class="pillars reveal" id="pillars"></div>
+      <div class="kpis reveal" id="kpis"></div>
+    </header>
+
+    <section id="plan" class="block">
+      <div class="block-head">
+        <div><p class="kicker">Ce qu'on a défini</p><h2>Plan d'action</h2>
+          <p class="muted">Quentin et Mh priorisent : P1 = dans les 30 jours, P2 = ce trimestre, P3 = plus tard. Responsable et date modifiables, enregistrés pour tout le monde.</p></div>
+        <div class="prio-sum" id="prioSum"></div>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="actions" id="actions"></div>
+      <div class="decided" id="decided"></div>
+      <div class="export"><button id="exportBtn">Exporter le plan priorisé (.md)</button><span class="muted" id="saveState"></span></div>
+    </section>
+
+    <section id="entendu" class="block">
+      <p class="kicker">Tour de table</p><h2>Ce qu'on s'est dit</h2>
+      <div class="heard" id="heard"></div>
+    </section>
+
+    <section id="coince" class="block">
+      <p class="kicker">Se remettre en question</p><h2>Là où ça coince</h2>
+      <div class="stuck" id="stuck"></div>
+    </section>
+
+    <section id="hub" class="block">
+      <p class="kicker">Faire évoluer le Hub</p><h2>On priorise ce qu'on utilise vraiment</h2>
+      <div class="hub" id="hubCols"></div>
+    </section>
+
+    <section id="offre" class="block">
+      <p class="kicker">Produit à vendre, upsell, fédérer</p><h2>Ce qu'on vend demain</h2>
+      <div class="offer" id="offer"></div>
+    </section>
+
+    <footer class="thanks">
+      <p class="big">Prochaine étape&nbsp;: Mh et Quentin priorisent, puis on s'y met.</p>
+      <p class="muted">Quiz : égalité parfaite, 1 point partout. Tout le monde est champion. 🏆</p>
+      <a href="/deck" class="cta">Revoir le deck</a>
+    </footer>
+  </main>
+
+  <script type="module" src="/js/merci.js"></script>
 </body>
 </html>

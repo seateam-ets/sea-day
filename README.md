@@ -6,7 +6,8 @@ Deck web interactif qui accompagne toute la journée du SEA Day (pauses comprise
 
 | URL | Rôle |
 |---|---|
-| `/` | Le deck, sur le grand écran |
+| `/` | Page « Merci » : récap du SEA Day + priorisation du plan d'action (Quentin & Mh) |
+| `/deck` | Le deck, sur le grand écran |
 | `/remote` | Télécommande téléphone (Quentin, Mh) : slides, notes orateur, quiz, jeux, minuteurs |
 | `/repondre` | Chaque participant répond au tour de table depuis son téléphone |
 
@@ -17,6 +18,11 @@ Toutes les pages sont synchronisées : changer de slide sur la télécommande ch
 - `→` / `←` : slide suivante / précédente · `F` : plein écran · `G` : plan
 - Quiz : `Espace` révéler · `→` suivante · `1`-`8` point à l'équipe (`Maj`+chiffre pour retirer) · `C` classement
 - Jeux : `D` tirer une carte · `Espace` révéler · `T` chrono
+
+## Récap après la journée
+
+- Synthèse : `public/js/recap.js` (tirée de `content/compte-rendu.md`, l'export brut de la journée)
+- Priorités, responsables et dates saisis sur `/` : partagés en direct (clés `prio:*`)
 
 ## Modifier le contenu
 
