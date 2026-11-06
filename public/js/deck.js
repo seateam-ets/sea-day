@@ -55,7 +55,7 @@ addEventListener("keydown", (ev) => {
   if (["ArrowLeft", "PageUp"].includes(ev.key)) { ev.preventDefault(); go(current - 1); }
   if (ev.key === "Home") go(0);
   if (ev.key === "End") go(SLIDES.length - 1);
-  if (ev.key === "f") document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+  if (ev.key === "f") toggleFs();
   if (ev.key === "g") openNav();
 });
 
@@ -67,6 +67,22 @@ function openNav() {
   nav.onclick = (e) => { const b = e.target.closest("[data-i]"); if (b) { go(+b.dataset.i); nav.hidden = true; } };
 }
 document.getElementById("navbtn").onclick = openNav;
+
+// ── Plein écran : bouton, touche F, double-clic sur la slide ──
+const el = document.documentElement;
+const isFs = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+function toggleFs() {
+  if (isFs()) (document.exitFullscreen || document.webkitExitFullscreen)?.call(document);
+  else (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el, { navigationUI: "hide" })?.catch?.(() => {});
+}
+const fsBtn = document.getElementById("fsbtn"), fsHint = document.getElementById("fshint");
+fsBtn.onclick = toggleFs; fsHint.onclick = toggleFs;
+viewport.addEventListener("dblclick", (e) => { if (!e.target.closest("input, textarea, button, [contenteditable]")) toggleFs(); });
+const syncFs = () => { const on = isFs(); fsBtn.textContent = on ? "⤢" : "⛶"; fsBtn.title = on ? "Quitter le plein écran (F ou Échap)" : "Plein écran (F)"; fsHint.hidden = on || !("requestFullscreen" in el || "webkitRequestFullscreen" in el); document.body.classList.toggle("is-fs", on); };
+document.addEventListener("fullscreenchange", syncFs); document.addEventListener("webkitfullscreenchange", syncFs);
+syncFs();
+// l'invite disparaît d'elle-même après quelques secondes
+setTimeout(() => fsHint.classList.add("fade"), 8000);
 document.getElementById("prev").onclick = () => go(current - 1);
 document.getElementById("next").onclick = () => go(current + 1);
 

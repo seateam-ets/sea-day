@@ -611,3 +611,14 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 .avatar { overflow: hidden; padding: 0; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
+
+/* ── Plein écran ──────────────────────────────────── */
+#fshint { position: fixed; z-index: 6; top: 18px; right: 18px; display: flex; gap: 10px; align-items: center; padding: 10px 16px; border-radius: 12px;
+  border: 1px solid var(--line); background: rgba(21,21,29,.8); backdrop-filter: blur(10px); font-size: 14px; font-weight: 700; transition: opacity .6s; }
+#fshint:hover { background: var(--violet); }
+#fshint.fade { opacity: 0; pointer-events: none; }
+#fshint.fade:hover, body:hover #fshint.fade { opacity: .9; pointer-events: auto; }
+#fshint kbd { font-family: var(--body); font-size: 12px; padding: 1px 7px; border-radius: 6px; background: rgba(255,255,255,.12); }
+body.is-fs { cursor: none; }
+body.is-fs:hover { cursor: default; }
+body.is-fs .hud { opacity: 0; } body.is-fs .hud:hover { opacity: 1; }
