@@ -610,3 +610,23 @@ h2 { font-size: 76px; margin-bottom: 40px; max-width: 1500px; }
 /* avatars photo dans le tour de table */
 .avatar { overflow: hidden; padding: 0; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── Brise-glace ──────────────────────────────────── */
+.ice h2 { margin-bottom: 34px; }
+.ice-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; }
+.ice-card { all: unset; cursor: pointer; perspective: 1400px; height: 520px; display: block; }
+.ice-in { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .9s var(--ease); }
+.ice-card.flipped .ice-in { transform: rotateY(180deg); }
+.ice-face { position: absolute; inset: 0; border-radius: 26px; overflow: hidden; backface-visibility: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); }
+.ice-face.back img { width: 100%; height: 72%; object-fit: cover; }
+.ice-face.back b { font-family: var(--display); font-size: 34px; padding: 14px 20px 0; }
+.ice-face.back small { color: var(--lilac); font-size: 17px; padding: 4px 20px; }
+.ice-face.back { background: var(--ink); }
+.ice-card:hover .ice-face.back { border-color: var(--lilac); }
+.ice-face.front { transform: rotateY(180deg); background: linear-gradient(160deg, var(--violet), #2a1680); padding: 28px; justify-content: space-between; }
+.ice-face.front b { font-family: var(--display); font-size: 30px; opacity: .8; }
+.ice-q { font-family: var(--display); font-size: 32px; line-height: 1.2; font-weight: 700; }
+.ice-t { font-family: var(--display); font-size: 56px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ice-card.talking .ice-face.front { box-shadow: 0 0 0 4px var(--lilac), 0 30px 80px rgba(91,44,232,.6); }
+.ice-hint { margin-top: 22px; font-size: 18px; }
+.ice-card, .ice-face { color: var(--cream); font-family: var(--body); }

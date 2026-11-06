@@ -64,6 +64,20 @@ export const HUB_COLS = [
   { id: "retirer", t: "On ne s'en sert pas", s: "À simplifier ou retirer", c: "muted" },
 ];
 
+// ── Brise-glace : le mot des anciens (léger, 30 s chacun) ─
+export const ICEBREAKERS = [
+  "Le conseil que tu aurais aimé recevoir à ton arrivée",
+  "Ta pire (ou plus drôle) galère de campagne, en 30 secondes",
+  "Ton astuce ou raccourci secret que personne ne connaît",
+  "Le client le plus mémorable (sans dire son nom)",
+  "Une chose que Nélia doit absolument savoir sur l'équipe",
+  "Le moment où tu t'es dit « ok, j'aime ce métier »",
+  "Si le SEA était un plat, ce serait quoi ?",
+  "Le mot ou l'acronyme que tu utilises le plus au boulot",
+  "Ta plus grande fierté dans un compte Google Ads",
+  "Une prédiction pour le SEA en 2027",
+];
+
 // ── Pourquoi on est là ───────────────────────────────────────
 export const PURPOSE = [
   { n: "01", t: "Se retrouver", s: "Une journée ensemble, hors du quotidien, pour se dire ce qui va et ce qui coince." },
@@ -271,6 +285,7 @@ export const NOTES = {
   news_msli: "Mh : Microsoft et LinkedIn.",
   plan: "On reprend tout ce qui a été décidé dans la journée : un responsable et une date pour chaque action.",
   team: "L'équipe SEA au complet. Lucas a son propre pôle (CRM, Automation & IA) mais rejoint petit à petit le département.",
+  ice: "Brise-glace : chaque ancien clique sur sa carte, découvre sa question et répond en 30 secondes. Léger, pas de doublon avec le tour de table.",
   nelia: "Nélia est arrivée le 17 août : on lui laisse la parole pour un petit mot.",
   purpose: "Poser le cadre : on est là pour se retrouver, redéfinir le métier ensemble et repartir avec une offre.",
   clean: "Point d'attention de Quentin : chiffres réels tirés d'AdPilot le 5 novembre. On fixe une date pour une journée de mise en place.",

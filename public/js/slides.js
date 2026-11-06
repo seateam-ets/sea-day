@@ -60,6 +60,50 @@ const pause = (id, agenda, title, sub, minutes) => ({
   },
 });
 
+// ── Brise-glace : le mot des anciens ─────────────────────────
+const ice = {
+  id: "ice", agenda: null, kind: "interactive",
+  render: () => `
+    <div class="ice">
+      <div class="kicker" ${a(0)}>Brise-glace · le mot des anciens</div>
+      <h2 ${a(1)}>À vous : une question tirée au sort, 30 secondes chacun</h2>
+      <div class="ice-grid">${C.PEOPLE.filter((p) => !p.isNew).map((p, i) => `
+        <button class="ice-card" data-ice="${p.id}" ${a(2 + i)}>
+          <span class="ice-in">
+            <span class="ice-face back"><img src="/assets/team/${p.photo}.webp" alt=""><b>${esc(p.name)}</b><small>Toucher pour tirer</small></span>
+            <span class="ice-face front"><b>${esc(p.name)}</b><span class="ice-q" data-q></span><span class="ice-t" data-t></span></span>
+          </span>
+        </button>`).join("")}</div>
+      <p class="muted ice-hint" ${a(8)}>Clic sur une carte = tirage + chrono 30 s · clic droit = retirer une autre question</p>
+    </div>`,
+  mount(root) {
+    const cards = [...root.querySelectorAll("[data-ice]")];
+    const used = () => cards.map((c) => store.get(`ice:${c.dataset.ice}`)).filter((x) => x);
+    const draw = (id) => {
+      const taken = used().map((x) => x.q);
+      const free = C.ICEBREAKERS.map((_, k) => k).filter((k) => !taken.includes(k));
+      const pool = free.length ? free : C.ICEBREAKERS.map((_, k) => k);
+      store.set({ [`ice:${id}`]: { q: pool[Math.floor(Math.random() * pool.length)], end: Date.now() + 30000 } });
+    };
+    cards.forEach((c) => {
+      c.onclick = () => { const v = store.get(`ice:${c.dataset.ice}`); if (!v) draw(c.dataset.ice); else store.set({ [`ice:${c.dataset.ice}`]: { ...v, end: Date.now() + 30000 } }); };
+      c.oncontextmenu = (e) => { e.preventDefault(); draw(c.dataset.ice); };
+    });
+    const paint = () => cards.forEach((c) => {
+      const v = store.get(`ice:${c.dataset.ice}`);
+      c.classList.toggle("flipped", !!v);
+      c.querySelector("[data-q]").textContent = v ? C.ICEBREAKERS[v.q] : "";
+      const left = v ? v.end - Date.now() : 0;
+      const t = c.querySelector("[data-t]");
+      t.textContent = v ? (left > 0 ? fmt(left) : "Merci !") : "";
+      c.classList.toggle("talking", !!v && left > 0);
+    });
+    const iv = setInterval(paint, 250);
+    const un = store.subscribe(paint);
+    return () => { clearInterval(iv); un(); };
+  },
+};
+
 // ── Tour de table ────────────────────────────────────────────
 const tour = {
   id: "tour", agenda: "tour", kind: "interactive",
@@ -741,6 +785,7 @@ export const SLIDES = [
           <div class="mic" ${a(4)}><span class="mic-ico">🎤</span><div><b>Un petit mot, Nélia ?</b><span>Tes premiers mois, ce qui t'a surprise, ce que tu as envie d'apporter.</span></div></div>
         </div>
       </div>` },
+  ice,
   { id: "agenda", agenda: null, kind: "agenda",
     render: () => `
       <div class="agenda">
